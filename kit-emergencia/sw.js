@@ -1,7 +1,7 @@
 /* Service worker: guarda la app en el teléfono para usarla SIN internet.
    Si cambiás archivos, subí el número de versión (CACHE) para forzar la
    actualización. */
-const CACHE = "kit-emergencia-v9";
+const CACHE = "kit-emergencia-v10";
 const ARCHIVOS = [
   "./",
   "./index.html",
@@ -22,6 +22,11 @@ self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE).then((c) => c.addAll(ARCHIVOS)).then(() => self.skipWaiting())
   );
+});
+
+// Si la página pide activar la versión nueva ya mismo, lo hacemos.
+self.addEventListener("message", (e) => {
+  if (e.data === "activar-ya") self.skipWaiting();
 });
 
 self.addEventListener("activate", (e) => {

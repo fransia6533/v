@@ -84,8 +84,34 @@
 
   const estado = $("#estadoOffline");
   if ("serviceWorker" in navigator) {
+    // Si llega una versión nueva del service worker y toma control,
+    // recargamos UNA sola vez para que el usuario nunca quede pegado en
+    // una versión vieja (problema típico: seguía viendo la v0.4).
+    let recargando = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (recargando) return;
+      recargando = true;
+      window.location.reload();
+    });
+
     navigator.serviceWorker.register("sw.js")
-      .then(() => (estado.textContent = "✅ Listo para usar sin internet"))
+      .then((reg) => {
+        estado.textContent = "✅ Listo para usar sin internet";
+        // Buscar actualización al abrir y cada 60 s mientras esté abierta.
+        reg.update().catch(() => {});
+        setInterval(() => reg.update().catch(() => {}), 60000);
+        // Si hay un SW esperando, pedirle que tome el control ya.
+        if (reg.waiting) reg.waiting.postMessage("activar-ya");
+        reg.addEventListener("updatefound", () => {
+          const nuevo = reg.installing;
+          if (!nuevo) return;
+          nuevo.addEventListener("statechange", () => {
+            if (nuevo.state === "installed" && navigator.serviceWorker.controller) {
+              nuevo.postMessage("activar-ya");
+            }
+          });
+        });
+      })
       .catch(() => (estado.textContent = "⚠️ No se pudo activar el modo offline"));
   } else {
     estado.textContent = "Modo offline no soportado";

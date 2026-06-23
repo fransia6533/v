@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.9 (borrador)",
+  version: "1.0 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -537,7 +537,7 @@ const TRIAGE = [
   {
     id: "pecho",
     titulo: "Dolor de pecho fuerte / falta de aire repentina",
-    sintomas: ["pecho", "corazon", "corazón", "infarto", "ahogo", "falta de aire", "respirar", "opresion", "opresión", "me duele el pecho", "dolor en el pecho", "opresion en el pecho", "me duele el pecho y el brazo", "palpitaciones"],
+    sintomas: ["pecho", "corazon", "corazón", "infarto", "ahogo", "falta de aire", "respirar", "opresion", "opresión", "me duele el pecho", "dolor en el pecho", "opresion en el pecho", "se me aprieta el pecho", "palpitaciones"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Dolor opresivo en el pecho que dura, se corre al brazo/mandíbula, con sudor frío o falta de aire?",
@@ -686,7 +686,7 @@ const CONSEJOS = [
     mensaje: "Salí del sol a la sombra, aflojá la ropa, mojá la piel con agua y abanicá, y tomá líquidos. Descansá.",
     items: ["sales de rehidratacion"],
     cuandoConsultar: "Piel caliente y seca, confusión, deja de sudar o desmayo: golpe de calor grave, enfriá rápido y pedí rescate." },
-  { id: "dolor-muscular", sintomas: ["dolor muscular", "agujetas", "cansancio", "contractura", "me duele el cuerpo", "musculo"],
+  { id: "dolor-muscular", sintomas: ["dolor muscular", "agujetas", "cansancio", "contractura", "me duele el cuerpo", "musculo", "me duele todo", "me duele todo el cuerpo", "dolor de espalda", "me duele la espalda", "estoy molido", "me duele el trasero", "trasero", "traste", "cola", "gluteo", "glúteo", "nalga", "nalgas", "espalda", "espalda baja", "cintura", "lomo", "rinones", "riñones", "hombro", "hombros", "brazo", "brazos", "antebrazo", "codo", "codos", "muñeca", "mano", "manos", "dedo", "dedos", "cadera", "muslo", "pierna", "piernas", "pantorrilla", "gemelo", "pie", "pies", "cuello", "nuca", "costilla", "costillas", "espinilla", "ingle", "axila", "abdomen", "costado", "costados", "molesta", "me molesta", "me molestan", "todo el cuerpo", "todo", "articulaciones", "huesos", "las piernas", "los brazos"],
     mensaje: "Descansá, estirá suave e hidratate. Un antiinflamatorio del botiquín ayuda con el dolor.",
     items: ["ibuprofeno"],
     cuandoConsultar: "Dolor en el pecho, falta de aire, o una pierna hinchada y dolorida: no es muscular común, consultá." },
@@ -746,6 +746,40 @@ const CONSEJOS = [
     mensaje: "Hidratate bien (agua y sales), comé algo liviano y descansá. Un analgésico ayuda con el dolor de cabeza. Evitá más alcohol.",
     items: ["sales de rehidratacion", "paracetamol", "ibuprofeno"],
     cuandoConsultar: "Vómitos que no paran, confusión, o no podés despertar bien a alguien: puede ser intoxicación, pedí ayuda." }
+];
+
+/* ============================================================================
+   REGLAS — intención de ALTA confianza. Antes de la búsqueda difusa, si la
+   frase tiene una señal inequívoca (un verbo de lesión, un pedido de pastilla)
+   la mandamos directo al destino correcto. Así "me corté el tobillo" va a
+   sangrado (no a esguince) y "algo para el dolor" va a qué tomar.
+   El texto llega normalizado (minúsculas, sin acentos). Primera que matchea gana.
+   ============================================================================ */
+const REGLAS = [
+  // --- pedido de medicación (analgésico, pastilla, algo para el dolor) ---
+  { re: /\balgo para (el |la )?(dolor|fiebre|nausea|malestar)/, tipo: "consejo", id: "que-tomar" },
+  { re: /\bdame (algo|una pastilla|un remedio|un calmante|un analg)/, tipo: "consejo", id: "que-tomar" },
+  { re: /\b(necesito|quiero|deme|me das|paso)\b.{0,18}\b(pastilla|remedio|calmante|analg|antiinflamatori|antifebril|algo para)/, tipo: "consejo", id: "que-tomar" },
+  { re: /\b(que|cual|cuales)\b.{0,16}\b(pastilla|remedio|medicament|analg|calmante|antiinflamatori|antifebril|antipiretic)/, tipo: "consejo", id: "que-tomar" },
+  { re: /\b(que|cual|cuales)\b.{0,14}\b(me )?(puedo |debo |podria )?(tomar|tomo)\b/, tipo: "consejo", id: "que-tomar" },
+
+  // --- quemadura de sol (suave) antes que quemadura grave ---
+  { re: /quem.{0,18}\bsol\b|\bsol\b.{0,10}quem|insolad|quemad[oa] del sol/, tipo: "consejo", id: "quemadura-sol" },
+  // --- quemadura (fuego/agua caliente) ---
+  { re: /\bme quem|\bquemad|\bquemadura\b|me chamusqu/, tipo: "sit", id: "quemadura" },
+
+  // --- golpe/fractura de CABEZA -> trauma de cabeza (más apropiado que hueso) ---
+  // (parti = pasado/accidente; "me parte la cabeza" es jaqueca, NO trauma)
+  { re: /(fractur|me quebr|me romp|me parti|me fisur|fisurad|fractura).{0,14}(cabeza|craneo|cabesa)/, tipo: "sit", id: "cabeza" },
+  { re: /(cabeza|craneo|cabesa).{0,14}(fractur|quebr|rota|roto|partid|fisur)/, tipo: "sit", id: "cabeza" },
+  // --- fractura / hueso roto en cualquier otra parte ---
+  { re: /\b(fractur|fisur)/, tipo: "sit", id: "hueso" },
+  { re: /\b(me|se me) (quebr|qebr|romp|parti)/, tipo: "sit", id: "hueso" },
+  { re: /\bhueso (roto|partid|quebrad|fractur)/, tipo: "sit", id: "hueso" },
+  { re: /\b(quebrad|partid) (un |el |la )?(hueso|pierna|brazo|tobillo|muñeca|cadera|costilla|dedo)/, tipo: "sit", id: "hueso" },
+
+  // --- corte / herida que sangra (el verbo cortar manda) ---
+  { re: /\b(me cort|me raj|me hice un (corte|tajo)|me abri (el |la |un )|tengo un (corte|tajo)|me taje)/, tipo: "sit", id: "sangrado" },
 ];
 
 /* Ítems del botiquín recomendados para cada situación grave (por id de TRIAGE). */

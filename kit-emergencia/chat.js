@@ -107,16 +107,43 @@
     "wea": " ", "weas": " ", "po": " ", "cachai": " ", "oe": " ", "loco": " ",
     "remedios": "remedio", "pastillas": "pastilla",
   };
+  // muletillas / interjecciones que no aportan y rompen el match de frase
+  // ("amigo me duele la cabeza" debe valer igual que "me duele la cabeza")
+  const MULETILLAS_FRASE = ["creo que", "parece que", "siento que", "me parece que", "la verdad que"];
+  const MULETILLAS = ("amigo amiga hermano hermana pana wey wn weon weón men " +
+    "creo parece oye oiga hola disculpa disculpame perdon perdona perdoname mira " +
+    "che socorro auxilio ayudame ayudenme porfa porfavor porfis uff uf ufff aaa ay " +
+    "oye necesito_ayuda compadre causa brother bro hey eh").split(" ");
+  const reMule = new RegExp("\\b(" + MULETILLAS_FRASE.concat(MULETILLAS).join("|") + ")\\b", "g");
   function expandir(t) {
     let s = " " + (t || "").toLowerCase() + " ";
     for (const k in SLANG) {
       s = s.split(" " + k + " ").join(" " + SLANG[k] + " ");
     }
+    s = s.replace(reMule, " ");
     return s.replace(/\s+/g, " ").trim();
   }
 
   function responder(textoOriginal) {
     const texto = expandir(textoOriginal);
+
+    // 0) reglas de alta confianza: si hay una señal inequívoca (verbo de
+    //    lesión, pedido de pastilla) rutea directo, sin pasar por la búsqueda.
+    const norm = window.Fuzzy.normalizar(texto);
+    if (typeof REGLAS !== "undefined") {
+      for (const rg of REGLAS) {
+        if (rg.re.test(norm)) {
+          if (rg.tipo === "sit") {
+            const s = TRIAGE.find((x) => x.id === rg.id);
+            if (s) { iniciarFlujo(s); return; }
+          } else if (rg.tipo === "consejo") {
+            const c = CONSEJOS.find((x) => x.id === rg.id);
+            if (c) { responderConsejo(c); return; }
+          }
+        }
+      }
+    }
+
     // armar candidatos: situaciones graves + consejos + items
     const cand = [];
     TRIAGE.forEach((s) => cand.push({ objeto: s.titulo, tambien: (s.sintomas || []).join(", "), _t: "sit", _o: s }));
