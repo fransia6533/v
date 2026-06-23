@@ -233,6 +233,20 @@ body { padding-bottom: 132px; }
 }
 .acciones-bot { display: flex; flex-wrap: wrap; gap: 8px; }
 .hint-bot { padding: 0 14px; color: var(--texto-tenue); font-size: .85rem; }
+/* Asistente de primeros auxilios (triage) */
+.triage-card { font-weight: 600; }
+.triage-barra { display: flex; gap: 8px; padding: 4px 0 10px; }
+.triage-titulo { font-size: 1.15rem; font-weight: 700; margin: 2px 0 10px; }
+.triage-pregunta {
+  background: #14202b; border: 1px solid #244; border-left: 5px solid #c77700;
+  border-radius: 12px; padding: 16px;
+}
+.q-texto { font-size: 1.2rem; font-weight: 600; line-height: 1.4; margin-bottom: 14px; }
+.triage-ops { display: grid; gap: 10px; }
+.triage-op { padding: 16px; font-size: 1.1rem; text-align: left; background: var(--tarjeta2); }
+.triage-resultado { margin-top: 4px; }
+.triage-resultado h2 { font-size: 1.3rem; margin: 8px 0; }
+
 /* Chat conversacional */
 .chat-respuesta { padding: 0 12px; }
 .burbuja {

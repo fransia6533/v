@@ -41,6 +41,14 @@
     return 1 - d / Math.max(a.length, b.length);
   }
 
+  // Palabras comunes que no aportan ("me doblé la rodilla" -> "doble rodilla")
+  const STOP = new Set(("me mi mis te se le lo la el los las un una unos unas y o de del en con que por para al a su tu tus yo " +
+    "debo hacer tengo tiene esta este eso esa muy mucho mucha mas más como cuando si no es ha he").split(" "));
+  function quitarRelleno(palabras) {
+    const filtradas = palabras.filter((w) => w.length >= 2 && !STOP.has(w));
+    return filtradas.length ? filtradas : palabras.filter((w) => w.length >= 2);
+  }
+
   // Mejor similitud de una palabra contra cualquier palabra de un texto
   function mejorContra(palabra, palabras) {
     let mejor = 0;
@@ -68,7 +76,7 @@
     // 1) substring directo en el nombre/sinónimos -> muy alto
     if (nombre.includes(q) || (soloNombre && q.includes(soloNombre))) return 0.97;
 
-    const qWords = q.split(" ").filter((w) => w.length >= 2);
+    const qWords = quitarRelleno(q.split(" "));
     const nWords = nombre.split(" ").filter(Boolean);
     const tWords = texto.split(" ").filter(Boolean);
     if (qWords.length === 0) return 0;

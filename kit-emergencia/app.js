@@ -26,42 +26,9 @@
     b.addEventListener("click", () => mostrarSeccion(b.dataset.sec))
   );
 
-  // ===================== EMERGENCIAS (escenarios) =====================
-  function gravedadTexto(g) {
-    return g === "alta" ? "Urgente" : g === "media" ? "Importante" : "Leve";
-  }
+  // ===================== EMERGENCIAS (asistente de primeros auxilios) =====================
   function pintarLista(filtro) {
-    const lista = $("#lista");
-    const q = normalizar(filtro);
-    const res = ESCENARIOS.filter((e) => {
-      if (!q) return true;
-      return normalizar(e.titulo + " " + (e.sintomas || []).join(" ") + " " + e.pasos.join(" ")).includes(q);
-    });
-    lista.innerHTML = "";
-    if (res.length === 0) {
-      lista.innerHTML = '<p class="vacio">No encontré nada con eso.<br>Probá otra palabra.</p>';
-      return;
-    }
-    res.forEach((e) => {
-      const btn = document.createElement("button");
-      btn.className = "tarjeta " + e.gravedad + (e.validado ? "" : " sinvalidar");
-      btn.innerHTML = `${escapar(e.titulo)}<br><span class="etiqueta">${gravedadTexto(e.gravedad)}</span>`;
-      btn.addEventListener("click", () => abrirEscenario(e.id));
-      lista.appendChild(btn);
-    });
-  }
-  function abrirEscenario(id) {
-    const e = ESCENARIOS.find((x) => x.id === id);
-    if (!e) return;
-    let html = `<h2>${escapar(e.titulo)}</h2>`;
-    html += `<div class="banner-gravedad ${e.gravedad}">${gravedadTexto(e.gravedad)}</div>`;
-    if (!e.validado) html += '<div class="alerta-validar">⚠️ Contenido borrador, pendiente de validar por el médico.</div>';
-    html += '<ol class="pasos">';
-    e.pasos.forEach((p) => (html += `<li>${escapar(p)}</li>`));
-    html += "</ol>";
-    if (e.cuandoBajar)
-      html += `<div class="bloque bajar"><h3>🚁 Cuándo bajar / pedir rescate</h3>${escapar(e.cuandoBajar)}</div>`;
-    abrirModal(html);
+    Triage.lista(filtro);
   }
 
   // ===================== DATOS =====================
