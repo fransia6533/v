@@ -194,6 +194,82 @@ footer {
   border-top: 1px solid #1f2632;
 }
 
-dl.datos { margin: 0; }
+dl.datos { margin: 0; padding: 0 12px; }
 dl.datos dt { color: var(--texto-tenue); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; margin-top: 12px; }
 dl.datos dd { margin: 2px 0 0; font-size: 1.1rem; font-weight: 600; }
+
+/* ===== Secciones y nav inferior ===== */
+.oculta { display: none !important; }
+body { padding-bottom: 132px; }
+.seccion { min-height: 40vh; }
+.tit-sec { padding: 12px 14px 0; font-size: 1.25rem; }
+
+.navbar {
+  position: fixed; bottom: 26px; left: 0; right: 0;
+  display: flex; background: #11151c; border-top: 1px solid #232a36;
+  padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 40;
+}
+.nav-btn {
+  flex: 1; background: none; border: none; color: var(--texto-tenue);
+  padding: 8px 2px; font-size: 1.4rem; cursor: pointer; line-height: 1.1;
+}
+.nav-btn span { display: block; font-size: .68rem; margin-top: 2px; }
+.nav-btn.activo { color: #ff8a9b; }
+
+/* ===== Botones genéricos ===== */
+.btn {
+  background: var(--tarjeta2); color: var(--texto); border: 1px solid #39414f;
+  border-radius: 10px; padding: 10px 14px; font-size: .95rem; font-weight: 600; cursor: pointer;
+}
+.btn-grande { padding: 14px 18px; font-size: 1.05rem; }
+.btn-ok { background: #1c6e2e; border-color: #2a8f40; }
+.btn-peligro { background: #7d0017; border-color: #b00020; }
+
+/* ===== Botiquín ===== */
+.barra-botiquin { padding: 12px; display: grid; gap: 10px; }
+.barra-botiquin input[type="search"] {
+  width: 100%; padding: 14px; font-size: 1.05rem; border-radius: 12px;
+  border: 2px solid #39414f; background: var(--tarjeta); color: var(--texto);
+}
+.acciones-bot { display: flex; flex-wrap: wrap; gap: 8px; }
+.hint-bot { padding: 0 14px; color: var(--texto-tenue); font-size: .85rem; }
+.botiquin-lista { display: grid; gap: 10px; padding: 12px; }
+.bot-card {
+  text-align: left; width: 100%; background: var(--tarjeta); color: var(--texto);
+  border: none; border-left: 6px solid #1c6e2e; border-radius: 12px; padding: 14px; cursor: pointer;
+}
+.bot-card.sinvalidar { border-left-color: var(--media); }
+.bot-nombre { font-size: 1.1rem; font-weight: 700; }
+.bot-meta { margin-top: 6px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.chip-via {
+  background: #2e3543; border: 1px solid #39414f; border-radius: 999px;
+  padding: 2px 10px; font-size: .8rem; text-transform: uppercase; letter-spacing: .03em;
+}
+.bot-dosis { color: var(--texto-tenue); font-size: .9rem; }
+
+/* ===== Edición ===== */
+.campo-edit { margin: 12px 0; }
+.campo-edit label { display: block; font-size: .8rem; color: var(--texto-tenue); margin-bottom: 4px; }
+.campo-edit input, .campo-edit textarea {
+  width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #39414f;
+  background: var(--tarjeta); color: var(--texto); font-size: 1rem; font-family: inherit;
+}
+.check-validado { display: flex; align-items: center; gap: 8px; margin: 12px 0; font-size: 1rem; }
+.check-validado input { width: 22px; height: 22px; }
+.acciones-detalle { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+
+/* ===== Cámara ===== */
+.camara-wrap { padding: 12px; }
+.camara-wrap video, .camara-wrap img, .camara-wrap canvas {
+  width: 100%; max-height: 50vh; object-fit: contain; border-radius: 12px; background: #000;
+}
+.acciones-camara { padding: 0 12px 12px; }
+.resultado-foto { padding: 0 12px; }
+.cargando { color: var(--texto-tenue); }
+.bloque-nube { background: var(--tarjeta); border-radius: 12px; padding: 14px; margin: 8px 0; }
+.badge-ia, .texto-ia { font-size: 1rem; }
+.badge-ia { display: inline-block; background: #2e3543; border-radius: 999px; padding: 3px 12px; font-size: .8rem; margin-bottom: 8px; }
+.config-nube { margin: 16px 12px; background: var(--tarjeta2); border-radius: 12px; padding: 12px; }
+.config-nube summary { cursor: pointer; font-weight: 600; }
+.config-nube input { width: 100%; margin: 10px 0; padding: 12px; border-radius: 10px; border: 1px solid #39414f; background: var(--tarjeta); color: var(--texto); }
+.estado-key { margin-left: 8px; font-size: .85rem; color: var(--baja); }

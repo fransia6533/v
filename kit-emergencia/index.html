@@ -15,44 +15,90 @@
     <p class="sub">Guía offline · Alta montaña</p>
   </header>
 
-  <!-- Aviso de seguridad -->
   <div id="aviso" class="aviso">
     <strong>⚠️ Importante:</strong> esta guía es una ayuda, no reemplaza al rescate
-    profesional. Ante cualquier duda, pedí ayuda. Contenido a validar por tu médico.
+    profesional. Contenido a validar por tu médico.
     <button id="cerrarAviso" aria-label="Cerrar aviso">✕</button>
   </div>
 
-  <!-- Botón pánico / datos rápidos -->
-  <button id="btnDatos" class="datos-rapidos">📋 Mis datos y rescate</button>
-
-  <!-- Buscador -->
-  <div class="buscador">
-    <input id="busqueda" type="search" inputmode="search"
-           placeholder="¿Qué pasó? Ej: sangra, alergia, frío…"
-           autocomplete="off" />
-  </div>
-
-  <!-- Lista de escenarios (botones grandes) -->
-  <main id="lista" class="lista"></main>
-
-  <!-- Glosario de ítems -->
-  <section class="seccion-items">
-    <h2>🎒 Ítems del kit</h2>
-    <div id="listaItems" class="items"></div>
+  <!-- ===================== SECCIÓN: EMERGENCIAS ===================== -->
+  <section id="sec-emergencias" class="seccion">
+    <div class="buscador">
+      <input id="busqueda" type="search" inputmode="search"
+             placeholder="¿Qué pasó? Ej: sangra, alergia, frío…" autocomplete="off" />
+    </div>
+    <main id="lista" class="lista"></main>
   </section>
 
-  <!-- Detalle (se abre como pantalla completa) -->
-  <div id="detalle" class="detalle oculto" role="dialog" aria-modal="true">
+  <!-- ===================== SECCIÓN: BOTIQUÍN (tabla) ===================== -->
+  <section id="sec-botiquin" class="seccion oculta">
+    <div class="barra-botiquin">
+      <input id="busquedaBot" type="search" placeholder="Buscar objeto/medicamento…" autocomplete="off" />
+      <div class="acciones-bot">
+        <button id="btnAgregar" class="btn">➕ Agregar</button>
+        <button id="btnExportar" class="btn">⬇️ Excel</button>
+        <button id="btnImportar" class="btn">⬆️ Importar</button>
+        <input id="fileImport" type="file" accept=".xlsx,.csv" hidden />
+      </div>
+    </div>
+    <p class="hint-bot">Tocá un ítem para ver el detalle o editarlo. El Excel se guarda en tu teléfono (carpeta de descargas / My Files).</p>
+    <div id="listaBotiquin" class="botiquin-lista"></div>
+  </section>
+
+  <!-- ===================== SECCIÓN: CÁMARA ===================== -->
+  <section id="sec-camara" class="seccion oculta">
+    <h2 class="tit-sec">📷 Identificar por foto</h2>
+    <p class="hint-bot" id="estadoCamara">Sacá una foto del medicamento/objeto y la app te dice qué es y qué hacer.</p>
+    <div class="camara-wrap">
+      <video id="video" playsinline autoplay muted class="oculta"></video>
+      <canvas id="canvas" class="oculta"></canvas>
+      <img id="fotoPrevia" class="oculta" alt="foto" />
+    </div>
+    <div class="acciones-bot acciones-camara">
+      <button id="btnAbrirCam" class="btn btn-grande">📷 Abrir cámara</button>
+      <button id="btnCapturar" class="btn btn-grande oculta">📸 Capturar</button>
+      <input id="fileFoto" type="file" accept="image/*" capture="environment" hidden />
+      <button id="btnGaleria" class="btn">🖼️ Elegir foto</button>
+    </div>
+    <div id="resultadoFoto" class="resultado-foto"></div>
+    <details class="config-nube">
+      <summary>⚙️ Configurar análisis con IA en la nube (cuando hay señal)</summary>
+      <p class="hint-bot">La cámara funciona offline leyendo la etiqueta cuando es posible. Si tenés señal y pegás aquí una clave de API de Claude, además puede analizar la foto con IA. La clave se guarda solo en tu teléfono.</p>
+      <input id="apiKey" type="password" placeholder="Clave de API (opcional)" autocomplete="off" />
+      <button id="btnGuardarKey" class="btn">Guardar clave</button>
+      <span id="estadoKey" class="estado-key"></span>
+    </details>
+  </section>
+
+  <!-- ===================== SECCIÓN: DATOS ===================== -->
+  <section id="sec-datos" class="seccion oculta">
+    <h2 class="tit-sec">📋 Mis datos y rescate</h2>
+    <div id="datosContenido"></div>
+  </section>
+
+  <!-- ===================== DETALLE (modal) ===================== -->
+  <div id="detalle" class="detalle oculta" role="dialog" aria-modal="true">
     <button id="volver" class="volver">← Volver</button>
     <div id="detalleContenido"></div>
   </div>
+
+  <!-- ===================== NAV INFERIOR ===================== -->
+  <nav class="navbar">
+    <button class="nav-btn activo" data-sec="emergencias">🚑<span>Emergencias</span></button>
+    <button class="nav-btn" data-sec="botiquin">🎒<span>Botiquín</span></button>
+    <button class="nav-btn" data-sec="camara">📷<span>Cámara</span></button>
+    <button class="nav-btn" data-sec="datos">📋<span>Datos</span></button>
+  </nav>
 
   <footer>
     <span id="estadoOffline">Comprobando modo offline…</span>
     <span id="versionApp"></span>
   </footer>
 
+  <script src="xlsx-mini.js"></script>
   <script src="datos.js"></script>
+  <script src="botiquin.js"></script>
+  <script src="camara.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -24,15 +24,101 @@
    ========================================================================== */
 
 const META = {
-  version: "0.1 (borrador)",
+  version: "0.2 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
+  altura: "190 cm",
+  peso: "105 kg",
+  grupoSanguineo: "O negativo",
   alergiasConocidas: "____ (completar)",      // ⚠️ VALIDAR - MUY IMPORTANTE
-  grupoSanguineo: "____",                     // ⚠️ VALIDAR
   contactoEmergencia: "____ (nombre y teléfono)",
   rescateMontana: "____ (número de rescate de la zona)"
 };
+
+/* --------------------------------------------------------------------------
+   BOTIQUÍN — LA BASE DE DATOS PRINCIPAL (tipo tabla de Excel)
+   Columnas: objeto · dosis · via · procedimiento · comentario · validado
+   ⚠️ Tu amigo médico completa/corrige esto (en la app o en Excel).
+   Las dosis están en blanco a propósito: las pone el médico.
+   Contexto del paciente para las dosis: 190 cm · 105 kg · O negativo.
+   -------------------------------------------------------------------------- */
+const BOTIQUIN_DEFAULT = [
+  {
+    objeto: "Adrenalina (autoinyector / epinefrina)",
+    dosis: "____ mg  ⚠️ VALIDAR",
+    via: "inyectable",
+    procedimiento: "Reacción alérgica grave (anafilaxia): inyectar en la cara lateral del muslo. Repetir a los ____ min si no mejora. SIEMPRE pedir rescate.",
+    comentario: "____ (a completar por el médico)",
+    validado: false
+  },
+  {
+    objeto: "Antihistamínico",
+    dosis: "____ mg  ⚠️ VALIDAR",
+    via: "oral / masticable",
+    procedimiento: "Alergia leve. En anafilaxia: dar DESPUÉS de la adrenalina, nunca en lugar de.",
+    comentario: "____",
+    validado: false
+  },
+  {
+    objeto: "Analgésico / antiinflamatorio",
+    dosis: "____ mg cada ____ h  ⚠️ VALIDAR",
+    via: "oral",
+    procedimiento: "Dolor, fiebre, dolor de cabeza de altura. Respetar el tiempo entre tomas.",
+    comentario: "____",
+    validado: false
+  },
+  {
+    objeto: "Gasas estériles",
+    dosis: "las necesarias",
+    via: "uso externo",
+    procedimiento: "Cubrir heridas y hacer presión directa sobre sangrados. Si se empapa, poner otra encima sin quitar la primera.",
+    comentario: "",
+    validado: false
+  },
+  {
+    objeto: "Vendas",
+    dosis: "—",
+    via: "uso externo",
+    procedimiento: "Fijar gasas, inmovilizar, hacer presión. Sin cortar la circulación (el dedo debe seguir rosado).",
+    comentario: "",
+    validado: false
+  },
+  {
+    objeto: "Antiséptico",
+    dosis: "____  ⚠️ VALIDAR cuál",
+    via: "uso externo",
+    procedimiento: "Desinfectar la herida ya limpia antes de cubrir.",
+    comentario: "____",
+    validado: false
+  },
+  {
+    objeto: "Manta térmica",
+    dosis: "—",
+    via: "uso externo",
+    procedimiento: "Hipotermia/shock: envolver con el lado plateado hacia el cuerpo, junto con ropa seca.",
+    comentario: "",
+    validado: false
+  },
+  {
+    objeto: "Suero fisiológico",
+    dosis: "—",
+    via: "uso externo",
+    procedimiento: "Lavar heridas y ojos.",
+    comentario: "",
+    validado: false
+  }
+];
+
+// Encabezados de la tabla (orden de columnas para Excel y la app)
+const BOTIQUIN_COLUMNAS = [
+  { id: "objeto", titulo: "Objeto / Medicamento" },
+  { id: "dosis", titulo: "Dosis (mg/cc) / cantidad" },
+  { id: "via", titulo: "Vía (masticable/inyectable/oral...)" },
+  { id: "procedimiento", titulo: "Procedimiento" },
+  { id: "comentario", titulo: "Comentario del médico" },
+  { id: "validado", titulo: "Validado (sí/no)" }
+];
 
 /* --------------------------------------------------------------------------
    ESCENARIOS DE EMERGENCIA
