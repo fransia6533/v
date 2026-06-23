@@ -74,8 +74,10 @@
     const texto = normalizar(nombreCrudo + " " + (item.via || "") + " " + (item.procedimiento || "") + " " + (item.comentario || ""));
     if (!nombre) return 0;
 
-    // 1) substring directo en el nombre/sinónimos -> match completo
-    if (nombre.includes(q) || (soloNombre && q.includes(soloNombre))) return 1;
+    // 1) coincidencia de frase completa (por palabras, no por pedazos:
+    //    así "pastilla" no matchea "astilla")
+    const qp = " " + q + " ", np = " " + nombre + " ";
+    if (np.includes(qp) || (soloNombre && qp.includes(" " + soloNombre + " "))) return 1;
 
     const qWords = quitarRelleno(q.split(" "));
     const nWords = quitarRelleno(nombre.split(" "));
@@ -105,7 +107,9 @@
     let mejorTokName = 0;
     qWords.forEach((qw) => { const s = mejorContra(qw, sWords); if (s > mejorTokName) mejorTokName = s; });
 
-    return Math.max(scoreNombre, scoreFrase, scoreTexto * 0.85, mejorTok * 0.85, mejorTokName * 0.9);
+    // los matches por palabra se topan en 0.98 para que una coincidencia de
+    // FRASE completa (1.0, arriba) siempre gane a una palabra suelta coincidente
+    return Math.min(0.98, Math.max(scoreNombre, scoreFrase, scoreTexto * 0.85, mejorTok * 0.85, mejorTokName * 0.9));
   }
 
   // Ordena los ítems por puntaje (de mayor a menor)

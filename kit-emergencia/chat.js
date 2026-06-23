@@ -97,7 +97,26 @@
     if (inp) inp.value = "";
   }
 
-  function responder(texto) {
+  // modismos / formas coloquiales -> palabra que la app entiende
+  const SLANG = {
+    "guata": "panza", "guatita": "panza", "wawa": "panza",
+    "pata": "pierna", "patas": "piernas", "pata rota": "pierna rota",
+    "cabeza me estalla": "dolor de cabeza", "jaqueca": "dolor de cabeza",
+    "chuchaqui": "resaca", "caña": "resaca", "goma": "resaca", "cruda": "resaca", "guayabo": "resaca",
+    "me chante": "me desmaye", "me desplome": "me desmaye",
+    "wea": " ", "weas": " ", "po": " ", "cachai": " ", "oe": " ", "loco": " ",
+    "remedios": "remedio", "pastillas": "pastilla",
+  };
+  function expandir(t) {
+    let s = " " + (t || "").toLowerCase() + " ";
+    for (const k in SLANG) {
+      s = s.split(" " + k + " ").join(" " + SLANG[k] + " ");
+    }
+    return s.replace(/\s+/g, " ").trim();
+  }
+
+  function responder(textoOriginal) {
+    const texto = expandir(textoOriginal);
     // armar candidatos: situaciones graves + consejos + items
     const cand = [];
     TRIAGE.forEach((s) => cand.push({ objeto: s.titulo, tambien: (s.sintomas || []).join(", "), _t: "sit", _o: s }));

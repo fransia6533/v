@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.6 (borrador)",
+  version: "0.7 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -74,7 +74,7 @@ const BOTIQUIN_DEFAULT = [
   },
   {
     objeto: "Paracetamol",
-    tambien: "acetaminofeno, tylenol, fiebre, dolor",
+    tambien: "acetaminofeno, tylenol, fiebre, dolor, pastilla para el dolor, calmante, antifebril, para la fiebre, para el dolor, analgesico",
     dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "____ mg/kg  ⚠️ VALIDAR",
     via: "oral",
     procedimiento: "Dolor leve/moderado y fiebre. Respetar el tiempo entre tomas. No pasar la dosis máxima diaria.",
@@ -82,7 +82,7 @@ const BOTIQUIN_DEFAULT = [
   },
   {
     objeto: "Ibuprofeno",
-    tambien: "antiinflamatorio, dolor, golpe, esguince, fiebre, aine",
+    tambien: "antiinflamatorio, dolor, golpe, esguince, fiebre, aine, ibuprofeno, calmante, para el dolor, antiinflamatorio para golpes",
     dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "____ mg/kg  ⚠️ VALIDAR",
     via: "oral",
     procedimiento: "Dolor con inflamación (golpes, esguinces), fiebre. Tomar con algo de comida. Cuidado si hay problemas de estómago/riñón.",
@@ -733,7 +733,19 @@ const CONSEJOS = [
   { id: "astilla", sintomas: ["astilla", "espina", "me clave una astilla", "me clave una espina", "clavada", "se me clavo"],
     mensaje: "Lavá la zona y tus manos. Con una pinza desinfectada, sacá la astilla en el mismo ángulo en que entró. Lavá de nuevo y poné antiséptico.",
     items: ["pinza", "antiseptico", "curitas"],
-    cuandoConsultar: "Si quedó muy adentro, no sale, o se infecta (rojo, hinchado, con pus): consultá." }
+    cuandoConsultar: "Si quedó muy adentro, no sale, o se infecta (rojo, hinchado, con pus): consultá." },
+  { id: "que-tomar", sintomas: ["pastilla", "pastillas", "remedio", "remedios", "medicamento", "medicacion", "medicación", "analgesico", "analgésico", "calmante", "antiinflamatorio", "que tomo", "que pastilla", "que pastillas", "algo para el dolor", "dame algo", "necesito un remedio", "que me tomo", "antifebril", "que medicamento", "que remedio", "una pastilla"],
+    mensaje: "Depende de qué tengas:\n• DOLOR o FIEBRE → Paracetamol o Ibuprofeno\n• ALERGIA / picazón → Antihistamínico\n• NÁUSEAS / vómitos → Antiemético\n• ACIDEZ / estómago → Protector gástrico\nDecime qué sentís y te paso la dosis para tu peso 👇",
+    items: ["paracetamol", "ibuprofeno", "antihistaminico", "antiemetico"],
+    cuandoConsultar: "No mezcles medicamentos sin saber, ni pases la dosis. Si el dolor es fuerte y no cede, o no sabés qué tomar: consultá." },
+  { id: "malestar", sintomas: ["me siento mal", "no me siento bien", "estoy mal", "me siento descompuesto", "me siento raro", "no ando bien", "me siento pa la caga", "estoy achacado", "me siento debil", "estoy hecho mierda", "me siento para atras"],
+    mensaje: "Contame un poco más así te ayudo mejor 🙏 ¿Qué sentís?\n• ¿Te duele algo? (cabeza, panza, garganta…)\n• ¿Fiebre, náuseas o mareo?\n• ¿Frío, falta de aire?\nTocá una opción o escribilo.",
+    items: [],
+    cuandoConsultar: "Si tenés dolor de pecho, te cuesta respirar, estás confundido o muy débil: pedí ayuda ya." },
+  { id: "resaca", sintomas: ["resaca", "caña", "estoy curado", "cruda", "goma", "tome mucho", "tomé mucho", "chuchaqui", "estoy crudo", "guayabo"],
+    mensaje: "Hidratate bien (agua y sales), comé algo liviano y descansá. Un analgésico ayuda con el dolor de cabeza. Evitá más alcohol.",
+    items: ["sales de rehidratacion", "paracetamol", "ibuprofeno"],
+    cuandoConsultar: "Vómitos que no paran, confusión, o no podés despertar bien a alguien: puede ser intoxicación, pedí ayuda." }
 ];
 
 /* Ítems del botiquín recomendados para cada situación grave (por id de TRIAGE). */
