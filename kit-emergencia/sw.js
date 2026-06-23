@@ -1,7 +1,7 @@
 /* Service worker: guarda la app en el teléfono para usarla SIN internet.
    Si cambiás archivos, subí el número de versión (CACHE) para forzar la
    actualización. */
-const CACHE = "kit-emergencia-v5";
+const CACHE = "kit-emergencia-v6";
 const ARCHIVOS = [
   "./",
   "./index.html",
@@ -9,7 +9,7 @@ const ARCHIVOS = [
   "./app.js",
   "./datos.js",
   "./paciente.js",
-  "./triage.js",
+  "./chat.js",
   "./botiquin.js",
   "./camara.js",
   "./fuzzy.js",

@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.3 (borrador)",
+  version: "0.4 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -461,7 +461,7 @@ const TRIAGE = [
   {
     id: "altura",
     titulo: "Mal de altura / soroche",
-    sintomas: ["altura", "soroche", "mam", "puna", "edema", "dolor de cabeza", "nauseas", "náuseas", "mareo", "falta de aire"],
+    sintomas: ["altura", "soroche", "mam", "puna", "edema", "mal de montaña", "falta de aire", "me falta el aire"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Falta de aire en reposo, tos con espuma, camina como borracho, muy confundido o con mucho sueño?",
@@ -487,7 +487,7 @@ const TRIAGE = [
   {
     id: "quemadura",
     titulo: "Me quemé",
-    sintomas: ["quemadura", "quemar", "quemado", "ampolla", "ardor", "fuego", "agua caliente", "sol", "insolacion"],
+    sintomas: ["quemadura", "quemar", "quemado", "fuego", "agua caliente", "me queme", "quemadura profunda"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Es más grande que tu palma, está en cara/manos/genitales/articulación, o se ve blanca/negra/muy profunda?",
@@ -556,6 +556,80 @@ const TRIAGE = [
     }
   }
 ];
+
+/* --------------------------------------------------------------------------
+   CONSEJOS — síntomas comunes para responder tipo chat (no emergencia grave).
+   El asistente los usa para contestar conversando y sugerir qué del botiquín.
+   ⚠️ Consejos generales, a validar por el médico.
+   -------------------------------------------------------------------------- */
+const CONSEJOS = [
+  { id: "dolor-cabeza", sintomas: ["dolor de cabeza", "cabeza", "jaqueca", "migraña", "cefalea", "me duele la cabeza"],
+    mensaje: "Tomá agua (la deshidratación y la altura dan dolor de cabeza), descansá un rato a la sombra y aflojá el ritmo. Si no cede, del botiquín podés usar un analgésico.",
+    items: ["paracetamol", "ibuprofeno"],
+    cuandoConsultar: "Si es el peor dolor de tu vida, viene con vómitos, confusión o fiebre alta, o estás en altura con falta de aire/mareo: tratalo como golpe en la cabeza o mal de altura y pedí ayuda." },
+  { id: "fiebre", sintomas: ["fiebre", "temperatura", "calentura", "destemplado", "tengo fiebre"],
+    mensaje: "Hidratate bien, descansá y no te abrigues de más. Del botiquín, un antitérmico ayuda a bajar la fiebre.",
+    items: ["paracetamol", "ibuprofeno"],
+    cuandoConsultar: "Fiebre alta que no baja, con rigidez de nuca, confusión, dificultad para respirar, o que dura varios días: consultá / bajá." },
+  { id: "panza", sintomas: ["panza", "estomago", "estómago", "dolor abdominal", "barriga", "acidez", "me duele la panza", "parte baja"],
+    mensaje: "Tomá líquidos de a sorbos, comé liviano y evitá grasas y alcohol. Si es acidez o ardor, un protector gástrico ayuda.",
+    items: ["protector gastrico", "antiemetico"],
+    cuandoConsultar: "Dolor muy fuerte que no afloja, con fiebre, vómitos con sangre, o panza dura: puede ser serio, pedí ayuda." },
+  { id: "nauseas", sintomas: ["nausea", "náuseas", "ganas de vomitar", "vomito", "vómito", "descompuesto", "asco", "siento nauseas"],
+    mensaje: "Sentate o recostate, buscá aire fresco y tomá sorbos de agua o suero. Del botiquín, un antiemético corta las náuseas.",
+    items: ["antiemetico", "sales de rehidratacion"],
+    cuandoConsultar: "Vómitos que no paran, con sangre o deshidratación; o en altura con dolor de cabeza: podría ser soroche, descendé." },
+  { id: "diarrea", sintomas: ["diarrea", "suelto", "descompostura", "caca liquida", "estoy flojo"],
+    mensaje: "Lo más importante es hidratar: suero oral o agua a sorbos seguidos. Comé liviano (arroz, banana). Un antidiarreico ayuda si no hay fiebre ni sangre.",
+    items: ["sales de rehidratacion", "antidiarreico"],
+    cuandoConsultar: "Diarrea con sangre, fiebre alta, o señales de deshidratación (boca seca, casi no orinás, muy débil): consultá." },
+  { id: "mareo", sintomas: ["mareo", "mareado", "vahido", "todo da vueltas", "me mareo"],
+    mensaje: "Sentate o agachate para no caerte, tomá agua y algo con azúcar. En altura, el mareo puede ser mal de montaña.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Si te desmayaste, ves o hablás raro, o en altura con falta de aire: pedí ayuda." },
+  { id: "deshidratacion", sintomas: ["deshidratado", "deshidratacion", "sed", "boca seca", "no orino", "estoy seco"],
+    mensaje: "Ponete a la sombra, descansá y tomá suero oral o agua de a poco y seguido. Evitá el esfuerzo hasta recuperarte.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Confusión, no orinás, muy débil o desmayo: es grave, pedí ayuda." },
+  { id: "ampolla", sintomas: ["ampolla", "rozadura", "me lastime el pie", "talon", "roce"],
+    mensaje: "No la revientes. Limpiá la zona y cubrila con un apósito o tela para que no roce. Si ya se reventó, limpiá con antiséptico y cubrí.",
+    items: ["curitas", "antiseptico", "tela adhesiva"],
+    cuandoConsultar: "Si se infecta (roja, caliente, con pus), consultá." },
+  { id: "insolacion", sintomas: ["insolacion", "golpe de calor", "mucho calor", "acalorado", "me insole"],
+    mensaje: "Salí del sol a la sombra, aflojá la ropa, mojá la piel con agua y abanicá, y tomá líquidos. Descansá.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Piel caliente y seca, confusión, deja de sudar o desmayo: golpe de calor grave, enfriá rápido y pedí rescate." },
+  { id: "dolor-muscular", sintomas: ["dolor muscular", "agujetas", "cansancio", "contractura", "me duele el cuerpo", "musculo"],
+    mensaje: "Descansá, estirá suave e hidratate. Un antiinflamatorio del botiquín ayuda con el dolor.",
+    items: ["ibuprofeno"],
+    cuandoConsultar: "Dolor en el pecho, falta de aire, o una pierna hinchada y dolorida: no es muscular común, consultá." },
+  { id: "resfrio", sintomas: ["resfrio", "resfriado", "tos", "mocos", "garganta", "gripe", "estoy resfriado"],
+    mensaje: "Abrigate, hidratate y descansá. Para la fiebre o el malestar, un antitérmico ayuda.",
+    items: ["paracetamol"],
+    cuandoConsultar: "Falta de aire, fiebre alta que no baja, o dolor de pecho: consultá / bajá." },
+  { id: "picadura", sintomas: ["picadura", "me pico", "insecto", "mosquito", "picazon", "picazón", "me pica"],
+    mensaje: "Lavá la zona y poné frío para la hinchazón. Si hay aguijón, sacalo raspando (no apretar). Un antihistamínico calma la picazón.",
+    items: ["antihistaminico"],
+    cuandoConsultar: "Si se hincha la cara/garganta, cuesta respirar o salen ronchas por todo el cuerpo: es alergia grave, usá adrenalina y pedí rescate." },
+  { id: "quemadura-sol", sintomas: ["quemadura de sol", "me queme con el sol", "piel roja", "ardor sol", "quemado del sol"],
+    mensaje: "Salí del sol, enfriá con agua, hidratá la piel y tomá líquidos. No revientes ampollas.",
+    items: ["paracetamol"],
+    cuandoConsultar: "Quemaduras con muchas ampollas, fiebre, o en zonas grandes: consultá." }
+];
+
+/* Ítems del botiquín recomendados para cada situación grave (por id de TRIAGE). */
+const SITUACION_ITEMS = {
+  rodilla: ["ibuprofeno", "venda elastica"],
+  hueso: ["ferula", "analgesico fuerte", "gasas"],
+  sangrado: ["gasas", "antiseptico", "torniquete"],
+  cabeza: ["paracetamol"],
+  alergia: ["adrenalina", "antihistaminico", "corticoide"],
+  frio: ["manta termica"],
+  altura: ["acetazolamida", "antiemetico"],
+  quemadura: ["gasas", "suero fisiologico"],
+  inconsciente: [],
+  pecho: []
+};
 
 /* --------------------------------------------------------------------------
    ESCENARIOS DE EMERGENCIA

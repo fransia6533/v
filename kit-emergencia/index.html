@@ -23,12 +23,13 @@
 
   <!-- ===================== SECCIÓN: EMERGENCIAS ===================== -->
   <section id="sec-emergencias" class="seccion">
-    <div class="buscador">
+    <main id="lista" class="lista chat-area"></main>
+    <div class="buscador chat-input">
       <input id="busqueda" type="search" inputmode="search"
-             placeholder="¿Qué te pasó? Ej: me doblé la rodilla, me corté…"
+             placeholder="Escribí qué sentís… (ej: me duele la cabeza)"
              autocomplete="off" autocapitalize="off" autocorrect="off" />
+      <button id="btnEnviar" class="btn">Enviar</button>
     </div>
-    <main id="lista" class="lista"></main>
   </section>
 
   <!-- ===================== SECCIÓN: BOTIQUÍN (tabla + chat) ===================== -->
@@ -103,8 +104,8 @@
   <script src="fuzzy.js"></script>
   <script src="datos.js"></script>
   <script src="paciente.js"></script>
-  <script src="triage.js"></script>
   <script src="botiquin.js"></script>
+  <script src="chat.js"></script>
   <script src="camara.js"></script>
   <script src="app.js"></script>
 </body>

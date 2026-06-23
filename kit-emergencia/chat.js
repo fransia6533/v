@@ -1,0 +1,206 @@
+/* ============================================================================
+   chat.js — Asistente conversacional offline (estilo chat).
+   Le escribís lo que sentís y te responde: consejo + qué del botiquín tomar
+   (con la dosis para tu peso) + cuándo preocuparte. Podés seguir preguntando.
+   No es una IA que inventa: usa el contenido cargado (a validar por el médico).
+   ============================================================================ */
+(function () {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  function esc(s) { const d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+
+  let flujo = null;       // { sit, nodeId, hist }
+  let arrancado = false;
+
+  function cont() { return $("#lista"); }
+  function scrollAbajo() { window.scrollTo(0, document.body.scrollHeight); }
+
+  // ---------- burbujas ----------
+  function burbuja(de, html) {
+    const div = document.createElement("div");
+    div.className = "msg msg-" + de;
+    div.innerHTML = html;
+    cont().appendChild(div);
+    scrollAbajo();
+    return div;
+  }
+  function botMsg(html) { return burbuja("bot", html); }
+  function userMsg(texto) { return burbuja("user", esc(texto)); }
+
+  function chipsItems(keywords, contenedor) {
+    const items = resolverItems(keywords);
+    if (!items.length) return;
+    const wrap = document.createElement("div");
+    wrap.className = "chat-ops";
+    items.forEach((it) => {
+      const dosis = (window.Paciente && window.Paciente.calcular(it)) || it.dosis || "";
+      const b = document.createElement("button");
+      b.className = "btn chip-item";
+      b.innerHTML = "💊 " + esc(it.objeto.split(" (")[0]) + (dosis ? ' <span class="chip-dosis">' + esc(dosis) + "</span>" : "");
+      b.addEventListener("click", () => { userMsg("¿Cómo uso " + it.objeto.split(" (")[0] + "?"); responderItem(it); });
+      wrap.appendChild(b);
+    });
+    contenedor.appendChild(wrap);
+    scrollAbajo();
+  }
+
+  function resolverItems(keywords) {
+    const data = window.Botiquin ? window.Botiquin.datos() : [];
+    const out = [];
+    (keywords || []).forEach((k) => {
+      const r = window.Fuzzy ? window.Fuzzy.rankear(k, data) : [];
+      if (r.length && r[0].score >= 0.55 && out.indexOf(r[0].item) < 0) out.push(r[0].item);
+    });
+    return out;
+  }
+
+  // ---------- arranque ----------
+  function iniciar() {
+    if (arrancado) return;
+    arrancado = true;
+    cont().innerHTML = "";
+    const nombre = (window.Paciente && window.Paciente.get().nombre) || "";
+    botMsg(
+      "Hola" + (nombre ? " " + esc(nombre) : "") + " 👋 Soy tu asistente del botiquín. " +
+      "Contame qué sentís o qué te pasó y te ayudo con lo que tenés en el kit.<br><br>" +
+      'Por ejemplo: <i>"me duele la cabeza"</i>, <i>"me corté"</i>, <i>"me partí la pierna"</i>, <i>"tengo náuseas"</i>.' +
+      '<div class="mini-aviso" style="margin-top:8px">⚠️ Son consejos generales, no reemplazan al médico ni al rescate. Ante la duda, pedí ayuda.</div>'
+    );
+    sugerencias(["Me duele la cabeza", "Me corté", "Tengo náuseas", "Me partí la pierna"]);
+  }
+
+  function sugerencias(lista) {
+    const wrap = document.createElement("div");
+    wrap.className = "chat-ops sugerencias";
+    lista.forEach((t) => {
+      const b = document.createElement("button");
+      b.className = "btn chip-sug";
+      b.textContent = t;
+      b.addEventListener("click", () => enviar(t));
+      wrap.appendChild(b);
+    });
+    cont().appendChild(wrap);
+    scrollAbajo();
+  }
+
+  // ---------- entrada del usuario ----------
+  function enviar(texto) {
+    texto = (texto || "").trim();
+    if (!texto) return;
+    if (!arrancado) iniciar();
+    // sacar sugerencias viejas
+    document.querySelectorAll(".sugerencias").forEach((e) => e.remove());
+    userMsg(texto);
+    flujo = null;
+    responder(texto);
+    const inp = $("#busqueda");
+    if (inp) inp.value = "";
+  }
+
+  function responder(texto) {
+    // armar candidatos: situaciones graves + consejos + items
+    const cand = [];
+    TRIAGE.forEach((s) => cand.push({ objeto: s.titulo, tambien: (s.sintomas || []).join(", "), _t: "sit", _o: s }));
+    CONSEJOS.forEach((c) => cand.push({ objeto: c.id.replace(/-/g, " "), tambien: (c.sintomas || []).join(", "), _t: "consejo", _o: c }));
+    (window.Botiquin ? window.Botiquin.datos() : []).forEach((it) =>
+      cand.push({ objeto: it.objeto, tambien: it.tambien || "", _t: "item", _o: it }));
+
+    const rank = window.Fuzzy.rankear(texto, cand);
+    const top = rank[0];
+
+    if (!top || top.score < 0.45) {
+      botMsg("No estoy seguro de qué es 🤔. Probá decirlo de otra forma o más simple, por ejemplo: <i>\"me duele la cabeza\"</i>, <i>\"me mareo\"</i>, <i>\"me corté\"</i>.");
+      sugerencias(["Me duele la cabeza", "Me mareo", "Tengo fiebre", "Me corté"]);
+      return;
+    }
+    if (top.item._t === "sit") iniciarFlujo(top.item._o);
+    else if (top.item._t === "consejo") responderConsejo(top.item._o);
+    else responderItem(top.item._o);
+  }
+
+  // ---------- consejo (síntoma común) ----------
+  function responderConsejo(c) {
+    const b = botMsg(esc(c.mensaje));
+    chipsItems(c.items, b);
+    if (c.cuandoConsultar) {
+      const w = document.createElement("div");
+      w.className = "chat-alarma";
+      w.innerHTML = "🚩 <b>Cuándo preocuparte:</b> " + esc(c.cuandoConsultar);
+      b.appendChild(w);
+    }
+    cierre();
+  }
+
+  // ---------- item del botiquín ----------
+  function responderItem(it) {
+    const dosis = (window.Paciente && window.Paciente.calcular(it)) || null;
+    let html = "<b>" + esc(it.objeto.split(" (")[0]) + "</b>";
+    if (!it.validado) html += ' <span class="mini-aviso">⚠️ sin validar</span>';
+    html += "<br>";
+    if (it.procedimiento) html += esc(it.procedimiento) + "<br>";
+    if (dosis) html += "<br><b>Para tu peso:</b> " + esc(dosis) + " ⚠️";
+    else if (it.dosis) html += "<br><b>Dosis:</b> " + esc(it.dosis);
+    if (it.via) html += "<br><b>Vía:</b> " + esc(it.via);
+    botMsg(html);
+    cierre();
+  }
+
+  // ---------- flujo de preguntas (situación grave) ----------
+  function iniciarFlujo(sit) {
+    flujo = { sit, nodeId: sit.inicio, hist: [] };
+    botMsg("Entiendo, vamos a ver <b>" + esc(sit.titulo.toLowerCase()) + "</b>. Te hago un par de preguntas 👇");
+    pintarNodo();
+  }
+  function pintarNodo() {
+    const nodo = flujo.sit.nodos[flujo.nodeId];
+    if (nodo.pregunta) {
+      const b = botMsg("❓ " + esc(nodo.pregunta));
+      const wrap = document.createElement("div");
+      wrap.className = "chat-ops";
+      (nodo.opciones || []).forEach((op) => {
+        const btn = document.createElement("button");
+        btn.className = "btn triage-op";
+        btn.textContent = op.texto;
+        btn.addEventListener("click", () => {
+          userMsg(op.texto);
+          flujo.hist.push(flujo.nodeId);
+          flujo.nodeId = op.ir;
+          pintarNodo();
+        });
+        wrap.appendChild(btn);
+      });
+      b.appendChild(wrap);
+      scrollAbajo();
+    } else if (nodo.resultado) {
+      const r = nodo.resultado;
+      const grav = r.nivel === "alta" ? "🔴 Urgente" : r.nivel === "media" ? "🟠 Importante" : "🟢 Leve";
+      let html = "<b>" + grav + " — " + esc(r.titulo) + "</b><br>";
+      html += "<b>Qué hacer:</b><ol class='pasos-chat'>";
+      (r.pasos || []).forEach((p) => (html += "<li>" + esc(p) + "</li>"));
+      html += "</ol>";
+      const b = botMsg(html);
+      const items = SITUACION_ITEMS[flujo.sit.id] || [];
+      if (items.length) {
+        const t = document.createElement("div");
+        t.innerHTML = "<b>Del botiquín:</b>";
+        b.appendChild(t);
+        chipsItems(items, b);
+      }
+      if (r.cuandoBajar) {
+        const w = document.createElement("div");
+        w.className = "chat-alarma";
+        w.innerHTML = "🚁 <b>Cuándo bajar / pedir rescate:</b> " + esc(r.cuandoBajar);
+        b.appendChild(w);
+      }
+      flujo = null;
+      cierre();
+    }
+  }
+
+  function cierre() {
+    const b = botMsg("¿Te ayudo con algo más?");
+    sugerencias(["Me duele la cabeza", "Tengo náuseas", "Me corté", "Mal de altura"]);
+  }
+
+  window.Chat = { iniciar, enviar };
+})();

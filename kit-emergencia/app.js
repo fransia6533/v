@@ -18,6 +18,7 @@
     document.querySelectorAll(".nav-btn").forEach((b) =>
       b.classList.toggle("activo", b.dataset.sec === sec)
     );
+    if (sec === "emergencias" && window.Chat) Chat.iniciar();
     if (sec === "botiquin") Botiquin.render($("#busquedaBot").value);
     if (sec === "datos") pintarDatos();
     if (sec !== "camara" && window.Camara) window.Camara.cerrar();
@@ -26,10 +27,8 @@
     b.addEventListener("click", () => mostrarSeccion(b.dataset.sec))
   );
 
-  // ===================== EMERGENCIAS (asistente de primeros auxilios) =====================
-  function pintarLista(filtro) {
-    Triage.lista(filtro);
-  }
+  // ===================== EMERGENCIAS (chat asistente) =====================
+  // El chat se maneja en chat.js. Acá solo cableamos el input.
 
   // ===================== DATOS (editable) =====================
   function pintarDatos() {
@@ -47,7 +46,12 @@
   $("#volver").addEventListener("click", () => $("#detalle").classList.add("oculta"));
 
   // ===================== EVENTOS =====================
-  $("#busqueda").addEventListener("input", (e) => pintarLista(e.target.value));
+  function enviarChat() {
+    const inp = $("#busqueda");
+    if (window.Chat) Chat.enviar(inp.value);
+  }
+  $("#busqueda").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); enviarChat(); } });
+  $("#btnEnviar").addEventListener("click", enviarChat);
   $("#cerrarAviso").addEventListener("click", () => $("#aviso").classList.add("oculta"));
 
   // Botiquín
@@ -74,7 +78,7 @@
   });
 
   // ===================== INICIO =====================
-  pintarLista("");
+  if (window.Chat) Chat.iniciar();
   $("#versionApp").textContent = "v" + (META.version || "");
   $("#estadoKey").textContent = window.Camara && Camara.tieneKey() ? "✅ Clave guardada" : "";
 

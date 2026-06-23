@@ -233,6 +233,37 @@ body { padding-bottom: 132px; }
 }
 .acciones-bot { display: flex; flex-wrap: wrap; gap: 8px; }
 .hint-bot { padding: 0 14px; color: var(--texto-tenue); font-size: .85rem; }
+/* ===== Chat conversacional (Emergencias) ===== */
+.chat-area { padding: 12px 12px 175px; display: block; }
+.msg {
+  max-width: 86%; padding: 12px 14px; border-radius: 14px; margin: 8px 0;
+  font-size: 1.05rem; line-height: 1.5; white-space: normal; word-wrap: break-word;
+}
+.msg-bot { background: #1b2530; border: 1px solid #2a3a48; border-bottom-left-radius: 4px; margin-right: auto; }
+.msg-user { background: #1c5b3a; border-bottom-right-radius: 4px; margin-left: auto; }
+.msg b { color: #fff; }
+.pasos-chat { margin: 6px 0 4px; padding-left: 22px; }
+.pasos-chat li { margin: 4px 0; }
+.chat-alarma {
+  background: #2a1518; border: 1px solid #b00020; border-radius: 10px;
+  padding: 10px 12px; margin-top: 10px; font-size: .95rem;
+}
+.chip-item { background: #1c6e2e; border-color: #2a8f40; margin: 4px 6px 0 0; }
+.chip-dosis { font-size: .8rem; opacity: .9; }
+.chip-sug { background: var(--tarjeta2); border: 1px solid #39414f; margin: 4px 6px 0 0; font-size: .92rem; }
+.sugerencias { margin-top: 6px; }
+
+.chat-input {
+  position: fixed; left: 0; right: 0; bottom: 92px; z-index: 45;
+  background: #0d1014; border-top: 1px solid #1f2632;
+  display: flex; gap: 8px; padding: 10px 12px;
+}
+.chat-input input {
+  flex: 1; padding: 14px; font-size: 1.05rem; border-radius: 12px;
+  border: 2px solid #39414f; background: var(--tarjeta); color: var(--texto);
+}
+.chat-input #btnEnviar { background: #1c6e2e; border-color: #2a8f40; padding: 0 18px; }
+
 /* Asistente de primeros auxilios (triage) */
 .triage-card { font-weight: 600; }
 .triage-barra { display: flex; gap: 8px; padding: 4px 0 10px; }
