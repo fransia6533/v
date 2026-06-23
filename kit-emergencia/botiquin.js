@@ -31,30 +31,82 @@
   const normalizar = (t) =>
     (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
-  // ---------- render lista ----------
+  // ---------- render lista (con búsqueda tolerante a errores) ----------
   function render(filtro) {
     const cont = $("#listaBotiquin");
-    const q = normalizar(filtro);
+    const q = (filtro || "").trim();
     cont.innerHTML = "";
-    const items = datos.filter((it) => {
-      if (!q) return true;
-      return normalizar(it.objeto + " " + it.procedimiento + " " + it.comentario).includes(q);
-    });
-    if (items.length === 0) {
-      cont.innerHTML = '<p class="vacio">Sin resultados.</p>';
+    responder(q); // chat conversacional arriba
+
+    let lista;
+    if (!q) {
+      lista = datos.map((it) => ({ item: it }));
+    } else {
+      lista = Fuzzy.rankear(q, datos).filter((x) => x.score >= 0.4);
+    }
+    if (lista.length === 0) {
+      cont.innerHTML = '<p class="vacio">Sin resultados. Probá con otra palabra o tocá ➕ Agregar.</p>';
       return;
     }
-    items.forEach((it) => {
-      const idx = datos.indexOf(it);
+    lista.forEach(({ item }) => {
+      const idx = datos.indexOf(item);
       const card = document.createElement("button");
-      card.className = "bot-card" + (it.validado ? "" : " sinvalidar");
+      card.className = "bot-card" + (item.validado ? "" : " sinvalidar");
       card.innerHTML =
-        `<div class="bot-nombre">${escapar(it.objeto)}</div>` +
-        `<div class="bot-meta"><span class="chip-via">${escapar(it.via || "")}</span> ` +
-        `<span class="bot-dosis">${escapar(it.dosis || "")}</span></div>`;
+        `<div class="bot-nombre">${escapar(item.objeto)}</div>` +
+        `<div class="bot-meta"><span class="chip-via">${escapar(item.via || "")}</span> ` +
+        `<span class="bot-dosis">${escapar(item.dosis || "")}</span></div>`;
       card.addEventListener("click", () => verDetalle(idx));
       cont.appendChild(card);
     });
+  }
+
+  // ---------- chat conversacional ----------
+  function responder(q) {
+    const cont = $("#chatRespuesta");
+    if (!cont) return;
+    if (!q) { cont.innerHTML = ""; return; }
+    const rank = Fuzzy.rankear(q, datos);
+    const top = rank[0];
+    const second = rank[1];
+
+    if (!top || top.score < 0.45) {
+      cont.innerHTML = burbuja(
+        `No encontré <b>«${escapar(q)}»</b> en tu botiquín. ` +
+        `Revisá la lista de abajo o agregalo con ➕.`
+      );
+      return;
+    }
+    // ¿ambiguo? (dos candidatos parecidos)
+    if (second && top.score - second.score < 0.08 && top.score < 0.9) {
+      let html = `¿Cuál de estos buscás?<div class="chat-ops">`;
+      rank.slice(0, 3).forEach((r) => {
+        const idx = datos.indexOf(r.item);
+        html += `<button class="btn chat-op" data-idx="${idx}">${escapar(r.item.objeto)}</button>`;
+      });
+      html += `</div>`;
+      cont.innerHTML = burbuja(html);
+      cont.querySelectorAll(".chat-op").forEach((b) =>
+        b.addEventListener("click", () => verDetalle(parseInt(b.dataset.idx, 10)))
+      );
+      return;
+    }
+    // respuesta directa
+    const it = top.item;
+    const idx = datos.indexOf(it);
+    const seguro = top.score >= 0.9;
+    let html = (seguro ? "💊 " : "💊 Creo que buscás ") + `<b>${escapar(it.objeto)}</b>`;
+    if (!it.validado) html += ` <span class="mini-aviso">⚠️ sin validar</span>`;
+    html += `<div class="chat-info">`;
+    if (it.dosis) html += `<div><b>Dosis/vía:</b> ${escapar(it.dosis)} · ${escapar(it.via || "")}</div>`;
+    if (it.procedimiento) html += `<div><b>Qué hacer:</b> ${escapar(it.procedimiento)}</div>`;
+    html += `</div><button class="btn chat-op" data-idx="${idx}">Ver detalle completo</button>`;
+    cont.innerHTML = burbuja(html);
+    const btn = cont.querySelector(".chat-op");
+    if (btn) btn.addEventListener("click", () => verDetalle(idx));
+  }
+  function burbuja(html) {
+    return `<div class="burbuja">${html}</div>`;
   }
 
   // ---------- detalle / edición ----------
@@ -63,6 +115,7 @@
     let html = `<h2>${escapar(it.objeto)}</h2>`;
     if (!it.validado)
       html += '<div class="alerta-validar">⚠️ Pendiente de validar por el médico.</div>';
+    if (it.tambien) html += campo("Otros nombres", it.tambien);
     html += campo("Dosis (mg/cc) / cantidad", it.dosis);
     html += campo("Vía", it.via);
     html += campo("Procedimiento", it.procedimiento);
@@ -87,9 +140,10 @@
   }
 
   function editar(idx) {
-    const it = idx >= 0 ? datos[idx] : { objeto: "", dosis: "", via: "", procedimiento: "", comentario: "", validado: false };
+    const it = idx >= 0 ? datos[idx] : { objeto: "", tambien: "", dosis: "", via: "", procedimiento: "", comentario: "", validado: false };
     let html = `<h2>${idx >= 0 ? "Editar" : "Nuevo"} ítem</h2>`;
     html += inputCampo("Objeto / Medicamento", "f_objeto", it.objeto, false);
+    html += inputCampo("Otros nombres / sinónimos (separados por coma)", "f_tambien", it.tambien || "", false);
     html += inputCampo("Dosis (mg/cc) / cantidad", "f_dosis", it.dosis, false);
     html += inputCampo("Vía (masticable / inyectable / oral / uso externo)", "f_via", it.via, false);
     html += inputCampo("Procedimiento", "f_proc", it.procedimiento, true);
@@ -101,6 +155,7 @@
     $("#btnGuardar").addEventListener("click", () => {
       const nuevo = {
         objeto: $("#f_objeto").value.trim(),
+        tambien: $("#f_tambien").value.trim(),
         dosis: $("#f_dosis").value.trim(),
         via: $("#f_via").value.trim(),
         procedimiento: $("#f_proc").value.trim(),
@@ -137,7 +192,9 @@
   function aMatriz() {
     const aoa = [cols.map((c) => c.titulo)];
     datos.forEach((it) => {
-      aoa.push([it.objeto, it.dosis, it.via, it.procedimiento, it.comentario, it.validado ? "sí" : "no"]);
+      aoa.push(cols.map((c) =>
+        c.id === "validado" ? (it.validado ? "sí" : "no") : (it[c.id] || "")
+      ));
     });
     return aoa;
   }
@@ -186,6 +243,7 @@
     }
     const ci = {
       objeto: col(["objeto", "medicament", "nombre"]),
+      tambien: col(["otros nombres", "sinonimo", "sinónimo", "alias"]),
       dosis: col(["dosis", "cantidad", "mg"]),
       via: col(["via", "vía"]),
       procedimiento: col(["procedimiento", "proceso", "uso"]),
@@ -202,6 +260,7 @@
       const v = get("validado").toLowerCase();
       nuevos.push({
         objeto: obj,
+        tambien: get("tambien"),
         dosis: get("dosis"),
         via: get("via"),
         procedimiento: get("procedimiento"),

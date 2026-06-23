@@ -16,9 +16,14 @@ Funciona en el celular **sin señal y en modo avión**, una vez instalada.
 - **🚑 Emergencias** — escenarios guiados paso a paso (anafilaxia, hemorragia,
   hipotermia, mal de altura, fractura, etc.) con "cuándo bajar / pedir rescate".
 - **🎒 Botiquín** — una **base de datos tipo tabla** con columnas:
-  **Objeto · Dosis (mg/cc) · Vía (masticable/inyectable/oral...) · Procedimiento ·
-  Comentario del médico · Validado**. Se puede agregar, editar y borrar ítems
-  desde la app.
+  **Objeto · Otros nombres · Dosis (mg/cc) · Vía (masticable/inyectable/oral...) ·
+  Procedimiento · Comentario del médico · Validado**. Se puede agregar, editar y
+  borrar ítems desde la app.
+  - **Escribís el nombre y te contesta** (tipo chat), y **entiende los errores de
+    tipeo**: "adrelina", "antihistaminco", "manta termka", "gaza" caen igual en el
+    ítem correcto (importante porque en una emergencia escribir es difícil).
+  - También entiende **otros nombres**: "ibuprofeno"/"fiebre" → Analgésico,
+    "antialérgico"/"ronchas" → Antihistamínico, etc. (los completa el médico).
 - **📷 Cámara** — sacás una foto del medicamento y la app intenta identificarlo:
   - **Offline**: lee el texto de la etiqueta (si el navegador lo soporta) y lo
     busca en *tu* botiquín. No inventa nada.
@@ -99,12 +104,31 @@ sanguíneo, contacto y número de rescate de la zona) en `datos.js`.
 
 ---
 
+## 🐍 Herramienta de Python (para la computadora)
+
+Para que el médico trabaje cómodo en la compu. **No hace falta instalar nada**
+(solo Python estándar):
+
+```bash
+cd kit-emergencia/herramientas
+python3 gestionar_botiquin.py plantilla botiquin.xlsx   # genera Excel para completar
+python3 gestionar_botiquin.py validar  botiquin.xlsx    # avisa qué dosis faltan / sin validar
+python3 gestionar_botiquin.py json     botiquin.xlsx    # convierte a JSON para datos.js
+```
+
+El Excel que genera Python lo abre la app del teléfono (⬆️ Importar), y el que
+exporta la app lo lee Python. Probado en los dos sentidos, con acentos.
+
+---
+
 ## 📁 Archivos
 
 | Archivo         | Qué es                                                    |
 |-----------------|-----------------------------------------------------------|
 | `datos.js`      | Ficha del paciente, escenarios de emergencia y botiquín por defecto. |
-| `botiquin.js`   | Tabla del botiquín: editar, guardar, exportar/importar Excel. |
+| `botiquin.js`   | Tabla del botiquín: chat, editar, guardar, exportar/importar Excel. |
+| `fuzzy.js`      | Búsqueda tolerante a errores de tipeo y a otros nombres.  |
+| `herramientas/gestionar_botiquin.py` | Herramienta Python (plantilla/validar/json). |
 | `camara.js`     | Cámara + identificación por foto (offline y con IA en la nube). |
 | `xlsx-mini.js`  | Lector/escritor de Excel en JS puro (offline, sin librerías). |
 | `app.js`        | Navegación, escenarios y cableado general.                |

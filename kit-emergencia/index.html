@@ -30,10 +30,12 @@
     <main id="lista" class="lista"></main>
   </section>
 
-  <!-- ===================== SECCIÓN: BOTIQUÍN (tabla) ===================== -->
+  <!-- ===================== SECCIÓN: BOTIQUÍN (tabla + chat) ===================== -->
   <section id="sec-botiquin" class="seccion oculta">
     <div class="barra-botiquin">
-      <input id="busquedaBot" type="search" placeholder="Buscar objeto/medicamento…" autocomplete="off" />
+      <input id="busquedaBot" type="search"
+             placeholder="Escribí el medicamento (aunque sea mal)…" autocomplete="off"
+             autocapitalize="off" autocorrect="off" />
       <div class="acciones-bot">
         <button id="btnAgregar" class="btn">➕ Agregar</button>
         <button id="btnExportar" class="btn">⬇️ Excel</button>
@@ -41,7 +43,8 @@
         <input id="fileImport" type="file" accept=".xlsx,.csv" hidden />
       </div>
     </div>
-    <p class="hint-bot">Tocá un ítem para ver el detalle o editarlo. El Excel se guarda en tu teléfono (carpeta de descargas / My Files).</p>
+    <div id="chatRespuesta" class="chat-respuesta"></div>
+    <p class="hint-bot">Escribí el nombre y te contesto. Entiende errores de tipeo. Tocá un ítem para el detalle.</p>
     <div id="listaBotiquin" class="botiquin-lista"></div>
   </section>
 
@@ -96,6 +99,7 @@
   </footer>
 
   <script src="xlsx-mini.js"></script>
+  <script src="fuzzy.js"></script>
   <script src="datos.js"></script>
   <script src="botiquin.js"></script>
   <script src="camara.js"></script>

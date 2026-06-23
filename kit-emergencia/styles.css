@@ -233,6 +233,18 @@ body { padding-bottom: 132px; }
 }
 .acciones-bot { display: flex; flex-wrap: wrap; gap: 8px; }
 .hint-bot { padding: 0 14px; color: var(--texto-tenue); font-size: .85rem; }
+/* Chat conversacional */
+.chat-respuesta { padding: 0 12px; }
+.burbuja {
+  background: #14202b; border: 1px solid #244; border-left: 5px solid #2a8f40;
+  border-radius: 12px; padding: 14px; margin: 4px 0 10px; font-size: 1.05rem; line-height: 1.5;
+}
+.chat-info { margin: 8px 0; }
+.chat-info div { margin: 4px 0; }
+.chat-ops { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chat-op { margin-top: 8px; background: #1c6e2e; border-color: #2a8f40; }
+.mini-aviso { font-size: .75rem; color: var(--media); font-weight: 700; }
+
 .botiquin-lista { display: grid; gap: 10px; padding: 12px; }
 .bot-card {
   text-align: left; width: 100%; background: var(--tarjeta); color: var(--texto);

@@ -46,6 +46,7 @@ const META = {
 const BOTIQUIN_DEFAULT = [
   {
     objeto: "Adrenalina (autoinyector / epinefrina)",
+    tambien: "epinefrina, epipen, autoinyector, alergia, anafilaxia",
     dosis: "____ mg  ⚠️ VALIDAR",
     via: "inyectable",
     procedimiento: "Reacción alérgica grave (anafilaxia): inyectar en la cara lateral del muslo. Repetir a los ____ min si no mejora. SIEMPRE pedir rescate.",
@@ -54,6 +55,7 @@ const BOTIQUIN_DEFAULT = [
   },
   {
     objeto: "Antihistamínico",
+    tambien: "antialérgico, alergia, loratadina, difenhidramina, ronchas",
     dosis: "____ mg  ⚠️ VALIDAR",
     via: "oral / masticable",
     procedimiento: "Alergia leve. En anafilaxia: dar DESPUÉS de la adrenalina, nunca en lugar de.",
@@ -62,6 +64,7 @@ const BOTIQUIN_DEFAULT = [
   },
   {
     objeto: "Analgésico / antiinflamatorio",
+    tambien: "ibuprofeno, paracetamol, aspirina, dolor, fiebre, calmante",
     dosis: "____ mg cada ____ h  ⚠️ VALIDAR",
     via: "oral",
     procedimiento: "Dolor, fiebre, dolor de cabeza de altura. Respetar el tiempo entre tomas.",
@@ -86,6 +89,7 @@ const BOTIQUIN_DEFAULT = [
   },
   {
     objeto: "Antiséptico",
+    tambien: "desinfectante, povidona, yodo, clorhexidina, alcohol, herida",
     dosis: "____  ⚠️ VALIDAR cuál",
     via: "uso externo",
     procedimiento: "Desinfectar la herida ya limpia antes de cubrir.",
@@ -94,6 +98,7 @@ const BOTIQUIN_DEFAULT = [
   },
   {
     objeto: "Manta térmica",
+    tambien: "manta de emergencia, aluminio, frío, hipotermia, abrigo",
     dosis: "—",
     via: "uso externo",
     procedimiento: "Hipotermia/shock: envolver con el lado plateado hacia el cuerpo, junto con ropa seca.",
@@ -113,6 +118,7 @@ const BOTIQUIN_DEFAULT = [
 // Encabezados de la tabla (orden de columnas para Excel y la app)
 const BOTIQUIN_COLUMNAS = [
   { id: "objeto", titulo: "Objeto / Medicamento" },
+  { id: "tambien", titulo: "Otros nombres / sinónimos" },
   { id: "dosis", titulo: "Dosis (mg/cc) / cantidad" },
   { id: "via", titulo: "Vía (masticable/inyectable/oral...)" },
   { id: "procedimiento", titulo: "Procedimiento" },
