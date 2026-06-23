@@ -49,6 +49,13 @@
     const filtradas = palabras.filter((w) => w.length >= 2 && !STOP.has(w));
     return filtradas.length ? filtradas : palabras.filter((w) => w.length >= 2);
   }
+  // palabras genéricas: cuentan en el promedio, pero NO sirven para "destacar"
+  // un candidato por sí solas (si no, "dolor" arrastra todo a "dolor de pecho")
+  const GENERIC = new Set("dolor duele duelen mal parte partes cuerpo lado zona molestia siento".split(" "));
+  function soloEspecificas(palabras) {
+    const f = palabras.filter((w) => !GENERIC.has(w));
+    return f.length ? f : palabras;
+  }
 
   // Mejor similitud de una palabra contra cualquier palabra de un texto
   function mejorContra(palabra, palabras) {
@@ -97,15 +104,16 @@
     // 4) similitud de la frase completa contra el nombre
     const scoreFrase = simPalabra(q.replace(/ /g, ""), nombre.replace(/ /g, ""));
 
-    // 5) mejor palabra suelta contra TODO el texto (sinónimos/síntomas) -> peso menor
+    // 5) mejor palabra ESPECÍFICA suelta contra todo el texto (peso menor).
+    //    Excluimos genéricas ("dolor","duele") para que no destaquen solas.
+    const espQ = soloEspecificas(qWords);
     let mejorTok = 0;
-    qWords.forEach((qw) => { const s = mejorContra(qw, nWords); if (s > mejorTok) mejorTok = s; });
+    espQ.forEach((qw) => { const s = mejorContra(qw, nWords); if (s > mejorTok) mejorTok = s; });
 
-    // 6) mejor palabra suelta contra el NOMBRE principal (ej "adrenalina") -> peso mayor,
-    //    para que un nombre propio gane a una palabra genérica de un síntoma
+    // 6) mejor palabra ESPECÍFICA contra el NOMBRE principal (peso mayor)
     const sWords = quitarRelleno(soloNombre.split(" "));
     let mejorTokName = 0;
-    qWords.forEach((qw) => { const s = mejorContra(qw, sWords); if (s > mejorTokName) mejorTokName = s; });
+    espQ.forEach((qw) => { const s = mejorContra(qw, sWords); if (s > mejorTokName) mejorTokName = s; });
 
     // los matches por palabra se topan en 0.98 para que una coincidencia de
     // FRASE completa (1.0, arriba) siempre gane a una palabra suelta coincidente

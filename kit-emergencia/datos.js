@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.7 (borrador)",
+  version: "0.8 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -515,7 +515,7 @@ const TRIAGE = [
   {
     id: "inconsciente",
     titulo: "Alguien se desmayó / no responde",
-    sintomas: ["desmayo", "desmayado", "inconsciente", "no responde", "no despierta", "no respira", "respira", "convulsion", "convulsión", "rcp", "ahogado"],
+    sintomas: ["desmayo", "desmayado", "inconsciente", "no responde", "no despierta", "no respira", "respira", "rcp", "ahogado", "se desmayo", "se desplomo", "desplomo", "perdio el conocimiento", "se desvanecio", "desvanecido", "esta inconsciente", "no reacciona"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Respira? (mirá el pecho, escuchá y sentí el aire durante 10 segundos)",
@@ -537,7 +537,7 @@ const TRIAGE = [
   {
     id: "pecho",
     titulo: "Dolor de pecho fuerte / falta de aire repentina",
-    sintomas: ["pecho", "corazon", "corazón", "infarto", "ahogo", "falta de aire", "respirar", "opresion", "opresión"],
+    sintomas: ["pecho", "corazon", "corazón", "infarto", "ahogo", "falta de aire", "respirar", "opresion", "opresión", "me duele el pecho", "dolor en el pecho", "opresion en el pecho", "me duele el pecho y el brazo", "palpitaciones"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Dolor opresivo en el pecho que dura, se corre al brazo/mandíbula, con sudor frío o falta de aire?",
@@ -650,11 +650,11 @@ const TRIAGE = [
    ⚠️ Consejos generales, a validar por el médico.
    -------------------------------------------------------------------------- */
 const CONSEJOS = [
-  { id: "dolor-cabeza", sintomas: ["dolor de cabeza", "cabeza", "jaqueca", "migraña", "cefalea", "me duele la cabeza"],
+  { id: "dolor-cabeza", sintomas: ["dolor de cabeza", "cabeza", "jaqueca", "migraña", "cefalea", "me duele la cabeza", "me parte la cabeza", "me estalla la cabeza", "cabeza me estalla", "dolor de cabeza fuerte"],
     mensaje: "Tomá agua (la deshidratación y la altura dan dolor de cabeza), descansá un rato a la sombra y aflojá el ritmo. Si no cede, del botiquín podés usar un analgésico.",
     items: ["paracetamol", "ibuprofeno"],
     cuandoConsultar: "Si es el peor dolor de tu vida, viene con vómitos, confusión o fiebre alta, o estás en altura con falta de aire/mareo: tratalo como golpe en la cabeza o mal de altura y pedí ayuda." },
-  { id: "fiebre", sintomas: ["fiebre", "temperatura", "calentura", "destemplado", "tengo fiebre"],
+  { id: "fiebre", sintomas: ["fiebre", "temperatura", "calentura", "destemplado", "tengo fiebre", "afiebrado", "afiebrada", "estoy afiebrado", "tengo temperatura", "hirviendo de fiebre", "estoy hirviendo"],
     mensaje: "Hidratate bien, descansá y no te abrigues de más. Del botiquín, un antitérmico ayuda a bajar la fiebre.",
     items: ["paracetamol", "ibuprofeno"],
     cuandoConsultar: "Fiebre alta que no baja, con rigidez de nuca, confusión, dificultad para respirar, o que dura varios días: consultá / bajá." },
@@ -662,11 +662,11 @@ const CONSEJOS = [
     mensaje: "Tomá líquidos de a sorbos, comé liviano y evitá grasas y alcohol. Si es acidez o ardor, un protector gástrico ayuda.",
     items: ["protector gastrico", "antiemetico"],
     cuandoConsultar: "Dolor muy fuerte que no afloja, con fiebre, vómitos con sangre, o panza dura: puede ser serio, pedí ayuda." },
-  { id: "nauseas", sintomas: ["nausea", "náuseas", "ganas de vomitar", "vomito", "vómito", "descompuesto", "asco", "siento nauseas"],
+  { id: "nauseas", sintomas: ["nausea", "náuseas", "ganas de vomitar", "vomito", "vómito", "descompuesto", "asco", "siento nauseas", "arcadas", "arcada", "quiero vomitar", "ganas de devolver", "tengo nauseas"],
     mensaje: "Sentate o recostate, buscá aire fresco y tomá sorbos de agua o suero. Del botiquín, un antiemético corta las náuseas.",
     items: ["antiemetico", "sales de rehidratacion"],
     cuandoConsultar: "Vómitos que no paran, con sangre o deshidratación; o en altura con dolor de cabeza: podría ser soroche, descendé." },
-  { id: "diarrea", sintomas: ["diarrea", "suelto", "descompostura", "caca liquida", "estoy flojo"],
+  { id: "diarrea", sintomas: ["diarrea", "suelto", "descompostura", "caca liquida", "estoy flojo", "cagadera", "ando suelto", "flojo del estomago", "estoy flojo del estomago", "me cago"],
     mensaje: "Lo más importante es hidratar: suero oral o agua a sorbos seguidos. Comé liviano (arroz, banana). Un antidiarreico ayuda si no hay fiebre ni sangre.",
     items: ["sales de rehidratacion", "antidiarreico"],
     cuandoConsultar: "Diarrea con sangre, fiebre alta, o señales de deshidratación (boca seca, casi no orinás, muy débil): consultá." },
@@ -678,11 +678,11 @@ const CONSEJOS = [
     mensaje: "Ponete a la sombra, descansá y tomá suero oral o agua de a poco y seguido. Evitá el esfuerzo hasta recuperarte.",
     items: ["sales de rehidratacion"],
     cuandoConsultar: "Confusión, no orinás, muy débil o desmayo: es grave, pedí ayuda." },
-  { id: "ampolla", sintomas: ["ampolla", "rozadura", "me lastime el pie", "talon", "roce"],
+  { id: "ampolla", sintomas: ["ampolla", "rozadura", "me lastime el pie", "talon", "roce", "me ampolle", "rozadura en el pie", "ampollas en los pies", "me roza el zapato"],
     mensaje: "No la revientes. Limpiá la zona y cubrila con un apósito o tela para que no roce. Si ya se reventó, limpiá con antiséptico y cubrí.",
     items: ["curitas", "antiseptico", "tela adhesiva"],
     cuandoConsultar: "Si se infecta (roja, caliente, con pus), consultá." },
-  { id: "insolacion", sintomas: ["insolacion", "golpe de calor", "mucho calor", "acalorado", "me insole"],
+  { id: "insolacion", sintomas: ["insolacion", "golpe de calor", "mucho calor", "acalorado", "me insole", "me pegue el sol", "mucho sol", "estoy muy acalorado", "tengo golpe de calor"],
     mensaje: "Salí del sol a la sombra, aflojá la ropa, mojá la piel con agua y abanicá, y tomá líquidos. Descansá.",
     items: ["sales de rehidratacion"],
     cuandoConsultar: "Piel caliente y seca, confusión, deja de sudar o desmayo: golpe de calor grave, enfriá rápido y pedí rescate." },
@@ -694,7 +694,7 @@ const CONSEJOS = [
     mensaje: "Abrigate, hidratate y descansá. Para la fiebre o el malestar, un antitérmico ayuda.",
     items: ["paracetamol"],
     cuandoConsultar: "Falta de aire, fiebre alta que no baja, o dolor de pecho: consultá / bajá." },
-  { id: "picadura", sintomas: ["picadura", "me pico", "insecto", "mosquito", "picazon", "picazón", "me pica"],
+  { id: "picadura", sintomas: ["picadura", "me pico", "insecto", "mosquito", "picazon", "picazón", "me pica", "me pico un mosquito", "me pico un bicho", "me picaron", "me pico un insecto", "bicho"],
     mensaje: "Lavá la zona y poné frío para la hinchazón. Si hay aguijón, sacalo raspando (no apretar). Un antihistamínico calma la picazón.",
     items: ["antihistaminico"],
     cuandoConsultar: "Si se hincha la cara/garganta, cuesta respirar o salen ronchas por todo el cuerpo: es alergia grave, usá adrenalina y pedí rescate." },
@@ -710,7 +710,7 @@ const CONSEJOS = [
     mensaje: "Enjuagá con agua tibia con sal, sacá restos de comida con cuidado y poné frío en la mejilla. Un analgésico ayuda con el dolor.",
     items: ["ibuprofeno", "paracetamol"],
     cuandoConsultar: "Hinchazón grande en la cara, fiebre, o dolor que no cede: necesitás un dentista/médico." },
-  { id: "calambre", sintomas: ["calambre", "calambres", "se me acalambro", "pierna acalambrada", "me acalambre"],
+  { id: "calambre", sintomas: ["calambre", "calambres", "se me acalambro", "pierna acalambrada", "me acalambre", "se me acalambro la pierna", "se me durmio la pierna", "tengo un calambre"],
     mensaje: "Pará, estirá suave el músculo y masajealo. Hidratate con agua y sales — los calambres suelen ser por esfuerzo, calor o falta de sales.",
     items: ["sales de rehidratacion"],
     cuandoConsultar: "Calambres muy seguidos con mucha debilidad o confusión: puede ser deshidratación seria." },
@@ -718,11 +718,11 @@ const CONSEJOS = [
     mensaje: "Si estás tembloroso, con sudor frío, débil o con mucha hambre, puede ser el azúcar bajo. Sentate y tomá algo dulce YA (azúcar, jugo, caramelo, chocolate). A los 15 min comé algo más sólido.",
     items: [],
     cuandoConsultar: "Si te desmayás, no podés tragar, o no mejorás con el azúcar: emergencia, pedí ayuda." },
-  { id: "ojo", sintomas: ["ojo", "algo en el ojo", "me entro algo al ojo", "ojo irritado", "ojo rojo", "basura en el ojo", "tierra en el ojo"],
+  { id: "ojo", sintomas: ["ojo", "algo en el ojo", "me entro algo al ojo", "ojo irritado", "ojo rojo", "basura en el ojo", "tierra en el ojo", "me arde el ojo", "me entro tierra al ojo", "tengo algo en el ojo"],
     mensaje: "No te refriegues. Lavá el ojo con abundante suero o agua limpia, del lagrimal hacia afuera, hasta sacar lo que tengas. Parpadeá bajo el agua.",
     items: ["colirio", "suero fisiologico"],
     cuandoConsultar: "Si algo quedó clavado, ves borroso o hay mucho dolor: no lo fuerces, tapá el ojo y consultá." },
-  { id: "garganta", sintomas: ["garganta", "dolor de garganta", "me duele la garganta", "anginas", "faringitis"],
+  { id: "garganta", sintomas: ["garganta", "dolor de garganta", "me duele la garganta", "anginas", "faringitis", "me arde la garganta", "tengo anginas"],
     mensaje: "Hidratate con líquidos tibios, hacé gárgaras con agua tibia y sal, y descansá la voz. Un analgésico/antitérmico ayuda con el dolor y la fiebre.",
     items: ["paracetamol", "ibuprofeno"],
     cuandoConsultar: "Si te cuesta tragar o respirar, babeás, o hay fiebre alta que no baja: consultá." },
@@ -742,7 +742,7 @@ const CONSEJOS = [
     mensaje: "Contame un poco más así te ayudo mejor 🙏 ¿Qué sentís?\n• ¿Te duele algo? (cabeza, panza, garganta…)\n• ¿Fiebre, náuseas o mareo?\n• ¿Frío, falta de aire?\nTocá una opción o escribilo.",
     items: [],
     cuandoConsultar: "Si tenés dolor de pecho, te cuesta respirar, estás confundido o muy débil: pedí ayuda ya." },
-  { id: "resaca", sintomas: ["resaca", "caña", "estoy curado", "cruda", "goma", "tome mucho", "tomé mucho", "chuchaqui", "estoy crudo", "guayabo"],
+  { id: "resaca", sintomas: ["resaca", "caña", "estoy curado", "cruda", "goma", "tome mucho", "tomé mucho", "chuchaqui", "estoy crudo", "guayabo", "tengo caña", "tengo cruda", "estoy con resaca", "ando mal del trago"],
     mensaje: "Hidratate bien (agua y sales), comé algo liviano y descansá. Un analgésico ayuda con el dolor de cabeza. Evitá más alcohol.",
     items: ["sales de rehidratacion", "paracetamol", "ibuprofeno"],
     cuandoConsultar: "Vómitos que no paran, confusión, o no podés despertar bien a alguien: puede ser intoxicación, pedí ayuda." }

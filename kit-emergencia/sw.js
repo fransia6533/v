@@ -1,7 +1,7 @@
 /* Service worker: guarda la app en el teléfono para usarla SIN internet.
    Si cambiás archivos, subí el número de versión (CACHE) para forzar la
    actualización. */
-const CACHE = "kit-emergencia-v6";
+const CACHE = "kit-emergencia-v8";
 const ARCHIVOS = [
   "./",
   "./index.html",
@@ -34,8 +34,15 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
-  // Cache-first: prioriza lo guardado, ideal para uso offline en la montaña.
+  // Network-first: si hay señal, siempre trae la última versión y la guarda.
+  // Sin señal (montaña), usa lo guardado. Así no quedás con una versión vieja.
   e.respondWith(
-    caches.match(e.request).then((hit) => hit || fetch(e.request))
+    fetch(e.request)
+      .then((resp) => {
+        const copia = resp.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copia)).catch(() => {});
+        return resp;
+      })
+      .catch(() => caches.match(e.request))
   );
 });

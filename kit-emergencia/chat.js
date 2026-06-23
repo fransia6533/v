@@ -125,7 +125,12 @@
       cand.push({ objeto: it.objeto, tambien: it.tambien || "", _t: "item", _o: it }));
 
     const rank = window.Fuzzy.rankear(texto, cand);
-    const top = rank[0];
+    let top = rank[0];
+    // un ítem con match débil no debe ganarle a un síntoma/situación
+    if (top && top.item._t === "item" && top.score < 0.62) {
+      const alt = rank.find((r) => r.item._t !== "item" && r.score >= 0.45);
+      if (alt) top = alt;
+    }
 
     if (!top || top.score < 0.45) {
       botMsg("No estoy seguro de qué es 🤔. Probá decirlo de otra forma o más simple, por ejemplo: <i>\"me duele la cabeza\"</i>, <i>\"me mareo\"</i>, <i>\"me corté\"</i>.");
