@@ -98,6 +98,8 @@
     let html = (seguro ? "💊 " : "💊 Creo que buscás ") + `<b>${escapar(it.objeto)}</b>`;
     if (!it.validado) html += ` <span class="mini-aviso">⚠️ sin validar</span>`;
     html += `<div class="chat-info">`;
+    const calc = window.Paciente ? window.Paciente.calcular(it) : null;
+    if (calc) html += `<div><b>Dosis para tu peso:</b> ${escapar(calc)} ⚠️</div>`;
     if (it.dosis) html += `<div><b>Dosis/vía:</b> ${escapar(it.dosis)} · ${escapar(it.via || "")}</div>`;
     if (it.procedimiento) html += `<div><b>Qué hacer:</b> ${escapar(it.procedimiento)}</div>`;
     html += `</div><button class="btn chat-op" data-idx="${idx}">Ver detalle completo</button>`;
@@ -116,7 +118,10 @@
     if (!it.validado)
       html += '<div class="alerta-validar">⚠️ Pendiente de validar por el médico.</div>';
     if (it.tambien) html += campo("Otros nombres", it.tambien);
-    html += campo("Dosis (mg/cc) / cantidad", it.dosis);
+    const calc = window.Paciente ? window.Paciente.calcular(it) : null;
+    if (calc) html += `<div class="bloque dosis-calc"><h3>Dosis para tu peso</h3>${escapar(calc)} <span class="mini-aviso">⚠️ validar</span></div>`;
+    html += campo("Dosis fija", it.dosis);
+    if (it.dosisPorKg) html += campo("Dosis por kg (regla del médico)", it.dosisPorKg);
     html += campo("Vía", it.via);
     html += campo("Procedimiento", it.procedimiento);
     html += campo("Comentario del médico", it.comentario);
@@ -140,11 +145,12 @@
   }
 
   function editar(idx) {
-    const it = idx >= 0 ? datos[idx] : { objeto: "", tambien: "", dosis: "", via: "", procedimiento: "", comentario: "", validado: false };
+    const it = idx >= 0 ? datos[idx] : { objeto: "", tambien: "", dosis: "", dosisPorKg: "", via: "", procedimiento: "", comentario: "", validado: false };
     let html = `<h2>${idx >= 0 ? "Editar" : "Nuevo"} ítem</h2>`;
     html += inputCampo("Objeto / Medicamento", "f_objeto", it.objeto, false);
     html += inputCampo("Otros nombres / sinónimos (separados por coma)", "f_tambien", it.tambien || "", false);
-    html += inputCampo("Dosis (mg/cc) / cantidad", "f_dosis", it.dosis, false);
+    html += inputCampo("Dosis fija (mg/cc) / cantidad", "f_dosis", it.dosis, false);
+    html += inputCampo("Dosis por kg (ej: 10 mg/kg, máx 50 mg)", "f_dosisPorKg", it.dosisPorKg || "", false);
     html += inputCampo("Vía (masticable / inyectable / oral / uso externo)", "f_via", it.via, false);
     html += inputCampo("Procedimiento", "f_proc", it.procedimiento, true);
     html += inputCampo("Comentario del médico", "f_com", it.comentario, true);
@@ -157,6 +163,7 @@
         objeto: $("#f_objeto").value.trim(),
         tambien: $("#f_tambien").value.trim(),
         dosis: $("#f_dosis").value.trim(),
+        dosisPorKg: $("#f_dosisPorKg").value.trim(),
         via: $("#f_via").value.trim(),
         procedimiento: $("#f_proc").value.trim(),
         comentario: $("#f_com").value.trim(),
@@ -244,6 +251,7 @@
     const ci = {
       objeto: col(["objeto", "medicament", "nombre"]),
       tambien: col(["otros nombres", "sinonimo", "sinónimo", "alias"]),
+      dosisPorKg: col(["por kg", "por peso", "/kg", "mg/kg"]),
       dosis: col(["dosis", "cantidad", "mg"]),
       via: col(["via", "vía"]),
       procedimiento: col(["procedimiento", "proceso", "uso"]),
@@ -262,6 +270,7 @@
         objeto: obj,
         tambien: get("tambien"),
         dosis: get("dosis"),
+        dosisPorKg: get("dosisPorKg"),
         via: get("via"),
         procedimiento: get("procedimiento"),
         comentario: get("comentario"),

@@ -73,8 +73,8 @@
     const texto = normalizar(nombreCrudo + " " + (item.via || "") + " " + (item.procedimiento || "") + " " + (item.comentario || ""));
     if (!nombre) return 0;
 
-    // 1) substring directo en el nombre/sinónimos -> muy alto
-    if (nombre.includes(q) || (soloNombre && q.includes(soloNombre))) return 0.97;
+    // 1) substring directo en el nombre/sinónimos -> match completo
+    if (nombre.includes(q) || (soloNombre && q.includes(soloNombre))) return 1;
 
     const qWords = quitarRelleno(q.split(" "));
     const nWords = nombre.split(" ").filter(Boolean);
@@ -94,7 +94,12 @@
     // 4) similitud de la frase completa contra el nombre
     const scoreFrase = simPalabra(q.replace(/ /g, ""), nombre.replace(/ /g, ""));
 
-    return Math.max(scoreNombre, scoreFrase, scoreTexto * 0.85);
+    // 5) la MEJOR palabra clave suelta (ayuda con frases largas con relleno),
+    //    con peso menor para no dominar sobre el match de la frase entera
+    let mejorTok = 0;
+    qWords.forEach((qw) => { const s = mejorContra(qw, nWords); if (s > mejorTok) mejorTok = s; });
+
+    return Math.max(scoreNombre, scoreFrase, scoreTexto * 0.85, mejorTok * 0.85);
   }
 
   // Ordena los ítems por puntaje (de mayor a menor)

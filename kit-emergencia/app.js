@@ -31,23 +31,9 @@
     Triage.lista(filtro);
   }
 
-  // ===================== DATOS =====================
+  // ===================== DATOS (editable) =====================
   function pintarDatos() {
-    let html = '<dl class="datos">';
-    html += fila("Paciente", META.paciente);
-    html += fila("Altura", META.altura);
-    html += fila("Peso", META.peso);
-    html += fila("Grupo sanguíneo", META.grupoSanguineo);
-    html += fila("Alergias conocidas", META.alergiasConocidas);
-    html += fila("Contacto de emergencia", META.contactoEmergencia);
-    html += fila("Rescate de montaña", META.rescateMontana);
-    html += fila("Revisado por", META.revisadoPor);
-    html += fila("Fecha de revisión", META.fechaRevision);
-    html += "</dl>";
-    $("#datosContenido").innerHTML = html;
-  }
-  function fila(dt, dd) {
-    return `<dt>${escapar(dt)}</dt><dd>${escapar(dd)}</dd>`;
+    if (window.Paciente) Paciente.render();
   }
 
   // ===================== MODAL (compartido) =====================

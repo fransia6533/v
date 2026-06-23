@@ -16,7 +16,7 @@
 
   let estado = null; // { sit, nodeId, hist: [] }
 
-  // ---------- lista de situaciones (con búsqueda tolerante a errores) ----------
+  // ---------- lista (mezcla situaciones + ítems del botiquín, tolerante a errores) ----------
   function lista(filtro) {
     estado = null;
     const cont = $("#lista");
@@ -26,25 +26,64 @@
     const intro = document.createElement("p");
     intro.className = "hint-bot";
     intro.style.padding = "0 2px 4px";
-    intro.textContent = "Tocá lo que te pasó y te hago unas preguntas para guiarte.";
+    intro.textContent = q
+      ? "Resultados para «" + q + "»:"
+      : "Escribí qué te pasó (ej: me partí la pierna) o un medicamento (ej: adrenalina).";
     cont.appendChild(intro);
 
-    let situaciones;
+    let resultados;
     if (!q) {
-      situaciones = TRIAGE.slice();
+      resultados = TRIAGE.map((s) => ({ tipo: "sit", _sit: s }));
     } else {
-      const wrap = TRIAGE.map((s) => ({ objeto: s.titulo, tambien: (s.sintomas || []).join(", "), _sit: s }));
-      situaciones = Fuzzy.rankear(q, wrap).filter((x) => x.score >= 0.4).map((x) => x.item._sit);
-      if (situaciones.length === 0) situaciones = TRIAGE.slice();
+      const cand = [];
+      TRIAGE.forEach((s) => cand.push({ tipo: "sit", objeto: s.titulo, tambien: (s.sintomas || []).join(", "), _sit: s }));
+      const items = window.Botiquin ? window.Botiquin.datos() : [];
+      items.forEach((it) => cand.push({ tipo: "item", objeto: it.objeto, tambien: it.tambien || "", _item: it }));
+      resultados = Fuzzy.rankear(q, cand).filter((x) => x.score >= 0.4).map((x) => x.item);
+      if (resultados.length === 0) resultados = TRIAGE.map((s) => ({ tipo: "sit", _sit: s }));
     }
 
-    situaciones.forEach((s) => {
+    resultados.forEach((r) => {
       const btn = document.createElement("button");
-      btn.className = "tarjeta triage-card";
-      btn.textContent = s.titulo;
-      btn.addEventListener("click", () => empezar(s.id));
+      if (r.tipo === "item") {
+        btn.className = "tarjeta triage-card item-tag";
+        btn.innerHTML = `${esc(r._item.objeto)}<br><span class="etiqueta">💊 del botiquín — cómo usar</span>`;
+        btn.addEventListener("click", () => mostrarItem(r._item));
+      } else {
+        btn.className = "tarjeta triage-card";
+        btn.innerHTML = `${esc(r._sit.titulo)}<br><span class="etiqueta">🩹 te hago preguntas</span>`;
+        btn.addEventListener("click", () => empezar(r._sit.id));
+      }
       cont.appendChild(btn);
     });
+  }
+
+  // ---------- detalle de un ítem del botiquín (con dosis por peso) ----------
+  function mostrarItem(it) {
+    const cont = $("#lista");
+    cont.innerHTML = "";
+    const barra = document.createElement("div");
+    barra.className = "triage-barra";
+    const atras = document.createElement("button");
+    atras.className = "btn";
+    atras.textContent = "← Volver";
+    atras.addEventListener("click", () => lista(($("#busqueda") || {}).value || ""));
+    barra.appendChild(atras);
+    cont.appendChild(barra);
+
+    const calc = window.Paciente ? window.Paciente.calcular(it) : null;
+    let html = `<div class="triage-resultado"><h2>💊 ${esc(it.objeto)}</h2>`;
+    if (!it.validado) html += '<div class="alerta-validar">⚠️ Pendiente de validar por el médico.</div>';
+    if (calc) html += `<div class="bloque dosis-calc"><h3>Dosis para tu peso</h3>${esc(calc)} <span class="mini-aviso">⚠️ validar</span></div>`;
+    if (it.dosis) html += `<div class="bloque"><h3>Dosis</h3>${esc(it.dosis)}</div>`;
+    if (it.via) html += `<div class="bloque"><h3>Vía</h3>${esc(it.via)}</div>`;
+    if (it.procedimiento) html += `<div class="bloque"><h3>Cómo y dónde usar</h3>${esc(it.procedimiento)}</div>`;
+    if (it.comentario) html += `<div class="bloque"><h3>Comentario del médico</h3>${esc(it.comentario)}</div>`;
+    html += "</div>";
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    cont.appendChild(div);
+    window.scrollTo(0, 0);
   }
 
   function empezar(id) {

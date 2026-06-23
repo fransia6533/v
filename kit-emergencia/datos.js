@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.2 (borrador)",
+  version: "0.3 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -43,75 +43,235 @@ const META = {
    Las dosis están en blanco a propósito: las pone el médico.
    Contexto del paciente para las dosis: 190 cm · 105 kg · O negativo.
    -------------------------------------------------------------------------- */
+// Cada ítem: objeto, tambien(otros nombres), dosis(texto fijo),
+// dosisPorKg(ej "10 mg/kg, máx 50 mg" — la app calcula para tu peso),
+// via, procedimiento(cómo y DÓNDE usar), comentario, validado.
 const BOTIQUIN_DEFAULT = [
+  // ---------------- MEDICAMENTOS ----------------
   {
-    objeto: "Adrenalina (autoinyector / epinefrina)",
-    tambien: "epinefrina, epipen, autoinyector, alergia, anafilaxia",
-    dosis: "____ mg  ⚠️ VALIDAR",
-    via: "inyectable",
-    procedimiento: "Reacción alérgica grave (anafilaxia): inyectar en la cara lateral del muslo. Repetir a los ____ min si no mejora. SIEMPRE pedir rescate.",
-    comentario: "____ (a completar por el médico)",
-    validado: false
+    objeto: "Adrenalina (epinefrina) / autoinyector",
+    tambien: "epinefrina, epipen, autoinyector, anafilaxia, alergia grave, shock",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "____ mg/kg  ⚠️ VALIDAR",
+    via: "inyectable (intramuscular)",
+    procedimiento: "Anafilaxia. DÓNDE: en la cara lateral (externa) del muslo, perpendicular, atraviesa la ropa. Mantener 3 seg. Repetir a los ____ min si no mejora. SIEMPRE pedir rescate.",
+    comentario: "____ (dosis y repetición las define el médico)", validado: false
   },
   {
     objeto: "Antihistamínico",
-    tambien: "antialérgico, alergia, loratadina, difenhidramina, ronchas",
-    dosis: "____ mg  ⚠️ VALIDAR",
+    tambien: "antialérgico, alergia, loratadina, cetirizina, difenhidramina, ronchas, picazón",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "",
     via: "oral / masticable",
-    procedimiento: "Alergia leve. En anafilaxia: dar DESPUÉS de la adrenalina, nunca en lugar de.",
-    comentario: "____",
-    validado: false
+    procedimiento: "Alergia leve, picaduras, ronchas. En anafilaxia: DESPUÉS de la adrenalina, nunca en lugar de.",
+    comentario: "____", validado: false
   },
   {
-    objeto: "Analgésico / antiinflamatorio",
-    tambien: "ibuprofeno, paracetamol, aspirina, dolor, fiebre, calmante",
-    dosis: "____ mg cada ____ h  ⚠️ VALIDAR",
-    via: "oral",
-    procedimiento: "Dolor, fiebre, dolor de cabeza de altura. Respetar el tiempo entre tomas.",
-    comentario: "____",
-    validado: false
+    objeto: "Corticoide",
+    tambien: "dexametasona, prednisona, betametasona, antiinflamatorio fuerte, alergia, edema cerebral",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "____ mg/kg  ⚠️ VALIDAR",
+    via: "oral / inyectable",
+    procedimiento: "Alergia grave (tras adrenalina), inflamación, y en mal de altura grave (edema cerebral). Uso y dosis SOLO según el médico.",
+    comentario: "____", validado: false
   },
+  {
+    objeto: "Paracetamol",
+    tambien: "acetaminofeno, tylenol, fiebre, dolor",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "____ mg/kg  ⚠️ VALIDAR",
+    via: "oral",
+    procedimiento: "Dolor leve/moderado y fiebre. Respetar el tiempo entre tomas. No pasar la dosis máxima diaria.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Ibuprofeno",
+    tambien: "antiinflamatorio, dolor, golpe, esguince, fiebre, aine",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "____ mg/kg  ⚠️ VALIDAR",
+    via: "oral",
+    procedimiento: "Dolor con inflamación (golpes, esguinces), fiebre. Tomar con algo de comida. Cuidado si hay problemas de estómago/riñón.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Analgésico fuerte",
+    tambien: "tramadol, dolor intenso, fractura, calmante fuerte",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "",
+    via: "oral / inyectable",
+    procedimiento: "Dolor intenso (fractura, lesión grande). SOLO según indicación del médico; puede dar sueño/mareo.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Acetazolamida",
+    tambien: "diamox, mal de altura, soroche, prevención altura",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "",
+    via: "oral",
+    procedimiento: "Prevención y tratamiento del mal de altura. Empezar según indique el médico. No reemplaza el descenso si hay señales graves.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Antiemético (para vómitos)",
+    tambien: "metoclopramida, ondansetron, nausea, náuseas, vomito, vómito, mareo",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "",
+    via: "oral / inyectable",
+    procedimiento: "Náuseas y vómitos. Útil en altura y deshidratación.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Antidiarreico",
+    tambien: "loperamida, diarrea, suelto",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "",
+    via: "oral",
+    procedimiento: "Diarrea. Hidratar siempre. No usar si hay fiebre alta o sangre en las heces.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Antibiótico de amplio espectro",
+    tambien: "amoxicilina, azitromicina, ciprofloxacina, infección, herida infectada",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "____ mg/kg  ⚠️ VALIDAR",
+    via: "oral",
+    procedimiento: "Infecciones (heridas, respiratorias, digestivas). Cuál y cuánto SOLO según el médico. Ojo con alergias.",
+    comentario: "____ ⚠️ revisar alergia a antibióticos", validado: false
+  },
+  {
+    objeto: "Protector gástrico",
+    tambien: "omeprazol, acidez, estomago, estómago",
+    dosis: "____ mg  ⚠️ VALIDAR", dosisPorKg: "",
+    via: "oral",
+    procedimiento: "Acidez/malestar de estómago, y al usar antiinflamatorios varios días.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Sales de rehidratación oral",
+    tambien: "suero oral, rehidratacion, deshidratacion, electrolitos, diarrea, vomito",
+    dosis: "1 sobre en ____ ml de agua  ⚠️ VALIDAR", dosisPorKg: "",
+    via: "oral",
+    procedimiento: "Deshidratación por diarrea, vómitos o esfuerzo. Disolver en agua potable y tomar de a sorbos.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Inhalador broncodilatador",
+    tambien: "salbutamol, ventolin, asma, falta de aire, broncoespasmo, silbido",
+    dosis: "____ puff  ⚠️ VALIDAR", dosisPorKg: "",
+    via: "inhalado",
+    procedimiento: "Falta de aire con silbido / asma. Agitar, exhalar, inhalar profundo con el disparo, aguantar unos segundos.",
+    comentario: "____", validado: false
+  },
+  {
+    objeto: "Colirio / suero ocular",
+    tambien: "ojos, lavado ocular, cuerpo extraño, irritacion",
+    dosis: "—", dosisPorKg: "",
+    via: "ocular",
+    procedimiento: "Lavar el ojo con irritación o algo adentro. Enjuagar abundante desde el lagrimal hacia afuera.",
+    comentario: "", validado: false
+  },
+  // ---------------- INSUMOS / MATERIAL ----------------
   {
     objeto: "Gasas estériles",
-    dosis: "las necesarias",
+    tambien: "apósitos, compresas, herida, sangrado",
+    dosis: "las necesarias", dosisPorKg: "",
     via: "uso externo",
-    procedimiento: "Cubrir heridas y hacer presión directa sobre sangrados. Si se empapa, poner otra encima sin quitar la primera.",
-    comentario: "",
-    validado: false
+    procedimiento: "Cubrir heridas y hacer presión directa sobre sangrados. Si se empapa, poner otra ENCIMA sin quitar la primera.",
+    comentario: "", validado: false
   },
   {
-    objeto: "Vendas",
-    dosis: "—",
+    objeto: "Venda elástica",
+    tambien: "venda, vendaje, esguince, compresion, compresión, sujetar",
+    dosis: "—", dosisPorKg: "",
     via: "uso externo",
-    procedimiento: "Fijar gasas, inmovilizar, hacer presión. Sin cortar la circulación (el dedo debe seguir rosado).",
-    comentario: "",
-    validado: false
+    procedimiento: "Comprimir esguinces, sujetar gasas o férulas. Firme pero sin cortar la circulación (el dedo debe seguir rosado y tibio).",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Tela adhesiva / esparadrapo",
+    tambien: "cinta, micropore, tape, fijar",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Fijar gasas, vendas y apósitos.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Suturas adhesivas (Steri-Strips)",
+    tambien: "puntos de mariposa, cierre de herida, corte",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Cerrar cortes limpios sin necesidad de puntos. Aproximar los bordes y pegar tiras cruzadas.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Curitas / apósitos chicos",
+    tambien: "curita, banditas, tiritas, raspon, raspón, ampolla",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Heridas y raspones pequeños, ampollas.",
+    comentario: "", validado: false
   },
   {
     objeto: "Antiséptico",
     tambien: "desinfectante, povidona, yodo, clorhexidina, alcohol, herida",
-    dosis: "____  ⚠️ VALIDAR cuál",
+    dosis: "____  ⚠️ VALIDAR cuál", dosisPorKg: "",
     via: "uso externo",
-    procedimiento: "Desinfectar la herida ya limpia antes de cubrir.",
-    comentario: "____",
-    validado: false
-  },
-  {
-    objeto: "Manta térmica",
-    tambien: "manta de emergencia, aluminio, frío, hipotermia, abrigo",
-    dosis: "—",
-    via: "uso externo",
-    procedimiento: "Hipotermia/shock: envolver con el lado plateado hacia el cuerpo, junto con ropa seca.",
-    comentario: "",
-    validado: false
+    procedimiento: "Desinfectar la herida ya limpia, antes de cubrir.",
+    comentario: "____", validado: false
   },
   {
     objeto: "Suero fisiológico",
-    dosis: "—",
+    tambien: "solucion salina, solución salina, lavar herida, lavar ojo",
+    dosis: "—", dosisPorKg: "",
     via: "uso externo",
-    procedimiento: "Lavar heridas y ojos.",
-    comentario: "",
-    validado: false
+    procedimiento: "Lavar heridas y ojos, sacar tierra y restos.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Guantes",
+    tambien: "latex, látex, nitrilo, proteccion, protección",
+    dosis: "2-3 pares", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Ponételos antes de tocar sangre o heridas (te protege a vos y a la herida).",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Manta térmica",
+    tambien: "manta de emergencia, aluminio, frío, hipotermia, abrigo, shock",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Hipotermia/shock: envolver con el lado plateado hacia el cuerpo, junto con ropa seca.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Férula maleable (SAM splint)",
+    tambien: "ferula, férula, entablillar, fractura, inmovilizar, hueso",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Inmovilizar fracturas/esguinces. Moldear sobre el miembro lesionado y sujetar con vendas, dejando arriba y abajo de la lesión.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Torniquete",
+    tambien: "hemorragia grave, sangrado que no para, amputacion",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "SOLO si un brazo/pierna sangra y peligra la vida y la presión no alcanza. Colocar varios cm POR ENCIMA de la herida, apretar hasta que pare, y ANOTAR la hora.",
+    comentario: "____ ⚠️ técnica a validar con el médico", validado: false
+  },
+  {
+    objeto: "Tijera y pinza",
+    tambien: "tijeras, pinza, cortar, astilla, garrapata, espina",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Cortar vendas/ropa y sacar astillas, espinas o garrapatas.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Termómetro",
+    tambien: "fiebre, temperatura",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Medir la temperatura para ver si hay fiebre o hipotermia.",
+    comentario: "", validado: false
+  },
+  {
+    objeto: "Jeringa y aguja",
+    tambien: "inyeccion, inyección, lavar herida, adrenalina ampolla",
+    dosis: "—", dosisPorKg: "",
+    via: "uso externo",
+    procedimiento: "Para inyectar medicación (si no es autoinyector) o lavar heridas a presión. Uso según el médico.",
+    comentario: "____", validado: false
   }
 ];
 
@@ -119,9 +279,10 @@ const BOTIQUIN_DEFAULT = [
 const BOTIQUIN_COLUMNAS = [
   { id: "objeto", titulo: "Objeto / Medicamento" },
   { id: "tambien", titulo: "Otros nombres / sinónimos" },
-  { id: "dosis", titulo: "Dosis (mg/cc) / cantidad" },
+  { id: "dosis", titulo: "Dosis fija (mg/cc) / cantidad" },
+  { id: "dosisPorKg", titulo: "Dosis por peso (ej: 10 mg/kg, máx 50 mg)" },
   { id: "via", titulo: "Vía (masticable/inyectable/oral...)" },
-  { id: "procedimiento", titulo: "Procedimiento" },
+  { id: "procedimiento", titulo: "Procedimiento (cómo y dónde usar)" },
   { id: "comentario", titulo: "Comentario del médico" },
   { id: "validado", titulo: "Validado (sí/no)" }
 ];
@@ -137,7 +298,7 @@ const TRIAGE = [
   {
     id: "rodilla",
     titulo: "Me doblé / golpeé la rodilla o el tobillo",
-    sintomas: ["rodilla", "tobillo", "torcedura", "esguince", "doblar", "torcer", "torci", "articulacion", "ligamento", "pie", "pierna"],
+    sintomas: ["rodilla", "tobillo", "torcedura", "esguince", "doblar", "torcer", "torci", "articulacion", "ligamento", "pie", "no puedo caminar", "no puedo apoyar", "cojeo", "me cai", "me caí"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿La pierna o el pie se ve torcido/deformado, o el hueso asoma?",
@@ -164,6 +325,32 @@ const TRIAGE = [
         "Probá caminar con cuidado; evitá terreno difícil hasta que afloje.",
         "Si más tarde se hincha o duele más, aplicá RICE y tratalo como esguince." ],
         cuandoBajar: "Si empeora con las horas o no mejora, consultá." } }
+    }
+  },
+  {
+    id: "hueso",
+    titulo: "Me partí / quebré un hueso (brazo o pierna)",
+    sintomas: ["hueso", "fractura", "fracture", "quebre", "quebré", "parti", "partí", "rompi", "rompí", "roto", "brazo", "pierna", "muñeca", "tobillo roto", "hueso roto", "no puedo mover"],
+    inicio: "q1",
+    nodos: {
+      q1: { pregunta: "¿El hueso asoma por la piel o hay una herida abierta sobre el golpe?",
+        opciones: [{ texto: "Sí (hueso/herida abierta)", ir: "expuesta" }, { texto: "No, la piel está entera", ir: "q2" }] },
+      q2: { pregunta: "¿El miembro se ve torcido/deformado, no lo podés mover, o el dolor es muy intenso?",
+        opciones: [{ texto: "Sí", ir: "cerrada" }, { texto: "No estoy seguro", ir: "cerrada" }] },
+      expuesta: { resultado: { nivel: "alta", titulo: "Fractura expuesta (hueso visible)", pasos: [
+        "No empujes el hueso hacia adentro ni lo laves a fondo.",
+        "Cubrí la herida con gasa estéril (humedecida con suero si tenés) para que no se seque.",
+        "Controlá el sangrado con presión alrededor (no encima del hueso).",
+        "Inmovilizá tal como quedó, sin enderezar, sujetando por arriba y por debajo.",
+        "Pedí rescate urgente. Analgésico fuerte solo si está validado." ],
+        cuandoBajar: "Siempre: emergencia. Evacuación urgente (riesgo de infección y sangrado)." } },
+      cerrada: { resultado: { nivel: "alta", titulo: "Posible fractura cerrada", pasos: [
+        "No fuerces ni intentes 'acomodar' el hueso.",
+        "Inmovilizá con una férula/bastón/ramas y vendas, sujetando la articulación de arriba y la de abajo.",
+        "Frío si tenés (envuelto, nunca directo) y mantené el miembro quieto y elevado.",
+        "Revisá que la mano/pie siga con color, calor y sensibilidad. Si se pone frío/pálido/azul, aflojá el vendaje.",
+        "Analgésico según tu botiquín y validado. Pedí ayuda para evacuar." ],
+        cuandoBajar: "Evacuar: con una fractura no podés seguir la actividad. Urgente si el miembro se pone frío/pálido/sin sensibilidad." } }
     }
   },
   {
