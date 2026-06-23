@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.8 (borrador)",
+  version: "0.9 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -298,7 +298,7 @@ const TRIAGE = [
   {
     id: "rodilla",
     titulo: "Me doblé / golpeé la rodilla o el tobillo",
-    sintomas: ["rodilla", "tobillo", "torcedura", "esguince", "doblar", "torcer", "torci", "articulacion", "ligamento", "pie", "no puedo caminar", "no puedo apoyar", "cojeo", "me cai", "me caí"],
+    sintomas: ["rodilla", "tobillo", "torcedura", "esguince", "doblar", "torcer", "torci", "me torci", "articulacion", "ligamento", "no puedo caminar", "no puedo apoyar", "cojeo", "me cai", "me caí", "me cai de rodillas", "me cai fuerte", "me resbale y me cai", "tuve una caida", "me dobles", "se me torcio", "me torci el tobillo", "me dobles la rodilla"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿La pierna o el pie se ve torcido/deformado, o el hueso asoma?",
@@ -329,8 +329,8 @@ const TRIAGE = [
   },
   {
     id: "hueso",
-    titulo: "Me partí / quebré un hueso (brazo o pierna)",
-    sintomas: ["hueso", "fractura", "fracture", "quebre", "quebré", "parti", "partí", "rompi", "rompí", "roto", "brazo", "pierna", "muñeca", "tobillo roto", "hueso roto", "no puedo mover"],
+    titulo: "Me rompí o quebré un hueso (fractura)",
+    sintomas: ["hueso", "fractura", "fracture", "me fracture", "quebre", "quebré", "me quebre", "parti", "partí", "me parti", "rompi", "rompí", "me rompi", "roto", "hueso roto", "no puedo mover", "creo que me quebre", "se me rompio", "me quebre un hueso", "me parti un hueso", "se me rompio un hueso"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿El hueso asoma por la piel o hay una herida abierta sobre el golpe?",
@@ -431,7 +431,7 @@ const TRIAGE = [
   {
     id: "frio",
     titulo: "Frío extremo / no entra en calor",
-    sintomas: ["frio", "frío", "hipotermia", "congelacion", "congelación", "tiritar", "temblar", "helado", "nieve", "dedos blancos", "no siento las manos", "manos", "dedos", "hormigueo", "entumecido", "entumecidas", "manos dormidas", "dedos dormidos", "sin sensibilidad", "estoy helado"],
+    sintomas: ["frio", "frío", "hipotermia", "congelacion", "congelación", "tiritar", "temblar", "helado", "nieve", "dedos blancos", "no siento las manos", "no siento los dedos", "no siento el pie", "no siento los pies", "no siento la mano", "manos", "dedos", "hormigueo", "entumecido", "entumecidas", "manos dormidas", "dedos dormidos", "sin sensibilidad", "estoy helado", "dedo negro", "dedos negros", "se me puso negro el dedo", "dedos morados", "tengo los dedos morados", "se me congelaron los dedos"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Está confundido, habla raro, deja de tiritar, se adormece o camina como borracho?",
