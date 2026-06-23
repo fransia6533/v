@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.4 (borrador)",
+  version: "0.5 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -431,7 +431,7 @@ const TRIAGE = [
   {
     id: "frio",
     titulo: "Frío extremo / no entra en calor",
-    sintomas: ["frio", "frío", "hipotermia", "congelacion", "congelación", "tiritar", "temblar", "helado", "nieve", "dedos blancos"],
+    sintomas: ["frio", "frío", "hipotermia", "congelacion", "congelación", "tiritar", "temblar", "helado", "nieve", "dedos blancos", "no siento las manos", "manos", "dedos", "hormigueo", "entumecido", "entumecidas", "manos dormidas", "dedos dormidos", "sin sensibilidad", "estoy helado"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Está confundido, habla raro, deja de tiritar, se adormece o camina como borracho?",
@@ -571,7 +571,7 @@ const CONSEJOS = [
     mensaje: "Hidratate bien, descansá y no te abrigues de más. Del botiquín, un antitérmico ayuda a bajar la fiebre.",
     items: ["paracetamol", "ibuprofeno"],
     cuandoConsultar: "Fiebre alta que no baja, con rigidez de nuca, confusión, dificultad para respirar, o que dura varios días: consultá / bajá." },
-  { id: "panza", sintomas: ["panza", "estomago", "estómago", "dolor abdominal", "barriga", "acidez", "me duele la panza", "parte baja"],
+  { id: "panza", sintomas: ["panza", "estomago", "estómago", "dolor abdominal", "barriga", "acidez", "me duele la panza", "dolor de barriga"],
     mensaje: "Tomá líquidos de a sorbos, comé liviano y evitá grasas y alcohol. Si es acidez o ardor, un protector gástrico ayuda.",
     items: ["protector gastrico", "antiemetico"],
     cuandoConsultar: "Dolor muy fuerte que no afloja, con fiebre, vómitos con sangre, o panza dura: puede ser serio, pedí ayuda." },

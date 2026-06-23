@@ -43,7 +43,8 @@
 
   // Palabras comunes que no aportan ("me doblé la rodilla" -> "doble rodilla")
   const STOP = new Set(("me mi mis te se le lo la el los las un una unos unas y o de del en con que por para al a su tu tus yo " +
-    "debo hacer tengo tiene esta este eso esa muy mucho mucha mas más como cuando si no es ha he").split(" "));
+    "debo hacer tengo tiene esta este eso esa muy mucho mucha mas más como cuando si no es ha he " +
+    "siento sienten estoy ando onda dame quiero necesito tener algo un poco re").split(" "));
   function quitarRelleno(palabras) {
     const filtradas = palabras.filter((w) => w.length >= 2 && !STOP.has(w));
     return filtradas.length ? filtradas : palabras.filter((w) => w.length >= 2);
@@ -77,8 +78,8 @@
     if (nombre.includes(q) || (soloNombre && q.includes(soloNombre))) return 1;
 
     const qWords = quitarRelleno(q.split(" "));
-    const nWords = nombre.split(" ").filter(Boolean);
-    const tWords = texto.split(" ").filter(Boolean);
+    const nWords = quitarRelleno(nombre.split(" "));
+    const tWords = quitarRelleno(texto.split(" "));
     if (qWords.length === 0) return 0;
 
     // 2) similitud por palabra contra el NOMBRE (lo más importante)
@@ -94,12 +95,17 @@
     // 4) similitud de la frase completa contra el nombre
     const scoreFrase = simPalabra(q.replace(/ /g, ""), nombre.replace(/ /g, ""));
 
-    // 5) la MEJOR palabra clave suelta (ayuda con frases largas con relleno),
-    //    con peso menor para no dominar sobre el match de la frase entera
+    // 5) mejor palabra suelta contra TODO el texto (sinónimos/síntomas) -> peso menor
     let mejorTok = 0;
     qWords.forEach((qw) => { const s = mejorContra(qw, nWords); if (s > mejorTok) mejorTok = s; });
 
-    return Math.max(scoreNombre, scoreFrase, scoreTexto * 0.85, mejorTok * 0.85);
+    // 6) mejor palabra suelta contra el NOMBRE principal (ej "adrenalina") -> peso mayor,
+    //    para que un nombre propio gane a una palabra genérica de un síntoma
+    const sWords = quitarRelleno(soloNombre.split(" "));
+    let mejorTokName = 0;
+    qWords.forEach((qw) => { const s = mejorContra(qw, sWords); if (s > mejorTokName) mejorTokName = s; });
+
+    return Math.max(scoreNombre, scoreFrase, scoreTexto * 0.85, mejorTok * 0.85, mejorTokName * 0.9);
   }
 
   // Ordena los ítems por puntaje (de mayor a menor)
