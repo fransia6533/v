@@ -1,0 +1,39 @@
+name: Publicar Kit de Emergencia en GitHub Pages
+
+on:
+  push:
+    branches: ["claude/offline-ai-emergency-kit-7kyhlk"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar y habilitar Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Subir la carpeta de la app
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: kit-emergencia
+
+      - name: Desplegar en Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
