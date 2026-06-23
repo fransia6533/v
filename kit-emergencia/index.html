@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#b00020" />
+  <title>Kit de Emergencia · Alta Montaña</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="apple-touch-icon" href="icono.png" />
+</head>
+<body>
+  <header>
+    <h1>🏔️ Kit de Emergencia</h1>
+    <p class="sub">Guía offline · Alta montaña</p>
+  </header>
+
+  <!-- Aviso de seguridad -->
+  <div id="aviso" class="aviso">
+    <strong>⚠️ Importante:</strong> esta guía es una ayuda, no reemplaza al rescate
+    profesional. Ante cualquier duda, pedí ayuda. Contenido a validar por tu médico.
+    <button id="cerrarAviso" aria-label="Cerrar aviso">✕</button>
+  </div>
+
+  <!-- Botón pánico / datos rápidos -->
+  <button id="btnDatos" class="datos-rapidos">📋 Mis datos y rescate</button>
+
+  <!-- Buscador -->
+  <div class="buscador">
+    <input id="busqueda" type="search" inputmode="search"
+           placeholder="¿Qué pasó? Ej: sangra, alergia, frío…"
+           autocomplete="off" />
+  </div>
+
+  <!-- Lista de escenarios (botones grandes) -->
+  <main id="lista" class="lista"></main>
+
+  <!-- Glosario de ítems -->
+  <section class="seccion-items">
+    <h2>🎒 Ítems del kit</h2>
+    <div id="listaItems" class="items"></div>
+  </section>
+
+  <!-- Detalle (se abre como pantalla completa) -->
+  <div id="detalle" class="detalle oculto" role="dialog" aria-modal="true">
+    <button id="volver" class="volver">← Volver</button>
+    <div id="detalleContenido"></div>
+  </div>
+
+  <footer>
+    <span id="estadoOffline">Comprobando modo offline…</span>
+    <span id="versionApp"></span>
+  </footer>
+
+  <script src="datos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

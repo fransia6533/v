@@ -1,0 +1,19 @@
+{
+  "name": "Kit de Emergencia · Alta Montaña",
+  "short_name": "Kit Emergencia",
+  "description": "Guía offline para usar el kit de primeros auxilios en alta montaña.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1115",
+  "theme_color": "#b00020",
+  "icons": [
+    {
+      "src": "icono.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
