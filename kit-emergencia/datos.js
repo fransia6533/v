@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "0.5 (borrador)",
+  version: "0.6 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -554,6 +554,93 @@ const TRIAGE = [
         "Si no cede, se repite o empeora, bajá y consultá." ],
         cuandoBajar: "Si el dolor es fuerte/opresivo o cuesta respirar en reposo: emergencia." } }
     }
+  },
+  {
+    id: "atragantamiento",
+    titulo: "Me atraganté / alguien se ahoga con comida",
+    sintomas: ["atragantado", "atragante", "me atragante", "ahogando con comida", "se ahoga", "atragantamiento", "se atoro", "atorado", "se ahoga con comida"],
+    inicio: "q1",
+    nodos: {
+      q1: { pregunta: "¿Puede toser, hablar o respirar?",
+        opciones: [{ texto: "Sí, tose o habla", ir: "leve" }, { texto: "No / se pone morado", ir: "q2" }] },
+      q2: { pregunta: "¿Sigue consciente?",
+        opciones: [{ texto: "Sí, consciente", ir: "heimlich" }, { texto: "No, se desmayó", ir: "rcp" }] },
+      leve: { resultado: { nivel: "media", titulo: "Obstrucción leve", pasos: [
+        "Animalo a TOSER fuerte: la tos es lo que mejor saca el objeto.",
+        "No le pegues en la espalda mientras pueda toser bien.",
+        "Quedate al lado, vigilando, hasta que lo expulse." ],
+        cuandoBajar: "Si deja de poder toser o respirar, pasá a las maniobras y pedí ayuda." } },
+      heimlich: { resultado: { nivel: "alta", titulo: "Atragantamiento (consciente)", pasos: [
+        "Pedí ayuda a gritos.",
+        "Dale 5 palmadas firmes entre los omóplatos, inclinándolo hacia adelante.",
+        "Si no sale: maniobra de Heimlich — abrazalo por detrás, un puño sobre el ombligo, y 5 compresiones hacia adentro y arriba.",
+        "Alterná 5 palmadas y 5 compresiones hasta que salga o deje de responder." ],
+        cuandoBajar: "Emergencia: pedí rescate ya. Si se desmaya, empezá RCP." } },
+      rcp: { resultado: { nivel: "alta", titulo: "Se desmayó atragantado", pasos: [
+        "Bajalo al suelo con cuidado y pedí rescate YA.",
+        "Empezá RCP: compresiones fuertes en el centro del pecho (100-120 por minuto).",
+        "Antes de cada soplo, mirá la boca y sacá el objeto SOLO si lo ves.",
+        "Seguí hasta que respire o llegue ayuda." ],
+        cuandoBajar: "Emergencia máxima." } }
+    }
+  },
+  {
+    id: "mordedura",
+    titulo: "Me mordió un animal / una víbora",
+    sintomas: ["mordedura", "me mordio", "mordida", "vibora", "víbora", "serpiente", "perro", "animal", "araña", "arana", "alacran", "alacrán", "escorpion", "me pico una araña"],
+    inicio: "q1",
+    nodos: {
+      q1: { pregunta: "¿Fue una víbora/serpiente o un bicho venenoso (araña, alacrán)?",
+        opciones: [{ texto: "Sí (víbora / veneno)", ir: "vibora" }, { texto: "No (perro u otro animal)", ir: "animal" }] },
+      vibora: { resultado: { nivel: "alta", titulo: "Mordedura/picadura venenosa", pasos: [
+        "Quedate lo más quieto posible y mantené la zona POR DEBAJO del nivel del corazón.",
+        "NO cortes, NO chupes, NO pongas torniquete, NO hielo.",
+        "Sacá anillos, reloj y ropa ajustada (la zona se hincha).",
+        "Limpiá suave con agua, cubrí, y anotá la hora y cómo era el animal.",
+        "Pedí rescate URGENTE y evacuá sin hacer esfuerzo." ],
+        cuandoBajar: "Siempre: emergencia, puede necesitar antiveneno." } },
+      animal: { resultado: { nivel: "media", titulo: "Mordedura de animal", pasos: [
+        "Lavá la herida con abundante agua y jabón varios minutos.",
+        "Controlá el sangrado con presión y cubrí con gasa.",
+        "Aplicá antiséptico: las mordeduras se infectan fácil.",
+        "Averiguá si el animal estaba vacunado (rabia)." ],
+        cuandoBajar: "Mordedura profunda, en cara/manos, que sangra mucho, o animal salvaje/desconocido: consultá (rabia, tétanos, antibiótico)." } }
+    }
+  },
+  {
+    id: "convulsion",
+    titulo: "Alguien está convulsionando (ataque)",
+    sintomas: ["convulsion", "convulsión", "convulsionando", "ataque", "epilepsia", "convulsiona", "esta temblando todo", "le agarro un ataque"],
+    inicio: "r",
+    nodos: {
+      r: { resultado: { nivel: "alta", titulo: "Convulsión", pasos: [
+        "NO lo sujetes ni le metas nada en la boca.",
+        "Despejá alrededor para que no se golpee; poné algo blando bajo la cabeza.",
+        "Cuando pare, ponelo de costado (posición de recuperación).",
+        "Tomá el tiempo que dura y quedate hasta que despierte del todo." ],
+        cuandoBajar: "Dura más de 5 min, se repite, no despierta, es la primera vez, o fue en el agua o con un golpe: emergencia." } }
+    }
+  },
+  {
+    id: "panico",
+    titulo: "Ataque de pánico / no puedo respirar de los nervios",
+    sintomas: ["panico", "pánico", "ansiedad", "ataque de panico", "hiperventilo", "no puedo respirar de los nervios", "angustia", "me agito", "crisis de nervios"],
+    inicio: "q1",
+    nodos: {
+      q1: { pregunta: "¿Apareció de golpe con miedo/nervios, y NO hay golpe, alergia ni asma de por medio?",
+        opciones: [{ texto: "Sí, fue de los nervios", ir: "panico" }, { texto: "No estoy seguro", ir: "descartar" }] },
+      panico: { resultado: { nivel: "baja", titulo: "Crisis de ansiedad", pasos: [
+        "Buscá un lugar tranquilo. Recordá: pasa, no es peligroso.",
+        "Respirá lento: inhalá 4 segundos, sostené 4, exhalá 6. Repetí.",
+        "Aflojá los hombros, apoyá los pies en el piso, nombrá 5 cosas que ves.",
+        "Acompañá a la persona con calma." ],
+        cuandoBajar: "Si hay dolor de pecho real, se desmaya, o no mejora en un rato: tratalo como problema de corazón/respiratorio y pedí ayuda." } },
+      descartar: { resultado: { nivel: "media", titulo: "Mejor descartá algo físico", pasos: [
+        "Si hay falta de aire con silbido: puede ser asma, usá el inhalador.",
+        "Si hay dolor de pecho opresivo o sudor frío: posible problema de corazón, pedí ayuda.",
+        "Si nada de eso, tratalo como crisis de ansiedad: respiración lenta y calma." ],
+        cuandoBajar: "Dolor de pecho, desmayo o falta de aire que no cede: emergencia." } }
+    }
   }
 ];
 
@@ -614,7 +701,39 @@ const CONSEJOS = [
   { id: "quemadura-sol", sintomas: ["quemadura de sol", "me queme con el sol", "piel roja", "ardor sol", "quemado del sol"],
     mensaje: "Salí del sol, enfriá con agua, hidratá la piel y tomá líquidos. No revientes ampollas.",
     items: ["paracetamol"],
-    cuandoConsultar: "Quemaduras con muchas ampollas, fiebre, o en zonas grandes: consultá." }
+    cuandoConsultar: "Quemaduras con muchas ampollas, fiebre, o en zonas grandes: consultá." },
+  { id: "sangrado-nariz", sintomas: ["sangra la nariz", "sangrado de nariz", "epistaxis", "me sangra la nariz", "sangre por la nariz", "hemorragia nasal"],
+    mensaje: "Sentate e inclinate un poco hacia ADELANTE (no hacia atrás). Apretá la parte blanda de la nariz con dos dedos, sin soltar, 10 minutos seguidos, respirando por la boca. Frío en la nuca o el puente de la nariz ayuda.",
+    items: ["gasas"],
+    cuandoConsultar: "Si no para después de 20 min apretando, fue por un golpe fuerte, o sangra mucho y te sentís débil: pedí ayuda." },
+  { id: "muela", sintomas: ["muela", "diente", "dolor de muela", "dolor de diente", "me duele la muela", "me duele el diente"],
+    mensaje: "Enjuagá con agua tibia con sal, sacá restos de comida con cuidado y poné frío en la mejilla. Un analgésico ayuda con el dolor.",
+    items: ["ibuprofeno", "paracetamol"],
+    cuandoConsultar: "Hinchazón grande en la cara, fiebre, o dolor que no cede: necesitás un dentista/médico." },
+  { id: "calambre", sintomas: ["calambre", "calambres", "se me acalambro", "pierna acalambrada", "me acalambre"],
+    mensaje: "Pará, estirá suave el músculo y masajealo. Hidratate con agua y sales — los calambres suelen ser por esfuerzo, calor o falta de sales.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Calambres muy seguidos con mucha debilidad o confusión: puede ser deshidratación seria." },
+  { id: "hipoglucemia", sintomas: ["bajon de azucar", "azucar baja", "hipoglucemia", "tembloroso", "sudor frio", "me siento debil", "flojo y tembloroso", "hambre y mareo"],
+    mensaje: "Si estás tembloroso, con sudor frío, débil o con mucha hambre, puede ser el azúcar bajo. Sentate y tomá algo dulce YA (azúcar, jugo, caramelo, chocolate). A los 15 min comé algo más sólido.",
+    items: [],
+    cuandoConsultar: "Si te desmayás, no podés tragar, o no mejorás con el azúcar: emergencia, pedí ayuda." },
+  { id: "ojo", sintomas: ["ojo", "algo en el ojo", "me entro algo al ojo", "ojo irritado", "ojo rojo", "basura en el ojo", "tierra en el ojo"],
+    mensaje: "No te refriegues. Lavá el ojo con abundante suero o agua limpia, del lagrimal hacia afuera, hasta sacar lo que tengas. Parpadeá bajo el agua.",
+    items: ["colirio", "suero fisiologico"],
+    cuandoConsultar: "Si algo quedó clavado, ves borroso o hay mucho dolor: no lo fuerces, tapá el ojo y consultá." },
+  { id: "garganta", sintomas: ["garganta", "dolor de garganta", "me duele la garganta", "anginas", "faringitis"],
+    mensaje: "Hidratate con líquidos tibios, hacé gárgaras con agua tibia y sal, y descansá la voz. Un analgésico/antitérmico ayuda con el dolor y la fiebre.",
+    items: ["paracetamol", "ibuprofeno"],
+    cuandoConsultar: "Si te cuesta tragar o respirar, babeás, o hay fiebre alta que no baja: consultá." },
+  { id: "oido", sintomas: ["oido", "oído", "dolor de oido", "me duele el oido", "otitis"],
+    mensaje: "Calor suave sobre la oreja (paño tibio) y un analgésico para el dolor. No metas nada (ni hisopos ni agua) dentro del oído.",
+    items: ["ibuprofeno", "paracetamol"],
+    cuandoConsultar: "Fiebre alta, mucho dolor, o supura líquido/sangre: consultá médico." },
+  { id: "astilla", sintomas: ["astilla", "espina", "me clave una astilla", "me clave una espina", "clavada", "se me clavo"],
+    mensaje: "Lavá la zona y tus manos. Con una pinza desinfectada, sacá la astilla en el mismo ángulo en que entró. Lavá de nuevo y poné antiséptico.",
+    items: ["pinza", "antiseptico", "curitas"],
+    cuandoConsultar: "Si quedó muy adentro, no sale, o se infecta (rojo, hinchado, con pus): consultá." }
 ];
 
 /* Ítems del botiquín recomendados para cada situación grave (por id de TRIAGE). */
@@ -628,7 +747,11 @@ const SITUACION_ITEMS = {
   altura: ["acetazolamida", "antiemetico"],
   quemadura: ["gasas", "suero fisiologico"],
   inconsciente: [],
-  pecho: []
+  pecho: [],
+  atragantamiento: [],
+  mordedura: ["antiseptico", "gasas", "antibiotico"],
+  convulsion: [],
+  panico: ["inhalador"]
 };
 
 /* --------------------------------------------------------------------------
