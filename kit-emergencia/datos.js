@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.7 (borrador)",
+  version: "1.8 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -815,6 +815,50 @@ const CONSEJOS = [
     mensaje: "⚠️ Si cocinaste o usaste calentador/estufa en una carpa o refugio CERRADO y te dio dolor de cabeza, mareo o náuseas, puede ser monóxido de carbono (no se ve ni se huele): SALÍ al aire libre YA y ventilá todo. Nunca uses cocina o estufa a combustión dentro de un espacio cerrado.",
     items: [],
     cuandoConsultar: "Si alguien se desmaya, está muy confundido o no despierta: sacalo al aire libre de inmediato y pedí rescate." },
+  { id: "acv", sintomas: ["se le tuerce la cara", "tiene la boca chueca", "no puede hablar", "habla raro", "no mueve un brazo", "no mueve un lado del cuerpo", "se le cayo la cara", "perdio fuerza en un lado", "cara torcida", "no puede levantar el brazo", "se le traba la lengua", "derrame cerebral", "acv", "se le durmio media cara", "no le sale hablar"],
+    mensaje: "⚠️ Cara torcida, no poder hablar bien o no mover un lado del cuerpo son señales de ACV (derrame). Es una EMERGENCIA: fijate y anotá la HORA en que empezó, no le des de comer ni beber, recostalo de costado con la cabeza un poco elevada y pedí rescate URGENTE. Cada minuto cuenta.",
+    items: [],
+    cuandoConsultar: "Cualquiera de esas señales = rescate inmediato. No esperes a ver si se pasa: mientras antes lo atiendan, mejor." },
+  { id: "asma", sintomas: ["ataque de asma", "soy asmatico y me falta el aire", "silbo al respirar", "tengo asma y me ahogo", "no puedo respirar y silbo", "me falta el aire y pita el pecho", "crisis de asma", "broncoespasmo", "me agarro el asma", "tengo asma y no puedo respirar"],
+    mensaje: "Sentate derecho y tratá de calmarte. Usá el inhalador (salbutamol/Ventolin): unos 2 disparos, esperá unos minutos y repetí si hace falta según la indicación. Respirá lento, con los labios casi cerrados al soltar el aire. Alejate del humo, el polvo y el frío fuerte.",
+    items: ["inhalador"],
+    cuandoConsultar: "Si el inhalador no hace efecto, los labios o las uñas se ponen azules, no puede hablar de corrido o se agota: emergencia, rescate." },
+  { id: "costilla", sintomas: ["me rompi una costilla", "me duele al respirar despues del golpe", "creo que me quebre una costilla", "me duele una costilla al respirar", "golpe en las costillas", "me fracture una costilla", "me pegue en las costillas", "me duele al respirar tras el golpe en el costado"],
+    mensaje: "Una costilla golpeada o rota duele mucho al respirar y toser. NO te vendes el pecho apretado (empeora la respiración). Respirá normal aunque moleste, tomá un analgésico y aplicá frío sobre la zona. Evitá esfuerzos y cargar peso.",
+    items: ["ibuprofeno", "analgesico fuerte"],
+    cuandoConsultar: "Mucha falta de aire, dolor de pecho intenso, toser sangre, o si el golpe fue muy fuerte: puede haber daño en el pulmón, pedí rescate." },
+  { id: "amputacion", sintomas: ["me corte un dedo entero", "se me corto el dedo", "me amputaron", "perdi un dedo", "me corte la punta del dedo", "me corte un dedo completo", "se me corto un dedo", "casi me corto el dedo", "me corte un pedazo de dedo", "amputacion"],
+    mensaje: "⚠️ Si se cortó una parte (un dedo, etc.): primero controlá el sangrado con presión firme, o torniquete si es mucho. Guardá la parte cortada envuelta en gasa limpia y húmeda, dentro de una bolsa, y esa bolsa dentro de otra con agua y hielo (NO pongas la parte directo sobre el hielo). Llevala con la persona. Rescate urgente.",
+    items: ["torniquete", "gasas", "manta termica"],
+    cuandoConsultar: "Sangrado que no se frena o amputación grande: torniquete y rescate YA." },
+  { id: "dedo-machucado", sintomas: ["me machuque el dedo", "me aplaste el dedo", "me pille el dedo con la puerta", "me golpee el dedo con el martillo", "me machuque la uña", "se me puso negra la uña", "me reviente el dedo", "me agarre el dedo", "me aplaste la uña", "tengo la uña morada de un golpe"],
+    mensaje: "Machucón de dedo: poné frío (hielo en un paño, no directo) 15-20 minutos, mantené la mano en alto y tomá un analgésico. Si la uña quedó morada y duele por la presión de la sangre, un médico puede aliviarla; no te la arranques.",
+    items: ["ibuprofeno", "paracetamol"],
+    cuandoConsultar: "Si el dedo queda torcido, no lo podés mover o el dolor es insoportable: puede haber fractura, consultá." },
+  { id: "garrapata", sintomas: ["tengo una garrapata", "se me pego una garrapata", "me pico una garrapata", "como saco una garrapata", "tengo un bicho pegado en la piel", "garrapata", "se me prendio una garrapata"],
+    mensaje: "Sacá la garrapata con una pinza, agarrándola lo más cerca de la piel posible y tirando firme y derecho, sin retorcer ni aplastarla. Desinfectá después con antiséptico. No uses fuego, alcohol ni cremas para que se suelte. Guardala por si hay que mostrarla.",
+    items: ["tijera y pinza", "antiseptico"],
+    cuandoConsultar: "Si después aparece una mancha roja en forma de diana, fiebre o dolores en el cuerpo: consultá, algunas garrapatas transmiten enfermedades." },
+  { id: "apendicitis", sintomas: ["dolor fuerte abajo a la derecha de la panza", "me duele mucho la parte baja derecha", "dolor de panza que no para y a la derecha", "creo que es apendicitis", "apendicitis", "dolor abdominal intenso a la derecha", "me duele abajo a la derecha y tengo fiebre"],
+    mensaje: "Un dolor fuerte que se concentra ABAJO a la DERECHA de la panza, que va empeorando y viene con fiebre, náuseas o no poder caminar derecho, puede ser apendicitis u otra urgencia abdominal. NO comas ni tomes nada, no te des laxantes ni pongas calor en la panza, y buscá atención médica.",
+    items: [],
+    cuandoConsultar: "Dolor que empeora, fiebre, vómitos o la panza dura como tabla: es urgente, no lo dejes pasar." },
+  { id: "rayo", sintomas: ["me cayo un rayo", "nos cayo un rayo", "tormenta electrica", "me electrocuto un rayo", "relampagos y truenos encima", "nos agarro una tormenta electrica", "hay muchos rayos", "le cayo un rayo a alguien"],
+    mensaje: "Tormenta eléctrica: bajá de cumbres y crestas, alejate de árboles solos, postes, metal y agua. Agachate con los pies juntos sobre algo aislante (mochila), no te acuestes en el suelo. Si a alguien le cayó un rayo, SE LO PUEDE tocar (no queda con corriente): fijate si respira y hacé RCP si hace falta, y pedí rescate.",
+    items: ["manta termica"],
+    cuandoConsultar: "Si no responde o no respira: RCP y rescate YA. Aunque parezca estar bien, quien recibió un rayo debe ser revisado." },
+  { id: "perdido", sintomas: ["estoy perdido", "me perdi en la montaña", "no se donde estoy", "perdi el camino", "no encuentro el sendero", "estoy perdido en la nieve", "me perdi", "no se como volver", "me extravie", "perdi la huella"],
+    mensaje: "Si te perdiste: PARÁ y quedate quieto, no sigas caminando sin rumbo (gastás energía y te alejás más). Abrigate, hacete ver (ropa de colores, luz, silbato: 3 pitidos seguidos), y si tenés señal mandá tu ubicación. Quedate cerca de un lugar visible o un refugio y esperá. Cuidá la batería del teléfono.",
+    items: ["manta termica"],
+    cuandoConsultar: "Si se hace de noche, baja la temperatura o hay alguien herido: priorizá refugio y calor, y pedí rescate apenas tengas señal." },
+  { id: "agotamiento", sintomas: ["estoy agotado", "no puedo mas", "estoy exhausto", "no me dan las piernas", "estoy reventado de cansancio", "no puedo seguir caminando", "me quede sin fuerzas", "estoy muerto de cansancio", "no aguanto mas el cansancio"],
+    mensaje: "Pará y descansá en un lugar protegido del viento. Tomá agua y comé algo con azúcar y energía (frutos secos, chocolate). Abrigate si hace frío. El agotamiento en altura o frío es peligroso: no fuerces, recuperá antes de seguir, y si no mejorás, no sigas subiendo.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Si además hay confusión, mareo fuerte, no parás de temblar o no te recuperás con descanso y comida: puede ser hipotermia, deshidratación o altura, prestá atención." },
+  { id: "shock", sintomas: ["esta palido y sudando frio", "esta como ido y con sudor frio", "pulso debil y palido", "se esta descomponiendo", "esta muy palido y mareado", "sudor frio y debilidad", "esta en shock", "esta blanco y con sudor frio", "se puso palido y debil"],
+    mensaje: "Palidez, sudor frío, pulso rápido y débil y confusión pueden ser SHOCK (algo grave de fondo: sangrado, deshidratación, infección). Acostalo, levantale un poco las piernas, abrigalo con manta térmica, NO le des de comer ni beber, y controlá cualquier sangrado. Pedí rescate.",
+    items: ["manta termica", "torniquete"],
+    cuandoConsultar: "Empeora rápido, pierde el conocimiento o deja de respirar: rescate YA y RCP si hace falta." },
   { id: "zumbido", sintomas: ["me zumban los oidos", "escucho un pitido", "tengo un pitido en el oido", "me suenan los oidos", "tinnitus", "siento un zumbido"],
     mensaje: "Suele pasar por presión (altura), ruido fuerte o cansancio. Tragá saliva o bostezá para destapar los oídos, descansá y tomá agua. Bajá el ritmo.",
     items: [],
@@ -842,11 +886,36 @@ const REGLAS = [
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
   // raro. (La nariz que sangra se evalúa más abajo y no entra acá.)
   // ========================================================================
-  { re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se puso (morad|azul|palid|blanc)|esta morad|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
+  { re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se puso (morad|azul)|esta morad|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
   { re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
   { re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
   { re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
   { re: /me mordio (una |la )?(vibora|serpiente|culebra)|mordedura de (vibora|serpiente)|me pico (un |una )?(alacran|escorpion)/, tipo: "sit", id: "mordedura" },
+  // ACV / derrame (FAST): cara torcida, no habla, no mueve un lado
+  { re: /se le (tuerce|torcio|cayo|durmio) (la )?(cara|media cara)|boca chueca|cara torcida|no (puede|le sale) hablar|habla raro|se le traba la lengua|no mueve un (brazo|lado)|no mueve la mitad|perdio fuerza en un lado|derrame cerebral|\bacv\b/, tipo: "consejo", id: "acv" },
+  // ataque de asma / broncoespasmo
+  { re: /ataque de asma|crisis de asma|broncoespasmo|asma y (me ahogo|no puedo respirar|me falta el aire)|soy asmatico|me agarro el asma|silbo al respirar|pita el pecho/, tipo: "consejo", id: "asma" },
+  // shock: necesita la COMBINACIÓN (palidez + sudor frío/pulso débil), no
+  // "sudor frío" suelto (eso también es bajón de azúcar o susto)
+  { re: /esta en shock|(esta |se puso )?(muy )?palid[oa].{0,16}(sudor|sudando) frio|(sudor|sudando) frio.{0,16}(palid|pulso debil|debil)|pulso debil( y palid)?|se puso palid|palid[oa] y (debil|maread)|esta blanco y (con sudor|debil)/, tipo: "consejo", id: "shock" },
+  // rayo / tormenta eléctrica
+  { re: /me cayo un rayo|nos cayo un rayo|le cayo un rayo|cayo un rayo|tormenta electrica|me electrocuto un rayo|hay muchos rayos|tormenta con rayos/, tipo: "consejo", id: "rayo" },
+  // cara/nariz/mandíbula rota de un golpe -> trauma de cabeza (no fractura genérica)
+  { re: /(rompi|quebre|fracture|parti|reventaron|rompieron|destroce).{0,14}(la cara|la nariz|la mandibula|el pomulo|la mejilla|el craneo)|se me rompio la cara|me rompieron la cara|me reventaron la cara/, tipo: "sit", id: "cabeza" },
+  // amputación / dedo cortado entero (antes que sangrado)
+  { re: /me corte (un |el )?dedo (entero|completo)|me corte (un |el )?(dedo|mano|pie) (entero|completo)|se me corto (un |el )?dedo|me amputaron|amputacion|perdi (un |el )?dedo|me corte la punta del dedo|me corte un pedazo de dedo/, tipo: "consejo", id: "amputacion" },
+  // costilla golpeada/rota (antes que fractura genérica)
+  { re: /(rompi|quebre|fracture|parti|pegue|golpe).{0,14}costilla|costilla.{0,16}(rota|quebrada|al respirar|fracturada)|me duele (el costado|al respirar) (despues|tras) (de |del )?(un )?golpe/, tipo: "consejo", id: "costilla" },
+  // dedo machucado / aplastado
+  { re: /me machuque|me aplaste (el |un )?(dedo|la uña|uña)|me pille el dedo|me agarre el dedo|me golpee el dedo con|uña (morada|negra)|se me puso negra la uña|me reviente el dedo/, tipo: "consejo", id: "dedo-machucado" },
+  // garrapata
+  { re: /garrapata/, tipo: "consejo", id: "garrapata" },
+  // apendicitis / dolor abdominal bajo derecho
+  { re: /apendicitis|dolor.{0,22}(abajo a la derecha|parte baja derecha|lado derecho de la panza|abdominal.{0,6}derecha)|me duele.{0,16}(abajo a la derecha|la parte baja derecha)/, tipo: "consejo", id: "apendicitis" },
+  // perdido / extraviado
+  { re: /estoy perdido|me perdi|no se donde estoy|perdi (el camino|la huella|el sendero)|no encuentro el sendero|no se como volver|me extravie/, tipo: "consejo", id: "perdido" },
+  // agotamiento / no puedo más
+  { re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio/, tipo: "consejo", id: "agotamiento" },
 
   // === INTELIGENCIA DE ALTURA / NIEVE (clave en montaña) ===
   { re: /soroche|mal de altura|mal de montaña|\bpuna\b|apunad|edema (pulmonar|cerebral)|mal de las alturas/, tipo: "sit", id: "altura" },

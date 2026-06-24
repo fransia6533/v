@@ -105,8 +105,8 @@ PARTES.forEach((p) => {
   C(`me corte ${p}`, "sangrado");
   C(`me quemé ${p}`, "quemadura");
   C(`me queme ${p}`, "quemadura");
-  // un golpe/fractura en la cabeza es mejor tratarlo como trauma de cabeza
-  const dest = /cabeza/.test(p) ? "cabeza|hueso" : "hueso";
+  // cabeza/nariz (cara) -> trauma de cabeza; costilla -> escenario costilla
+  const dest = /cabeza|nariz/.test(p) ? "cabeza" : /costilla/.test(p) ? "costilla" : "hueso";
   C(`me rompí ${p}`, dest);
   C(`me quebré ${p}`, dest);
   C(`me fracturé ${p}`, dest);

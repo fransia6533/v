@@ -42,7 +42,7 @@ const LESION = [
   { verbos: ["me corte","me corté","me hice un corte en","me hice un tajo en","me raje","me rajé","me abri","me corte feo","me hice una herida en"], dest: "sangrado" },
   { verbos: ["sangra","me sangra","no para de sangrar","esta sangrando","sangro por"], dest: "sangrado", suf: true },
   { verbos: ["me queme","me quemé","me chamusque","me queme feo","me agarro fuego en"], dest: "quemadura" },
-  { verbos: ["me quebre","me quebré","me rompi","me rompí","me fracture","me fracturé","me parti","me partí","creo que me quebre","se me rompio","se me quebro","me destroce"], dest: "hueso", partes: PARTES.filter((p)=>p!=="rodilla") },
+  { verbos: ["me quebre","me quebré","me rompi","me rompí","me fracture","me fracturé","me parti","me partí","creo que me quebre","se me rompio","se me quebro","me destroce"], dest: "hueso", partes: PARTES.filter((p)=>p!=="rodilla"&&p!=="costilla") },
 ];
 // Esguince/torcedura (mano de obra: tobillo/rodilla/muñeca)
 const ESGUINCE = { verbos: ["me torci","me torcí","me doble","me doblé","se me doblo","me hice un esguince en","me resbale y me torci"], partes: ["tobillo","rodilla","la muñeca","el pie"], dest: "rodilla" };
@@ -149,6 +149,30 @@ const SINTOMAS = [
   { dest: "diente-golpe", frases: ["se me cayo un diente de un golpe","me rompi un diente","se me salto un diente","perdi un diente por un golpe","se me quebro un diente"] },
   // --- monóxido en carpa cerrada ---
   { dest: "monoxido", frases: ["cocine en la carpa y me duele la cabeza","me siento mal en la carpa cerrada","intoxicacion por monoxido","mareo en la carpa cerrada"] },
+  // --- ACV / derrame ---
+  { dest: "acv", frases: ["se le tuerce la cara","tiene la boca chueca","no puede hablar","no mueve un brazo","no mueve un lado del cuerpo","cara torcida","se le traba la lengua"] },
+  // --- ataque de asma ---
+  { dest: "asma", frases: ["tengo un ataque de asma","soy asmatico y me falta el aire","silbo al respirar","crisis de asma","me agarro el asma"] },
+  // --- shock ---
+  { dest: "shock", frases: ["esta palido y sudando frio","pulso debil y palido","sudor frio y debilidad","se puso palido y debil"] },
+  // --- rayo / tormenta eléctrica ---
+  { dest: "rayo", frases: ["me cayo un rayo","nos cayo un rayo","tormenta electrica","hay muchos rayos"] },
+  // --- cara/nariz rota de un golpe -> trauma de cabeza ---
+  { dest: "cabeza", frases: ["se me rompio la cara","me rompi la nariz de un golpe","me rompieron la cara","me quebre la mandibula de un golpe"] },
+  // --- amputación / dedo cortado entero ---
+  { dest: "amputacion", frases: ["me corte un dedo entero","se me corto el dedo","perdi un dedo","me corte la punta del dedo","me corte un dedo completo"] },
+  // --- costilla ---
+  { dest: "costilla", frases: ["me rompi una costilla","me duele la costilla al respirar","me quebre una costilla","me pegue en las costillas"] },
+  // --- dedo machucado ---
+  { dest: "dedo-machucado", frases: ["me machuque el dedo","me aplaste el dedo","me pille el dedo con la puerta","se me puso negra la uña"] },
+  // --- garrapata ---
+  { dest: "garrapata", frases: ["tengo una garrapata","se me pego una garrapata","como saco una garrapata"] },
+  // --- apendicitis ---
+  { dest: "apendicitis", frases: ["dolor fuerte abajo a la derecha de la panza","me duele mucho la parte baja derecha","creo que es apendicitis"] },
+  // --- perdido ---
+  { dest: "perdido", frases: ["estoy perdido","me perdi en la montaña","no se donde estoy","perdi el camino","no se como volver"] },
+  // --- agotamiento ---
+  { dest: "agotamiento", frases: ["estoy agotado","no puedo mas","estoy exhausto","no me dan las piernas","me quede sin fuerzas"] },
 ];
 
 // ---------------- construir casos ----------------
