@@ -4,4 +4,7 @@ _m.txt
 scratch_*.txt
 diez.txt
 quince.txt
+dieciocho.txt
 *.report.txt
+# salidas de los tests (scratch, no versionar)
+herramientas/*.out.txt
