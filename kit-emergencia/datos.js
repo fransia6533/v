@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.4 (borrador)",
+  version: "1.5 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -877,6 +877,42 @@ const REGLAS = [
   // --- corte / herida que sangra (el verbo manda; nariz ya salió arriba) ---
   { re: /\b(me cort|me raj|me hice un (corte|tajo)|me hice una herida|me abri (el |la |un )|tengo un (corte|tajo)|tengo una herida|me taje|estoy sangrando|esta sangrando|me sangra|sangra (el|la|un)|no para de sangrar|sangro |perdiendo sangre|sangra mucho)/, tipo: "sit", id: "sangrado" },
 ];
+
+/* ============================================================================
+   MEDICAMENTOS — nombres distintivos de remedios/objetos del kit. Cuando el
+   usuario PREGUNTA por uno ("¿puedo inyectar adrenalina?", "¿sirve el ibuprofeno
+   para...?", "¿cuánto paracetamol tomo?"), respondemos sobre ESE remedio, sin
+   importar las otras palabras. `nombre` es el inicio del objeto del botiquín.
+   ============================================================================ */
+const MEDICAMENTOS = [
+  { re: /adrenalin|epinefrin|epipen|autoinyector/, nombre: "Adrenalina" },
+  { re: /antihistamin|antialerg|loratadin|cetirizin|difenhidramin|clorfenamin/, nombre: "Antihistamínico" },
+  { re: /corticoide|dexametason|prednison|betametason/, nombre: "Corticoide" },
+  { re: /paracetamol|acetaminofen|tylenol/, nombre: "Paracetamol" },
+  { re: /ibuprofen|\baine\b/, nombre: "Ibuprofeno" },
+  { re: /tramadol|analgesico fuerte|calmante fuerte/, nombre: "Analgésico fuerte" },
+  { re: /acetazolamid|diamox/, nombre: "Acetazolamida" },
+  { re: /antiemetic|metoclopramid|ondansetron|para (el )?vomito|para (las )?nausea/, nombre: "Antiemético" },
+  { re: /antidiarreic|loperamid/, nombre: "Antidiarreico" },
+  { re: /antibiotic|amoxicilin|azitromicin|ciprofloxacin/, nombre: "Antibiótico" },
+  { re: /omeprazol|protector gastric/, nombre: "Protector gástrico" },
+  { re: /sales de rehidrat|suero oral|electrolit/, nombre: "Sales de rehidratación" },
+  { re: /inhalador|salbutamol|ventolin|broncodilatad/, nombre: "Inhalador" },
+  { re: /colirio|suero ocular/, nombre: "Colirio" },
+  { re: /torniquete/, nombre: "Torniquete" },
+  { re: /\bferula|entablill|sam splint/, nombre: "Férula" },
+  { re: /antiseptic|povidona|clorhexidin|\byodo\b/, nombre: "Antiséptico" },
+  { re: /suero fisiolog|solucion salin/, nombre: "Suero fisiológico" },
+  { re: /manta termic|manta de emergencia/, nombre: "Manta térmica" },
+  { re: /termometro/, nombre: "Termómetro" },
+  { re: /jeringa|\baguja\b/, nombre: "Jeringa" },
+  { re: /\bgasas?\b|aposito/, nombre: "Gasas" },
+  { re: /venda elastic|vendaje/, nombre: "Venda elástica" },
+  { re: /curita|tirita|bandita/, nombre: "Curitas" },
+  { re: /sutura|steri.?strip|puntos? de mariposa/, nombre: "Suturas adhesivas" },
+];
+// señales de que es una PREGUNTA/uso sobre un remedio (no un síntoma)
+const MED_MARCADOR = /\b(puedo|puede|debo|podria|tomar|tomo|me tomo|inyect|usar|uso|aplic|darme|me doy|ponerme|me pongo|sirve|para que|cuant[oa]s?|cuando|dosis|conviene|administr|le doy|me inyecto|funciona|es bueno|esta bien)\b/;
 
 /* Ítems del botiquín recomendados para cada situación grave (por id de TRIAGE). */
 const SITUACION_ITEMS = {

@@ -122,6 +122,15 @@ const SINTOMAS = [
   { dest: "vista", frases: ["veo borroso","veo nublado","se me nubla la vista","veo lucecitas"] },
   // --- encias ---
   { dest: "encias", frases: ["me sangran las encias","sangran las encias","tengo las encias hinchadas"] },
+  // --- preguntas por un MEDICAMENTO concreto -> info de ese remedio ---
+  { dest: "Adrenalina", frases: ["puedo inyectar adrenalina","me puedo inyectar adrenalina","para que sirve la adrenalina","cuando uso la adrenalina","sirve la adrenalina","puedo darme adrenalina","me puedo poner adrenalina","como uso el epipen"] },
+  { dest: "Ibuprofeno", frases: ["puedo tomar ibuprofeno","cuanto ibuprofeno puedo tomar","sirve el ibuprofeno para el golpe","me tomo un ibuprofeno"] },
+  { dest: "Paracetamol", frases: ["puedo tomar paracetamol","cuanto paracetamol tomo","sirve el paracetamol para la fiebre","me tomo un paracetamol"] },
+  { dest: "Acetazolamida", frases: ["puedo tomar diamox","cuanta acetazolamida tomo","sirve el diamox para la altura"] },
+  { dest: "Antihistamínico", frases: ["puedo tomar antihistaminico","sirve el antihistaminico para la alergia","me tomo la loratadina"] },
+  { dest: "Antiemético", frases: ["puedo tomar algo para el vomito","cuando uso el antiemetico"] },
+  { dest: "Torniquete", frases: ["puedo usar el torniquete","cuando uso el torniquete"] },
+  { dest: "Antiséptico", frases: ["puedo usar povidona","sirve el antiseptico para la herida"] },
 ];
 
 // ---------------- construir casos ----------------

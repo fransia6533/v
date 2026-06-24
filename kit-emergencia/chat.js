@@ -44,6 +44,20 @@
     scrollAbajo();
   }
 
+  // Detecta si el mensaje es una pregunta/uso sobre un remedio del kit.
+  function preguntaMedicamento(norm) {
+    if (typeof MEDICAMENTOS === "undefined" || typeof MED_MARCADOR === "undefined") return null;
+    if (!MED_MARCADOR.test(norm)) return null;
+    for (const m of MEDICAMENTOS) {
+      if (m.re.test(norm)) {
+        const data = window.Botiquin ? window.Botiquin.datos() : (typeof BOTIQUIN_DEFAULT !== "undefined" ? BOTIQUIN_DEFAULT : []);
+        const it = data.find((x) => x.objeto === m.nombre) || data.find((x) => x.objeto.indexOf(m.nombre) === 0);
+        if (it) return it;
+      }
+    }
+    return null;
+  }
+
   function resolverItems(keywords) {
     const data = window.Botiquin ? window.Botiquin.datos() : [];
     const out = [];
@@ -139,6 +153,7 @@
   function responder(textoOriginal) {
     const texto = expandir(textoOriginal);
     intensoActual = reIntenso.test(window.Fuzzy.normalizar(textoOriginal));
+    const norm = window.Fuzzy.normalizar(texto);
 
     // si solo gritó "ayuda/auxilio/urgente" (quedó vacío), lo guiamos
     if (!texto || texto.length < 2) {
@@ -146,9 +161,13 @@
       if (ag) { responderConsejo(ag); return; }
     }
 
+    // ¿pregunta por un MEDICAMENTO concreto? ("¿puedo inyectar adrenalina?")
+    // Mandamos info de ESE remedio, sin que otras palabras lo desvíen.
+    const medIt = preguntaMedicamento(norm);
+    if (medIt) { responderItem(medIt, true); return; }
+
     // 0) reglas de alta confianza: si hay una señal inequívoca (verbo de
     //    lesión, pedido de pastilla) rutea directo, sin pasar por la búsqueda.
-    const norm = window.Fuzzy.normalizar(texto);
     if (typeof REGLAS !== "undefined") {
       for (const rg of REGLAS) {
         if (rg.re.test(norm)) {
@@ -217,15 +236,18 @@
   }
 
   // ---------- item del botiquín ----------
-  function responderItem(it) {
+  // esPregunta = lo pidió preguntando por el remedio ("¿puedo usar X?")
+  function responderItem(it, esPregunta) {
     const dosis = (window.Paciente && window.Paciente.calcular(it)) || null;
     let html = "<b>" + esc(it.objeto.split(" (")[0]) + "</b>";
     if (!it.validado) html += ' <span class="mini-aviso">⚠️ sin validar</span>';
     html += "<br>";
+    if (esPregunta && it.tambien) html += '<span class="mini-aviso">Se usa para: ' + esc(it.tambien) + "</span><br>";
     if (it.procedimiento) html += esc(it.procedimiento) + "<br>";
     if (dosis) html += "<br><b>Para tu peso:</b> " + esc(dosis) + " ⚠️";
     else if (it.dosis) html += "<br><b>Dosis:</b> " + esc(it.dosis);
     if (it.via) html += "<br><b>Vía:</b> " + esc(it.via);
+    if (esPregunta) html += '<br><span class="mini-aviso" style="margin-top:6px">⚠️ Usalo solo para lo que dice arriba. Si no es para tu caso, no te lo des. Tu médico valida dosis y uso.</span>';
     botMsg(html);
     cierre();
   }

@@ -16,10 +16,10 @@ vm.createContext(ctx);
 const bundle =
   fs.readFileSync(path.join(dir, "fuzzy.js"), "utf8") + "\n" +
   fs.readFileSync(path.join(dir, "datos.js"), "utf8") + "\n" +
-  "globalThis.__x = { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS };";
+  "globalThis.__x = { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS, MEDICAMENTOS, MED_MARCADOR };";
 vm.runInContext(bundle, ctx, { filename: "bundle.js" });
 
-const { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS } = ctx.__x;
+const { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS, MEDICAMENTOS, MED_MARCADOR } = ctx.__x;
 
 // --- réplica del expandir() de chat.js ---
 const SLANG = {
@@ -64,6 +64,15 @@ function rutear(textoOriginal) {
 function _rutearReal(texto) {
   // 0) reglas de alta confianza (igual que chat.js)
   const norm = Fuzzy.normalizar(texto);
+  // pregunta por un medicamento concreto
+  if (MED_MARCADOR.test(norm)) {
+    for (const m of MEDICAMENTOS) {
+      if (m.re.test(norm)) {
+        const it = BOTIQUIN_DEFAULT.find((x) => x.objeto === m.nombre) || BOTIQUIN_DEFAULT.find((x) => x.objeto.indexOf(m.nombre) === 0);
+        if (it) return { tipo: "item", id: m.nombre, score: 1 };
+      }
+    }
+  }
   for (const rg of REGLAS) {
     if (rg.re.test(norm)) return { tipo: rg.tipo, id: rg.id, score: 1 };
   }
