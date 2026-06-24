@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.3 (borrador)",
+  version: "1.4 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -763,6 +763,30 @@ const CONSEJOS = [
     mensaje: "Líquido amarillo o pus, mal olor, o una zona roja-caliente-hinchada apuntan a una infección. Lavá con agua limpia y jabón, desinfectá con antiséptico y cubrí con gasa limpia; cambiá el apósito a diario. NO la aprietes ni la cierres con fuerza. Si tenés, un antibiótico lo decide el médico.",
     items: ["antiseptico", "gasas"],
     cuandoConsultar: "Fiebre, líneas rojas que suben desde la herida, hinchazón que crece, mucho dolor o pus abundante: necesitás antibiótico/médico, no lo dejes." },
+  { id: "orina", sintomas: ["quiero mear", "necesito mear", "quiero orinar", "ganas de orinar", "tengo ganas de orinar", "quiero hacer pis", "quiero hacer pipi", "quiero hacer pichi", "no puedo orinar", "no puedo hacer pis", "me cuesta orinar", "me arde al orinar", "me duele al orinar", "ardor al orinar", "me arde cuando meo", "me arde al mear", "sangre en la orina", "orino mucho", "orino poco", "voy mucho a orinar", "retencion de orina", "infeccion urinaria", "me aguanto las ganas de mear", "tengo ardor para orinar"],
+    mensaje: "Si solo tenés ganas, andá al baño tranquilo y seguí tomando agua normal. Si te ARDE o DUELE al orinar, vas a cada rato, o la orina sale turbia o con olor fuerte, puede ser una infección urinaria: tomá bastante agua y, si tenés, el antibiótico lo indica el médico. Evitá aguantarte.",
+    items: [],
+    cuandoConsultar: "Si NO podés orinar nada en muchas horas y te duele el bajo vientre, hay fiebre con ardor al orinar, sangre abundante en la orina, o dolor fuerte en la espalda baja/costado (riñón): es urgente, consultá." },
+  { id: "hipo", sintomas: ["tengo hipo", "hipo", "no se me quita el hipo", "tengo hipo y no para", "me dio hipo"],
+    mensaje: "Probá tomar agua de a sorbos lentos, aguantar la respiración unos segundos, o respirar dentro de una bolsa un ratito. Casi siempre se va solo.",
+    items: [],
+    cuandoConsultar: "Si el hipo dura más de 2 días seguidos o no te deja comer ni dormir: consultá." },
+  { id: "insomnio", sintomas: ["no puedo dormir", "no logro dormir", "no me puedo dormir", "tengo insomnio", "no pego un ojo", "me cuesta dormir", "no consigo dormir", "no duermo nada"],
+    mensaje: "Aflojá: respirá lento y profundo, abrigate bien, evitá pantallas y mate/café. En altura es normal dormir mal los primeros días — si además te falta el aire acostado o te duele la cabeza, puede ser la altura.",
+    items: [],
+    cuandoConsultar: "Si no podés dormir por falta de aire al estar acostado, o te despertás ahogado: en montaña puede ser mal de altura, prestá atención y si empeora, descendé." },
+  { id: "encias", sintomas: ["me sangran las encias", "sangran las encias", "encias inflamadas", "me sangra la encia", "tengo las encias hinchadas"],
+    mensaje: "Enjuagá con agua tibia con sal y cepillá suave. Frío local baja la hinchazón. Suele ser irritación o falta de higiene; mejorá el cepillado.",
+    items: ["ibuprofeno"],
+    cuandoConsultar: "Sangrado abundante que no para, mucha hinchazón con fiebre, o sangrado también en otras partes del cuerpo: consultá." },
+  { id: "zumbido", sintomas: ["me zumban los oidos", "escucho un pitido", "tengo un pitido en el oido", "me suenan los oidos", "tinnitus", "siento un zumbido"],
+    mensaje: "Suele pasar por presión (altura), ruido fuerte o cansancio. Tragá saliva o bostezá para destapar los oídos, descansá y tomá agua. Bajá el ritmo.",
+    items: [],
+    cuandoConsultar: "Si viene con mareo fuerte, pérdida de audición de golpe, o dolor intenso de oído: consultá." },
+  { id: "vista", sintomas: ["veo borroso", "veo nublado", "no veo bien", "se me nubla la vista", "veo puntos", "veo lucecitas", "perdi vision"],
+    mensaje: "Sentate, descansá la vista y tomá agua. En altura o con cansancio puede pasar. Si fue de golpe o solo en un ojo, prestá mucha atención.",
+    items: [],
+    cuandoConsultar: "Pérdida de visión REPENTINA, ver doble, con dolor de cabeza fuerte, debilidad en un lado del cuerpo o al hablar: puede ser grave (golpe, presión, altura), pedí ayuda YA." },
   { id: "ayuda-general", sintomas: ["no se que tengo", "no se que me pasa", "que hago", "que hago ahora", "ayuda que hago", "es una emergencia", "necesito ayuda urgente", "auxilio que hago", "no se que hacer", "que hago doctor", "estoy en problemas"],
     mensaje: "Tranquilo/a, estoy con vos. Para ayudarte mejor, decime en pocas palabras qué pasa 👇\n• ¿Hay sangre, un golpe o un hueso raro?\n• ¿Cuesta respirar o alguien no responde? (eso es URGENTE)\n• ¿Dolor, fiebre, náuseas, frío?\nEscribilo simple o tocá una opción.",
     items: [],
@@ -811,6 +835,19 @@ const REGLAS = [
 
   // --- dolor al defecar / hemorroides / estreñimiento ---
   { re: /(duele|arde|sangre|sangra|cuesta|sale sangre).{0,14}(cagar|defecar|al baño|obrar|el ano|el poto)|hemorroide|almorrana|estreñi|no puedo (hacer caca|obrar)|dias sin (ir al baño|cagar|obrar)/, tipo: "consejo", id: "defecar" },
+  // --- orinar / hacer pis (ganas, ardor, infección urinaria) ---
+  // (ojo: "no orino" suelto es señal de deshidratación, no entra acá)
+  { re: /\b(orinar|mear|meo|meas|miccion)\b|hacer (pis|pipi|pichi|chichi)|retencion de orina|infeccion urinaria|sangre en la orina|me arde (al |para )?(orinar|mear)|ganas de (orinar|mear)|no puedo (orinar|mear)|orino (mucho|poco)/, tipo: "consejo", id: "orina" },
+  // --- hipo ---
+  { re: /\bhipo\b|no se me quita el hipo|me dio hipo/, tipo: "consejo", id: "hipo" },
+  // --- no puedo dormir / insomnio (la altura ya se evaluó arriba) ---
+  { re: /no (puedo|logro|consigo) dormir|tengo insomnio|no pego un ojo|me cuesta (mucho )?dormir|no duermo( nada)?/, tipo: "consejo", id: "insomnio" },
+  // --- zumbido / pitido de oídos ---
+  { re: /\bzumb|pitido en (el |los )?oido|me suenan los oidos|tinnitus|me zumban los oidos/, tipo: "consejo", id: "zumbido" },
+  // --- vista borrosa (si es de golpe, el mensaje avisa que es grave) ---
+  { re: /veo (borroso|nublado|doble|puntos|lucecitas)|se me nubla la vista|vision borrosa/, tipo: "consejo", id: "vista" },
+  // --- encías que sangran ---
+  { re: /sangran las encias|me sangra la encia|encias (inflamadas|hinchadas|sangrando)/, tipo: "consejo", id: "encias" },
   // --- herida infectada / pus ---
   { re: /\bpus\b|sale pus|liquido amarillo|sangre con amarillo|sale amarillo|herida (con pus|infectada|que huele)|se (me )?infecto|supura|huele (mal|feo) la herida/, tipo: "consejo", id: "infeccion" },
 

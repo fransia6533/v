@@ -110,6 +110,18 @@ const SINTOMAS = [
   { dest: "defecar", frases: ["me duele al cagar","me arde al cagar","me duele cuando voy al baño","tengo hemorroides","me sale sangre al cagar","estoy estreñido","llevo dias sin ir al baño","me duele el ano","me duele el poto al cagar"] },
   // --- herida infectada / pus ---
   { dest: "infeccion", frases: ["tengo pus en la herida","sale pus","se me infecto la herida","me sale liquido amarillo","la herida huele mal","me esta saliendo sangre con amarillo","la herida supura"] },
+  // --- orinar / pis ---
+  { dest: "orina", frases: ["quiero mear","necesito mear","quiero hacer pis","quiero orinar","tengo ganas de orinar","no puedo orinar","me arde al orinar","me duele al orinar","me arde cuando meo","sangre en la orina","voy mucho a orinar","tengo una infeccion urinaria","mear"] },
+  // --- hipo ---
+  { dest: "hipo", frases: ["tengo hipo","no se me quita el hipo","me dio hipo","tengo hipo y no para"] },
+  // --- insomnio ---
+  { dest: "insomnio", frases: ["no puedo dormir","tengo insomnio","no pego un ojo","me cuesta dormir","no duermo nada"] },
+  // --- zumbido de oidos ---
+  { dest: "zumbido", frases: ["me zumban los oidos","tengo un pitido en el oido","me suenan los oidos","escucho un pitido"] },
+  // --- vista ---
+  { dest: "vista", frases: ["veo borroso","veo nublado","se me nubla la vista","veo lucecitas"] },
+  // --- encias ---
+  { dest: "encias", frases: ["me sangran las encias","sangran las encias","tengo las encias hinchadas"] },
 ];
 
 // ---------------- construir casos ----------------

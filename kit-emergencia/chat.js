@@ -177,10 +177,18 @@
       const alt = rank.find((r) => r.item._t !== "item" && r.score >= 0.45);
       if (alt) top = alt;
     }
+    // una SITUACIÓN grave (lanza preguntas de emergencia) necesita más certeza:
+    // si el match es flojo, no asustes con un soroche/infarto inventado. Mejor
+    // un consejo razonable, y si tampoco hay, decí honestamente que no entendiste.
+    if (top && top.item._t === "sit" && top.score < 0.6) {
+      const alt = rank.find((r) => r.item._t === "consejo" && r.score >= 0.5);
+      if (alt) top = alt;
+      else if (top.score < 0.62) top = null;
+    }
 
     if (!top || top.score < 0.45) {
-      botMsg("No estoy seguro de qué es 🤔. Probá decirlo de otra forma o más simple, por ejemplo: <i>\"me duele la cabeza\"</i>, <i>\"me mareo\"</i>, <i>\"me corté\"</i>.");
-      sugerencias(["Me duele la cabeza", "Me mareo", "Tengo fiebre", "Me corté"]);
+      botMsg("Mmm, no te entendí bien 🤔. Probá decirlo más simple o con otras palabras — por ejemplo: <i>\"me duele la cabeza\"</i>, <i>\"me arde al orinar\"</i>, <i>\"me corté la mano\"</i>, <i>\"tengo fiebre\"</i>. También podés contarme qué parte del cuerpo y qué sentís.");
+      sugerencias(["Me duele la cabeza", "Me mareo", "Tengo fiebre", "Me corté", "No sé qué tengo"]);
       return;
     }
     if (top.item._t === "sit") iniciarFlujo(top.item._o);
