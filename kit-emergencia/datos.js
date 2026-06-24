@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.0 (borrador)",
+  version: "1.1 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -409,7 +409,7 @@ const TRIAGE = [
   {
     id: "alergia",
     titulo: "Reacción alérgica / picadura",
-    sintomas: ["alergia", "alergica", "alérgica", "picadura", "picó", "abeja", "ronchas", "hinchazon", "hinchazón", "anafilaxia", "veneno"],
+    sintomas: ["alergia", "alergica", "alérgica", "picadura", "picó", "abeja", "ronchas", "hinchazon", "hinchazón", "anafilaxia", "veneno", "me hinche", "me hinche entero", "me llene de ronchas", "reaccion alergica", "me pico una abeja y me hinche", "se me hincho la cara"],
     inicio: "q1",
     nodos: {
       q1: { pregunta: "¿Le cuesta respirar, se hincha lengua/garganta/cara, está por desmayarse, o ronchas por todo el cuerpo?",
@@ -650,11 +650,11 @@ const TRIAGE = [
    ⚠️ Consejos generales, a validar por el médico.
    -------------------------------------------------------------------------- */
 const CONSEJOS = [
-  { id: "dolor-cabeza", sintomas: ["dolor de cabeza", "cabeza", "jaqueca", "migraña", "cefalea", "me duele la cabeza", "me parte la cabeza", "me estalla la cabeza", "cabeza me estalla", "dolor de cabeza fuerte"],
+  { id: "dolor-cabeza", sintomas: ["dolor de cabeza", "cabeza", "jaqueca", "migraña", "cefalea", "me duele la cabeza", "me parte la cabeza", "me estalla la cabeza", "cabeza me estalla", "dolor de cabeza fuerte", "me esta matando la cabeza", "me duele mucho la cabeza", "tengo la cabeza que estalla"],
     mensaje: "Tomá agua (la deshidratación y la altura dan dolor de cabeza), descansá un rato a la sombra y aflojá el ritmo. Si no cede, del botiquín podés usar un analgésico.",
     items: ["paracetamol", "ibuprofeno"],
     cuandoConsultar: "Si es el peor dolor de tu vida, viene con vómitos, confusión o fiebre alta, o estás en altura con falta de aire/mareo: tratalo como golpe en la cabeza o mal de altura y pedí ayuda." },
-  { id: "fiebre", sintomas: ["fiebre", "temperatura", "calentura", "destemplado", "tengo fiebre", "afiebrado", "afiebrada", "estoy afiebrado", "tengo temperatura", "hirviendo de fiebre", "estoy hirviendo"],
+  { id: "fiebre", sintomas: ["fiebre", "temperatura", "calentura", "destemplado", "tengo fiebre", "afiebrado", "afiebrada", "estoy afiebrado", "tengo temperatura", "hirviendo de fiebre", "estoy hirviendo", "tengo el cuerpo caliente", "cuerpo caliente", "estoy volando en fiebre", "ando con fiebre"],
     mensaje: "Hidratate bien, descansá y no te abrigues de más. Del botiquín, un antitérmico ayuda a bajar la fiebre.",
     items: ["paracetamol", "ibuprofeno"],
     cuandoConsultar: "Fiebre alta que no baja, con rigidez de nuca, confusión, dificultad para respirar, o que dura varios días: consultá / bajá." },
@@ -666,11 +666,11 @@ const CONSEJOS = [
     mensaje: "Sentate o recostate, buscá aire fresco y tomá sorbos de agua o suero. Del botiquín, un antiemético corta las náuseas.",
     items: ["antiemetico", "sales de rehidratacion"],
     cuandoConsultar: "Vómitos que no paran, con sangre o deshidratación; o en altura con dolor de cabeza: podría ser soroche, descendé." },
-  { id: "diarrea", sintomas: ["diarrea", "suelto", "descompostura", "caca liquida", "estoy flojo", "cagadera", "ando suelto", "flojo del estomago", "estoy flojo del estomago", "me cago"],
+  { id: "diarrea", sintomas: ["diarrea", "suelto", "descompostura", "caca liquida", "estoy flojo", "cagadera", "ando suelto", "flojo del estomago", "estoy flojo del estomago", "me cago", "ando con cagadera", "tengo el estomago suelto", "ando descompuesto del estomago", "descompuesto del estomago"],
     mensaje: "Lo más importante es hidratar: suero oral o agua a sorbos seguidos. Comé liviano (arroz, banana). Un antidiarreico ayuda si no hay fiebre ni sangre.",
     items: ["sales de rehidratacion", "antidiarreico"],
     cuandoConsultar: "Diarrea con sangre, fiebre alta, o señales de deshidratación (boca seca, casi no orinás, muy débil): consultá." },
-  { id: "mareo", sintomas: ["mareo", "mareado", "vahido", "todo da vueltas", "me mareo"],
+  { id: "mareo", sintomas: ["mareo", "mareado", "vahido", "todo da vueltas", "me mareo", "ando mareado", "siento que todo gira", "todo gira", "tengo mareos", "siento que me voy de lado"],
     mensaje: "Sentate o agachate para no caerte, tomá agua y algo con azúcar. En altura, el mareo puede ser mal de montaña.",
     items: ["sales de rehidratacion"],
     cuandoConsultar: "Si te desmayaste, ves o hablás raro, o en altura con falta de aire: pedí ayuda." },
@@ -690,11 +690,11 @@ const CONSEJOS = [
     mensaje: "Descansá, estirá suave e hidratate. Un antiinflamatorio del botiquín ayuda con el dolor.",
     items: ["ibuprofeno"],
     cuandoConsultar: "Dolor en el pecho, falta de aire, o una pierna hinchada y dolorida: no es muscular común, consultá." },
-  { id: "resfrio", sintomas: ["resfrio", "resfriado", "tos", "mocos", "garganta", "gripe", "estoy resfriado"],
+  { id: "resfrio", sintomas: ["resfrio", "resfriado", "tos", "mocos", "garganta", "gripe", "estoy resfriado", "estoy congestionado", "congestionado", "ando engripado", "engripado", "tengo la nariz tapada", "nariz tapada", "tengo gripe", "estoy con gripe"],
     mensaje: "Abrigate, hidratate y descansá. Para la fiebre o el malestar, un antitérmico ayuda.",
     items: ["paracetamol"],
     cuandoConsultar: "Falta de aire, fiebre alta que no baja, o dolor de pecho: consultá / bajá." },
-  { id: "picadura", sintomas: ["picadura", "me pico", "insecto", "mosquito", "picazon", "picazón", "me pica", "me pico un mosquito", "me pico un bicho", "me picaron", "me pico un insecto", "bicho"],
+  { id: "picadura", sintomas: ["picadura", "me pico", "insecto", "mosquito", "picazon", "picazón", "me pica", "me pico un mosquito", "me pico un bicho", "me picaron", "me pico un insecto", "bicho", "zancudo", "me pico un zancudo", "me pico un jejen", "me pico una hormiga"],
     mensaje: "Lavá la zona y poné frío para la hinchazón. Si hay aguijón, sacalo raspando (no apretar). Un antihistamínico calma la picazón.",
     items: ["antihistaminico"],
     cuandoConsultar: "Si se hincha la cara/garganta, cuesta respirar o salen ronchas por todo el cuerpo: es alergia grave, usá adrenalina y pedí rescate." },
@@ -714,7 +714,7 @@ const CONSEJOS = [
     mensaje: "Pará, estirá suave el músculo y masajealo. Hidratate con agua y sales — los calambres suelen ser por esfuerzo, calor o falta de sales.",
     items: ["sales de rehidratacion"],
     cuandoConsultar: "Calambres muy seguidos con mucha debilidad o confusión: puede ser deshidratación seria." },
-  { id: "hipoglucemia", sintomas: ["bajon de azucar", "azucar baja", "hipoglucemia", "tembloroso", "sudor frio", "me siento debil", "flojo y tembloroso", "hambre y mareo"],
+  { id: "hipoglucemia", sintomas: ["bajon de azucar", "azucar baja", "hipoglucemia", "tembloroso", "sudor frio", "me siento debil", "flojo y tembloroso", "hambre y mareo", "tengo hambre y mareo", "tengo un bajon de azucar", "ando tembloroso y con sudor frio"],
     mensaje: "Si estás tembloroso, con sudor frío, débil o con mucha hambre, puede ser el azúcar bajo. Sentate y tomá algo dulce YA (azúcar, jugo, caramelo, chocolate). A los 15 min comé algo más sólido.",
     items: [],
     cuandoConsultar: "Si te desmayás, no podés tragar, o no mejorás con el azúcar: emergencia, pedí ayuda." },
@@ -738,7 +738,7 @@ const CONSEJOS = [
     mensaje: "Depende de qué tengas:\n• DOLOR o FIEBRE → Paracetamol o Ibuprofeno\n• ALERGIA / picazón → Antihistamínico\n• NÁUSEAS / vómitos → Antiemético\n• ACIDEZ / estómago → Protector gástrico\nDecime qué sentís y te paso la dosis para tu peso 👇",
     items: ["paracetamol", "ibuprofeno", "antihistaminico", "antiemetico"],
     cuandoConsultar: "No mezcles medicamentos sin saber, ni pases la dosis. Si el dolor es fuerte y no cede, o no sabés qué tomar: consultá." },
-  { id: "malestar", sintomas: ["me siento mal", "no me siento bien", "estoy mal", "me siento descompuesto", "me siento raro", "no ando bien", "me siento pa la caga", "estoy achacado", "me siento debil", "estoy hecho mierda", "me siento para atras"],
+  { id: "malestar", sintomas: ["me siento mal", "no me siento bien", "estoy mal", "me siento descompuesto", "me siento raro", "no ando bien", "me siento pa la caga", "estoy achacado", "estoy hecho mierda", "me siento para atras", "ando para atras", "ando como las pelotas", "no doy mas", "estoy hecho pebre", "me siento flojo", "ando mal", "me siento mal en general"],
     mensaje: "Contame un poco más así te ayudo mejor 🙏 ¿Qué sentís?\n• ¿Te duele algo? (cabeza, panza, garganta…)\n• ¿Fiebre, náuseas o mareo?\n• ¿Frío, falta de aire?\nTocá una opción o escribilo.",
     items: [],
     cuandoConsultar: "Si tenés dolor de pecho, te cuesta respirar, estás confundido o muy débil: pedí ayuda ya." },
@@ -763,23 +763,34 @@ const REGLAS = [
   { re: /\b(que|cual|cuales)\b.{0,16}\b(pastilla|remedio|medicament|analg|calmante|antiinflamatori|antifebril|antipiretic)/, tipo: "consejo", id: "que-tomar" },
   { re: /\b(que|cual|cuales)\b.{0,14}\b(me )?(puedo |debo |podria )?(tomar|tomo)\b/, tipo: "consejo", id: "que-tomar" },
 
+  // --- cabeza que late/palpita (jaqueca, NO un golpe) ---
+  { re: /\b(me late|me palpita|me retumba|siento latir|me pulsa)\b.{0,14}(cabeza|sien|frente|craneo)/, tipo: "consejo", id: "dolor-cabeza" },
+
+  // --- sangrado de NARIZ (antes que sangrado general y quemadura) ---
+  { re: /(sangr|sale sangre|sangre).{0,14}nariz|nariz.{0,16}(sangr|sangre)|hemorragia nasal|epistaxis/, tipo: "consejo", id: "sangrado-nariz" },
+
   // --- quemadura de sol (suave) antes que quemadura grave ---
   { re: /quem.{0,18}\bsol\b|\bsol\b.{0,10}quem|insolad|quemad[oa] del sol/, tipo: "consejo", id: "quemadura-sol" },
   // --- quemadura (fuego/agua caliente) ---
-  { re: /\bme quem|\bquemad|\bquemadura\b|me chamusqu/, tipo: "sit", id: "quemadura" },
+  { re: /\bme quem|\bquemad|\bquemadura\b|me chamusqu|agarr[eo] fuego|prend[io] fuego|me incendi/, tipo: "sit", id: "quemadura" },
 
   // --- golpe/fractura de CABEZA -> trauma de cabeza (más apropiado que hueso) ---
   // (parti = pasado/accidente; "me parte la cabeza" es jaqueca, NO trauma)
+  { re: /(golpe|golpee|golpie|pegue|cabezazo|me di un golpe).{0,16}(cabeza|craneo|nuca)/, tipo: "sit", id: "cabeza" },
+  { re: /(cabeza|craneo|nuca).{0,12}(golpe|golpee|cabezazo|porrazo)/, tipo: "sit", id: "cabeza" },
   { re: /(fractur|me quebr|me romp|me parti|me fisur|fisurad|fractura).{0,14}(cabeza|craneo|cabesa)/, tipo: "sit", id: "cabeza" },
   { re: /(cabeza|craneo|cabesa).{0,14}(fractur|quebr|rota|roto|partid|fisur)/, tipo: "sit", id: "cabeza" },
   // --- fractura / hueso roto en cualquier otra parte ---
   { re: /\b(fractur|fisur)/, tipo: "sit", id: "hueso" },
-  { re: /\b(me|se me) (quebr|qebr|romp|parti)/, tipo: "sit", id: "hueso" },
+  { re: /\b(me|se me) (quebr|qebr|romp|parti|destroc|destroz|machuq|reventé|revente)/, tipo: "sit", id: "hueso" },
   { re: /\bhueso (roto|partid|quebrad|fractur)/, tipo: "sit", id: "hueso" },
   { re: /\b(quebrad|partid) (un |el |la )?(hueso|pierna|brazo|tobillo|muñeca|cadera|costilla|dedo)/, tipo: "sit", id: "hueso" },
 
-  // --- corte / herida que sangra (el verbo cortar manda) ---
-  { re: /\b(me cort|me raj|me hice un (corte|tajo)|me abri (el |la |un )|tengo un (corte|tajo)|me taje)/, tipo: "sit", id: "sangrado" },
+  // --- esguince / torcedura -> rodilla/tobillo ---
+  { re: /\b(me torci|se me torcio|me doble|se me doblo|me hice un esguince|me esguince|me torce)\b/, tipo: "sit", id: "rodilla" },
+
+  // --- corte / herida que sangra (el verbo manda; nariz ya salió arriba) ---
+  { re: /\b(me cort|me raj|me hice un (corte|tajo)|me hice una herida|me abri (el |la |un )|tengo un (corte|tajo)|tengo una herida|me taje|estoy sangrando|esta sangrando|me sangra|sangra (el|la|un)|no para de sangrar|sangro |perdiendo sangre|sangra mucho)/, tipo: "sit", id: "sangrado" },
 ];
 
 /* Ítems del botiquín recomendados para cada situación grave (por id de TRIAGE). */

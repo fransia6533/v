@@ -1,3 +1,9 @@
 __pycache__/
 *.pyc
 *.xlsx
+
+# temporales de pruebas
+scratchpad_ctx.txt
+ctx.txt
+_m.txt
+scratch_*.txt
