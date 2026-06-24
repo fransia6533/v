@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.5 (borrador)",
+  version: "1.6 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -779,6 +779,18 @@ const CONSEJOS = [
     mensaje: "Enjuagá con agua tibia con sal y cepillá suave. Frío local baja la hinchazón. Suele ser irritación o falta de higiene; mejorá el cepillado.",
     items: ["ibuprofeno"],
     cuandoConsultar: "Sangrado abundante que no para, mucha hinchazón con fiebre, o sangrado también en otras partes del cuerpo: consultá." },
+  { id: "raspon", sintomas: ["me raspe", "me raspe la rodilla", "raspon", "rasmillon", "me pele la rodilla", "me rasmille", "raspadura", "me raye la piel", "me raspe el brazo", "tengo un raspon", "me pele", "rozadura en la piel", "me raspe la pierna", "me raspon", "rasguno", "me rasguñe", "rasguño"],
+    mensaje: "Es un raspón (herida superficial). Lavá con agua limpia o suero, sacá toda la tierra, desinfectá con antiséptico y dejá al aire o cubrí con gasa/curita si va a rozar con la ropa. No pongas algodón directo sobre la herida. Cambiá el apósito si se ensucia o moja.",
+    items: ["antiseptico", "gasas", "curitas"],
+    cuandoConsultar: "Si es muy grande o profundo, quedó tierra que no sale, se pone rojo-caliente con pus (infección) o no estás al día con la vacuna del tétanos: consultá." },
+  { id: "caida-grave", sintomas: ["me cai de un barranco", "me cai de altura", "cai de un risco", "me despeñe", "cai de varios metros", "me precipite", "rode por la ladera", "cai rodando", "cai de un acantilado", "me cai muy fuerte de alto", "cai al vacio", "me cai de la montaña", "cai por un precipicio", "me cai de muy alto", "cai de una pared", "me cai escalando", "me cai del cerro"],
+    mensaje: "Una caída así puede tener lesiones graves aunque no se vean. ⚠️ Si pudo golpearse la CABEZA, el CUELLO o la ESPALDA: NO lo muevas (riesgo de columna), salvo peligro inmediato de muerte. Revisá: ¿responde?, ¿respira? Controlá los sangrados con presión firme. Abrigalo con la manta térmica y NO le des de comer ni beber. Si un hueso quedó deformado o expuesto, NO lo acomodes: inmovilizá como está y cubrí. Pedí rescate cuanto antes.",
+    items: ["manta termica", "torniquete", "ferula", "gasas"],
+    cuandoConsultar: "Pérdida de conocimiento, no respira, vómitos, confusión, dolor de cuello/espalda, no mueve o no siente las piernas/brazos, sangrado que no para, o hueso deformado/expuesto: es URGENTE, pedí rescate YA y no lo muevas." },
+  { id: "supervivencia", sintomas: ["cuantas calorias debo comer", "sobrevivir la noche", "como sobrevivir la noche", "aguantar la noche", "pasar la noche en la montaña", "sobrevivir el frio", "cuanto debo comer", "que como para aguantar", "sobrevivir en la nieve", "como no morir de frio", "aguantar el frio toda la noche", "como aguanto la noche", "calorias para sobrevivir", "pasar la noche al aire libre", "sobrevivir a la intemperie"],
+    mensaje: "Para aguantar una noche de frío en la montaña lo MÁS importante no es comer mucho, sino CONSERVAR EL CALOR: aislate del suelo (mochila, ramas, lo que tengas), tapate con la manta térmica (lado plateado hacia el cuerpo), cubrí cabeza, cuello y manos, y achicá el espacio de aire a tu alrededor. Comé lo que tengas y que sea calórico (frutos secos, chocolate, barritas) para tener energía y generar calor, y tomá agua aunque no tengas sed. Movete de a ratos (contraé los músculos) para no enfriarte. NO tomes alcohol: enfría más.",
+    items: ["manta termica"],
+    cuandoConsultar: "Si alguien tirita sin parar y después deja de tiritar de golpe, se pone confundido, torpe o con mucho sueño: es hipotermia grave. Mantenelo abrigado, dale algo caliente y dulce si está consciente, y pedí rescate." },
   { id: "zumbido", sintomas: ["me zumban los oidos", "escucho un pitido", "tengo un pitido en el oido", "me suenan los oidos", "tinnitus", "siento un zumbido"],
     mensaje: "Suele pasar por presión (altura), ruido fuerte o cansancio. Tragá saliva o bostezá para destapar los oídos, descansá y tomá agua. Bajá el ritmo.",
     items: [],
@@ -820,6 +832,12 @@ const REGLAS = [
   // === CEGUERA DE NIEVE / ojos por sol-nieve ===
   { re: /ceguera de nieve|(no veo|vista nublada|ojos rojos|me arden los ojos|ojos irritados|me lloran los ojos|siento arena en los ojos).{0,22}(nieve|sol|reflejo)|queratitis|quemadura en los ojos/, tipo: "consejo", id: "ceguera-nieve" },
 
+  // === CAÍDA GRAVE (barranco/altura) — trauma serio, NO un esguince ===
+  { re: /(cai|caí|caida|me despeñe|me precipite|rode|rodé|cai rodando).{0,24}(barranco|precipicio|risco|acantilado|ladera|abismo|quebrada|de altura|de (varios |muchos )?metros|al vacio|por (un |el )?cerro|de (un |el )?cerro|de la montaña|de una pared|escalando|de muy alto)|me despeñe|cai al vacio|cai de muy alto/, tipo: "consejo", id: "caida-grave" },
+
+  // === SOBREVIVIR LA NOCHE / frío nocturno / calorías ===
+  { re: /cuantas calorias|calorias para sobrevivir|sobrevivir la noche|aguantar la noche|pasar la noche (en|al|a la)|sobrevivir (el|al) frio|como no morir de frio|sobrevivir (en|a) la (nieve|montaña|intemperie)|aguantar el frio (toda |por )?la noche|como aguanto la noche/, tipo: "consejo", id: "supervivencia" },
+
   // === labios / piel agrietada por frío-viento (antes que quemadura/hueso) ===
   { re: /(parti|agriet|seca|reseca|cuartead).{0,14}(labios|la piel|la cara)|(labios|la piel|la cara).{0,16}(partid|seca|reseca|agrietad|cuartead|quemada por el viento)|labios (partidos|secos|agrietados)|piel (agrietada|reseca|partida)/, tipo: "consejo", id: "labios-piel" },
 
@@ -838,6 +856,8 @@ const REGLAS = [
   // --- orinar / hacer pis (ganas, ardor, infección urinaria) ---
   // (ojo: "no orino" suelto es señal de deshidratación, no entra acá)
   { re: /\b(orinar|mear|meo|meas|miccion)\b|hacer (pis|pipi|pichi|chichi)|retencion de orina|infeccion urinaria|sangre en la orina|me arde (al |para )?(orinar|mear)|ganas de (orinar|mear)|no puedo (orinar|mear)|orino (mucho|poco)/, tipo: "consejo", id: "orina" },
+  // --- raspón / rasguño (herida leve; el verbo "raspar" manda sobre la parte) ---
+  { re: /\bme raspe|me raspé|\braspon|\braspadura|rasmillon|me rasmille|me rasgu|\brasguñ|\brasguno|me pele (la|el|un|mi)|me raye (la|el) (piel|rodilla|brazo|pierna|cara)/, tipo: "consejo", id: "raspon" },
   // --- hipo ---
   { re: /\bhipo\b|no se me quita el hipo|me dio hipo/, tipo: "consejo", id: "hipo" },
   // --- no puedo dormir / insomnio (la altura ya se evaluó arriba) ---

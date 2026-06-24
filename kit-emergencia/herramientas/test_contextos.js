@@ -131,6 +131,12 @@ const SINTOMAS = [
   { dest: "Antiemético", frases: ["puedo tomar algo para el vomito","cuando uso el antiemetico"] },
   { dest: "Torniquete", frases: ["puedo usar el torniquete","cuando uso el torniquete"] },
   { dest: "Antiséptico", frases: ["puedo usar povidona","sirve el antiseptico para la herida"] },
+  // --- raspón / rasguño (leve) ---
+  { dest: "raspon", frases: ["me raspe la rodilla","me raspe el brazo","me rasguñe","tengo un raspon","me pele la rodilla","me raspe la pierna"] },
+  // --- caída grave (barranco / altura) ---
+  { dest: "caida-grave", frases: ["me cai de un barranco","me cai de altura","me despeñe","cai de varios metros","me cai del cerro","cai por un precipicio","me cai escalando"] },
+  // --- sobrevivir la noche / frío nocturno ---
+  { dest: "supervivencia", frases: ["cuantas calorias debo comer para sobrevivir la noche","como sobrevivir la noche","como aguanto la noche de frio","sobrevivir el frio","sobrevivir en la nieve"] },
 ];
 
 // ---------------- construir casos ----------------
