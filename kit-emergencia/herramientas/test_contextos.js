@@ -34,7 +34,7 @@ const art = (p) => {
   return (fem ? "la " : "el ") + p;
 };
 const PARTES = ["pierna","brazo","mano","dedo","pie","tobillo","rodilla","cadera","muñeca","hombro","costilla","muslo","antebrazo","gemelo","pantorrilla","codo","espinilla","talon"];
-const PARTES_DOLOR = ["espalda","trasero","cintura","nuca","cuello","hombro","brazo","muslo","cadera","gluteo","nalga","pantorrilla","gemelo","costado","ingle","axila","riñones","lomo","antebrazo","codo","abdomen","espinilla","las piernas","los brazos"];
+const PARTES_DOLOR = ["espalda","trasero","cintura","nuca","cuello","hombro","brazo","muslo","cadera","gluteo","nalga","pantorrilla","gemelo","costado","ingle","axila","riñones","lomo","antebrazo","codo","espinilla","las piernas","los brazos"];
 
 // ---------------- familias: verbo/frase -> escenario ----------------
 // Lesiones que se combinan con una parte del cuerpo
@@ -206,6 +206,12 @@ const SINTOMAS = [
   { dest: "Adrenalina (epinefrina)", frases: ["que es la adrenalina","que es la epinefrina"] },
   { dest: "Fractura", frases: ["que es una fractura","que significa fractura"] },
   { dest: "Edema (de altura)", frases: ["que es el edema pulmonar","que es un edema"] },
+  // --- palpitaciones / corazón acelerado (sin dolor) ---
+  { dest: "palpitaciones", frases: ["tengo el corazon acelerado","me late muy rapido el corazon","como bajo las pulsaciones","debo calmar el pulso del corazon","tengo taquicardia","se me acelera el corazon"] },
+  // --- golpe en el abdomen ---
+  { dest: "golpe-abdomen", frases: ["me golpee fuerte el estomago","me golpee el estomago","me pegaron en la panza","me golpee el abdomen","recibi un golpe en el abdomen"] },
+  // --- no poder mover un miembro -> posible fractura ---
+  { dest: "hueso", frases: ["no puedo mover la pierna","no puedo mover el brazo","no siento la pierna","no me responde la mano","no puedo mover la mano"] },
 ];
 
 // ---------------- construir casos ----------------

@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.0 (borrador)",
+  version: "2.1 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -927,6 +927,14 @@ const CONSEJOS = [
     mensaje: "Herpes labial ('fuego'): una ampollita que arde o pica en el labio. No la revientes ni la toques (se contagia), mantené la zona limpia y seca, y poné protector labial. Una crema antiviral acelera si la tenés. No compartas vasos ni cubiertos.",
     items: [],
     cuandoConsultar: "Si se extiende mucho, te llega cerca del ojo o tenés las defensas bajas: consultá." },
+  { id: "palpitaciones", sintomas: ["corazon acelerado", "tengo el corazon acelerado", "me late muy rapido el corazon", "como bajo las pulsaciones", "como calmo el pulso", "debo calmar el pulso del corazon", "tengo taquicardia", "tengo palpitaciones", "se me acelera el corazon", "el corazon a mil", "el corazon me late fuerte", "me palpita el corazon rapido"],
+    mensaje: "Si el corazón está acelerado pero SIN dolor de pecho: sentate, respirá lento y profundo (inhalá 4 segundos, exhalá 6), tomá agua y descansá. Suele ser por esfuerzo, susto, cafeína, deshidratación o nervios, y baja solo. Evitá café y bebidas energizantes.",
+    items: [],
+    cuandoConsultar: "Si además hay DOLOR u opresión en el pecho, falta de aire, sudor frío, te desmayás, o el corazón sigue muy acelerado sin calmarse: tratalo como problema de corazón, es una emergencia." },
+  { id: "golpe-abdomen", sintomas: ["me golpee fuerte el estomago", "me golpee el estomago", "me pegaron en la panza", "recibi un golpe en el abdomen", "me dieron un golpe en la panza", "me golpee el abdomen", "golpe fuerte en la barriga", "me cai sobre la panza", "me golpee la boca del estomago"],
+    mensaje: "Un golpe fuerte en la panza puede lastimar órganos por dentro aunque por fuera no se vea nada. Recostate, aflojá la ropa, NO comas ni tomes nada por un rato y vigilate. Frío suave sobre la zona ayuda con el dolor de la pared.",
+    items: [],
+    cuandoConsultar: "Dolor que crece, panza dura o hinchada, vómitos (sobre todo con sangre), sangre en la orina o en la caca, mareo, palidez o desmayo, o un moretón grande: puede haber daño interno, pedí rescate." },
   { id: "sangrado-oido", sintomas: ["me sale sangre del oido despues de un golpe", "sangre por el oido", "me sangra el oido tras golpearme la cabeza", "sale liquido del oido despues del golpe"],
     mensaje: "⚠️ Sangre o líquido claro saliendo del oído después de un golpe en la cabeza puede indicar una lesión grave de cráneo. NO tapones el oído: dejá que drene, mantené la cabeza quieta, recostá a la persona de ese lado y pedí rescate URGENTE.",
     items: ["gasas"],
@@ -994,6 +1002,12 @@ const REGLAS = [
   { re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio/, tipo: "consejo", id: "agotamiento" },
 
   // === LOTE NUEVO: cuadros médicos y de montaña adicionales ===
+  // corazón acelerado SIN dolor -> calmar pulsaciones (no es infarto)
+  { re: /(como|debo|quiero|necesito) (bajar|bajo|calmar|calmo|controlar) (las pulsaciones|el pulso|el corazon|el ritmo cardiaco|las palpitaciones)|tengo (el )?corazon (acelerado|a mil|disparado)|me late (muy )?rapido el corazon|se me acelera el corazon|tengo taquicardia|tengo palpitaciones|el corazon a mil|me palpita (el corazon )?(rapido|fuerte)|corazon acelerado/, tipo: "consejo", id: "palpitaciones" },
+  // golpe fuerte en el abdomen -> posible daño interno (no es la rodilla)
+  { re: /(me golpee|me pegaron|me dieron|recibi un golpe|me pegue|me cai sobre).{0,16}(estomago|panza|abdomen|barriga|guata|boca del estomago|higado|bazo)|golpe (fuerte )?en (la|el) (panza|abdomen|barriga|estomago)/, tipo: "consejo", id: "golpe-abdomen" },
+  // no poder mover / no sentir un miembro -> posible fractura o lesión seria
+  { re: /no (puedo|logro|consigo) mover (la |el |mi |un |una )?(pierna|brazo|mano|dedo|dedos|pie|rodilla|tobillo|muñeca|codo|hombro|cadera)|no siento (la |el )(pierna|brazo)\b|no me responde (la |el )(pierna|brazo|mano)/, tipo: "sit", id: "hueso" },
   // calor (NO confundir con "no entra en calor" = frío)
   { re: /(siento|tengo|hace|me muero de|hay|paso) (mucho |muchisimo |demasiado |tanto )*calor|estoy hirviendo de calor|me estoy (cocinando|derritiendo|asando) de calor|golpe de calor|me insole|estoy acalorado|mucho calor/, tipo: "consejo", id: "insolacion" },
   { re: /me dio (la )?corriente|me electrocute|descarga electrica|toque un cable( pelado)?|me dio una descarga/, tipo: "consejo", id: "electrocucion" },
