@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.9 (borrador)",
+  version: "2.0 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -994,6 +994,8 @@ const REGLAS = [
   { re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio/, tipo: "consejo", id: "agotamiento" },
 
   // === LOTE NUEVO: cuadros médicos y de montaña adicionales ===
+  // calor (NO confundir con "no entra en calor" = frío)
+  { re: /(siento|tengo|hace|me muero de|hay|paso) (mucho |muchisimo |demasiado |tanto )*calor|estoy hirviendo de calor|me estoy (cocinando|derritiendo|asando) de calor|golpe de calor|me insole|estoy acalorado|mucho calor/, tipo: "consejo", id: "insolacion" },
   { re: /me dio (la )?corriente|me electrocute|descarga electrica|toque un cable( pelado)?|me dio una descarga/, tipo: "consejo", id: "electrocucion" },
   { re: /vomito sangre|vomitando sangre|vomite (con )?sangre|sangre en el vomito|devuelvo sangre/, tipo: "consejo", id: "vomito-sangre" },
   { re: /sangre (por|del|sale del) (el )?oido|me sangra el oido|(liquido|sale liquido).{0,14}oido.{0,18}golpe|golpe.{0,18}(sangre|liquido).{0,10}oido/, tipo: "consejo", id: "sangrado-oido" },
@@ -1137,6 +1139,68 @@ const MEDICAMENTOS = [
 ];
 // señales de que es una PREGUNTA/uso sobre un remedio (no un síntoma)
 const MED_MARCADOR = /\b(puedo|puede|debo|podria|tomar|tomo|me tomo|inyect|usar|uso|aplic|darme|me doy|ponerme|me pongo|sirve|para que|cuant[oa]s?|cuando|dosis|conviene|administr|le doy|me inyecto|funciona|es bueno|esta bien)\b/;
+
+/* ============================================================================
+   GLOSARIO — para preguntas tipo "¿qué es la anafilaxia?", "¿qué significa
+   hipotermia?", "explicame el soroche". Responde con una definición clara.
+   `claves` son las formas en que se puede nombrar el término.
+   ============================================================================ */
+const GLOSARIO = [
+  { titulo: "Anafilaxia", claves: ["anafilaxia", "anafilaxis", "shock anafilactico", "reaccion alergica grave"],
+    def: "Es una reacción alérgica GRAVE y rápida (por una picadura, comida o medicamento). Se hincha la cara, la lengua o la garganta, cuesta respirar, salen ronchas por todo el cuerpo y puede bajar la presión hasta el desmayo. Es una emergencia: se trata con ADRENALINA inyectada y pidiendo rescate." },
+  { titulo: "Hipotermia", claves: ["hipotermia"],
+    def: "Es cuando el cuerpo se enfría por debajo de lo normal (mucho frío o estar mojado). Primero se tirita y cuesta moverse; si empeora, la persona se confunde, DEJA de tiritar y le da sueño. Hay que abrigar, dar calor de a poco y, si es grave, pedir rescate." },
+  { titulo: "Soroche / mal de altura", claves: ["soroche", "mal de altura", "mal agudo de montaña", "puna", "apunamiento", "mal de las alturas"],
+    def: "Es el malestar por la falta de oxígeno en la altura: dolor de cabeza, náuseas, mareo, falta de aire y dormir mal. Se previene subiendo despacio. Si es grave (falta de aire en reposo, confusión, caminar como borracho), hay que DESCENDER." },
+  { titulo: "Esguince", claves: ["esguince", "torcedura"],
+    def: "Es el estiramiento o desgarro de los ligamentos de una articulación (típico en el tobillo) por un mal movimiento. Duele, se hincha y cuesta apoyar. Se trata con reposo, hielo, compresión y elevación (RICE)." },
+  { titulo: "Luxación", claves: ["luxacion", "dislocacion"],
+    def: "Es cuando un hueso se sale de su lugar en la articulación (por ejemplo el hombro). Queda deformado y muy doloroso. No se debe forzar para acomodarlo: se inmoviliza como quedó y se busca ayuda." },
+  { titulo: "Fractura", claves: ["fractura", "hueso roto", "quebradura"],
+    def: "Es un hueso roto o quebrado. Da dolor, a veces deformación, hinchazón e imposibilidad de mover. Se inmoviliza SIN acomodar el hueso y se busca atención. Si el hueso asoma por la piel es una fractura expuesta (más grave)." },
+  { titulo: "Conmoción cerebral", claves: ["conmocion", "conmocion cerebral", "contusion cerebral"],
+    def: "Es un golpe en la cabeza que 'sacude' el cerebro: puede dar mareo, dolor de cabeza, confusión, náuseas o ver borroso. Hay que vigilar a la persona varias horas; si empeora, vomita o pierde el conocimiento, es urgente." },
+  { titulo: "RCP", claves: ["rcp", "reanimacion", "reanimacion cardiopulmonar", "masaje cardiaco"],
+    def: "Es lo que se hace cuando alguien NO respira: 30 compresiones fuertes y rápidas en el centro del pecho + 2 respiraciones, repitiendo sin parar hasta que llegue ayuda. Mantiene la sangre circulando hacia el cerebro." },
+  { titulo: "Torniquete", claves: ["torniquete"],
+    def: "Es una banda que se aprieta FUERTE por encima de una herida en un brazo o pierna para frenar un sangrado que no para con presión. Se usa solo en hemorragias graves y se anota la hora en que se puso." },
+  { titulo: "Edema (de altura)", claves: ["edema", "edema pulmonar", "edema cerebral", "edema de altura"],
+    def: "Es hinchazón por acumulación de líquido. En la altura es peligroso: el edema pulmonar (líquido en los pulmones: mucha falta de aire, tos) y el cerebral (en el cerebro: confusión, caminar como borracho). Ambos exigen DESCENDER y pedir rescate." },
+  { titulo: "Congelación", claves: ["congelacion", "congelamiento"],
+    def: "Es el daño de la piel y los tejidos por frío extremo (dedos, nariz, orejas). La zona se pone blanca, dura y sin sensibilidad. Se recalienta de a poco (nada de fuego directo) y NO se frota." },
+  { titulo: "Deshidratación", claves: ["deshidratacion"],
+    def: "Es la falta de agua en el cuerpo: sed, boca seca, orinar poco y oscuro, cansancio y mareo. Se corrige tomando agua y sales de rehidratación de a sorbos." },
+  { titulo: "Golpe de calor / insolación", claves: ["golpe de calor", "insolacion", "hipertermia"],
+    def: "Es cuando el cuerpo se recalienta demasiado: piel caliente, dolor de cabeza, mareo, náuseas y confusión. Hay que ir a la sombra, refrescar el cuerpo con agua e hidratar. Si hay confusión, es una emergencia." },
+  { titulo: "Shock", claves: ["shock", "estado de shock"],
+    def: "Es cuando el cuerpo no recibe suficiente sangre y oxígeno (por un sangrado, deshidratación, infección o alergia grave). La persona se pone pálida, con sudor frío, pulso rápido y débil y confusión. Es una emergencia." },
+  { titulo: "ACV / derrame", claves: ["acv", "derrame", "derrame cerebral", "ataque cerebral", "ictus"],
+    def: "Es cuando se corta el riego de sangre a una parte del cerebro. Señales (regla FAST): cara torcida, no poder hablar bien, no mover un brazo/lado del cuerpo. Es una emergencia: cada minuto cuenta, hay que pedir rescate ya." },
+  { titulo: "Convulsión", claves: ["convulsion", "ataque epileptico", "epilepsia"],
+    def: "Es una descarga eléctrica anormal del cerebro: el cuerpo se sacude o se pone rígido y se puede perder el conocimiento. NO se sujeta a la persona ni se le mete nada en la boca; se protege la cabeza y se espera a que pase." },
+  { titulo: "Hipoglucemia", claves: ["hipoglucemia", "bajon de azucar", "azucar baja"],
+    def: "Es el azúcar en sangre demasiado BAJA: temblor, sudor frío, debilidad, hambre y confusión. Se corrige rápido comiendo o tomando algo dulce." },
+  { titulo: "Hiperglucemia", claves: ["hiperglucemia", "azucar alta"],
+    def: "Es el azúcar en sangre demasiado ALTA (típico en la diabetes): mucha sed, orinar mucho, cansancio y visión borrosa. Si es grave da vómitos, respiración profunda y confusión." },
+  { titulo: "Adrenalina (epinefrina)", claves: ["adrenalina", "epinefrina", "epipen"],
+    def: "Es un medicamento INYECTABLE que se usa en la anafilaxia (alergia grave) y el paro cardíaco. Abre las vías respiratorias y sube la presión. Viene en autoinyector (EpiPen). NO es para sangrados ni dolores comunes." },
+  { titulo: "Antihistamínico", claves: ["antihistaminico", "antialergico"],
+    def: "Es un medicamento para las alergias LEVES: corta la picazón, las ronchas y los estornudos. NO reemplaza a la adrenalina en una alergia grave." },
+  { titulo: "Corticoide", claves: ["corticoide", "dexametasona", "corticoides"],
+    def: "Es un antiinflamatorio potente (por ejemplo dexametasona). Se usa en alergias, inflamaciones fuertes y, en montaña, en el edema cerebral por altura." },
+  { titulo: "Antiséptico", claves: ["antiseptico", "desinfectante", "povidona", "clorhexidina"],
+    def: "Sirve para desinfectar heridas: mata los gérmenes antes de cubrir la herida con una gasa. Ejemplos: povidona yodada, clorhexidina." },
+  { titulo: "Sutura / puntos", claves: ["sutura", "suturas", "puntos", "steri strips"],
+    def: "Suturar es cerrar una herida con puntos. Las suturas adhesivas (Steri-Strips o 'puntos de mariposa') cierran cortes pequeños sin aguja, juntando los bordes." },
+  { titulo: "Isquemia", claves: ["isquemia"],
+    def: "Es la falta de riego de sangre a una zona, que queda pálida, fría y sin pulso. Es urgente, porque el tejido se daña si no le llega sangre pronto." },
+  { titulo: "Fiebre", claves: ["fiebre"],
+    def: "Es la temperatura del cuerpo más alta de lo normal (38 °C o más), casi siempre por una infección. Se baja con paracetamol o ibuprofeno e hidratación, y se vigila." },
+  { titulo: "Taquicardia", claves: ["taquicardia", "palpitaciones"],
+    def: "Es el corazón latiendo más rápido de lo normal. Puede ser por esfuerzo, fiebre, deshidratación, susto o algo del corazón. Si viene con dolor de pecho o falta de aire, consultá." },
+];
+// detecta preguntas de definición ("qué es / qué significa / explicame ...")
+const DEF_MARCADOR = /\b(que|qué) (es|son|significa|significan|seria|quiere decir)\b|explica(me|r)?\b|definicion de\b|que es eso de\b|en que consiste\b/;
 
 /* Ítems del botiquín recomendados para cada situación grave (por id de TRIAGE). */
 const SITUACION_ITEMS = {

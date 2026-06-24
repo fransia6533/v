@@ -193,6 +193,19 @@ const SINTOMAS = [
   { dest: "una-encarnada", frases: ["tengo una uña encarnada","se me encarno la uña","la uña se me clava en el dedo","tengo la uña enterrada"] },
   { dest: "dolor-regla", frases: ["dolor de regla","colicos menstruales","me duele por la menstruacion","tengo colicos de la regla","dolor menstrual"] },
   { dest: "herpes-labial", frases: ["herpes labial","me salio un fuego en el labio","tengo una calentura en el labio","me salio herpes en la boca"] },
+  // --- calor / golpe de calor (NO confundir con frío) ---
+  { dest: "insolacion", frases: ["siento mucho mucho calor","tengo mucho calor","hace demasiado calor","me muero de calor","tengo muchisimo calor"] },
+  // --- preguntas de DEFINICIÓN (glosario) ---
+  { dest: "Anafilaxia", frases: ["que es la anafilaxia","que es anafilaxia","explicame la anafilaxia","que significa anafilaxia"] },
+  { dest: "Hipotermia", frases: ["que es la hipotermia","que significa hipotermia"] },
+  { dest: "Soroche / mal de altura", frases: ["que es el soroche","explicame el mal de altura"] },
+  { dest: "Esguince", frases: ["que es un esguince","que significa esguince"] },
+  { dest: "RCP", frases: ["que es la rcp","que es rcp"] },
+  { dest: "ACV / derrame", frases: ["que es un acv","que es un derrame cerebral"] },
+  { dest: "Shock", frases: ["que es el shock","que es estar en shock"] },
+  { dest: "Adrenalina (epinefrina)", frases: ["que es la adrenalina","que es la epinefrina"] },
+  { dest: "Fractura", frases: ["que es una fractura","que significa fractura"] },
+  { dest: "Edema (de altura)", frases: ["que es el edema pulmonar","que es un edema"] },
 ];
 
 // ---------------- construir casos ----------------

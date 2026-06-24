@@ -68,6 +68,31 @@
     return out;
   }
 
+  // ---------- glosario / definiciones ("¿qué es la anafilaxia?") ----------
+  function definicion(norm) {
+    if (typeof GLOSARIO === "undefined" || typeof DEF_MARCADOR === "undefined") return null;
+    if (!DEF_MARCADOR.test(norm)) return null;
+    const palabras = norm.split(/\s+/).filter((w) => w.length >= 4);
+    let mejor = null, mejorS = 0;
+    for (const g of GLOSARIO) {
+      for (const k of g.claves) {
+        let s = 0;
+        if ((" " + norm + " ").includes(" " + k + " ")) s = 1 + k.length / 100; // coincidencia exacta
+        else { // tolerante a typos: mejor palabra parecida
+          for (const w of palabras) { const sim = window.Fuzzy.simPalabra(w, k); if (sim > s) s = sim * 0.9; }
+        }
+        if (s > mejorS && s >= 0.82) { mejorS = s; mejor = g; }
+      }
+    }
+    return mejor;
+  }
+  function responderDefinicion(g) {
+    let html = "📖 <b>" + esc(g.titulo) + "</b><br>" + esc(g.def);
+    html += '<div class="mini-aviso" style="margin-top:8px">ℹ️ Explicación general. Si lo estás viviendo ahora, contame qué pasa y te ayudo paso a paso.</div>';
+    botMsg(html);
+    cierre();
+  }
+
   // ---------- arranque ----------
   function iniciar() {
     if (arrancado) return;
@@ -154,6 +179,11 @@
     const texto = expandir(textoOriginal);
     intensoActual = reIntenso.test(window.Fuzzy.normalizar(textoOriginal));
     const norm = window.Fuzzy.normalizar(texto);
+
+    // ¿es una pregunta de DEFINICIÓN? ("¿qué es la anafilaxia?") -> explicamos.
+    // Usamos el texto original (sin sacar muletillas) por si "que" se filtró.
+    const def = definicion(window.Fuzzy.normalizar(textoOriginal));
+    if (def) { responderDefinicion(def); return; }
 
     // si solo gritó "ayuda/auxilio/urgente" (quedó vacío), lo guiamos
     if (!texto || texto.length < 2) {

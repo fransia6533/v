@@ -16,10 +16,10 @@ vm.createContext(ctx);
 const bundle =
   fs.readFileSync(path.join(dir, "fuzzy.js"), "utf8") + "\n" +
   fs.readFileSync(path.join(dir, "datos.js"), "utf8") + "\n" +
-  "globalThis.__x = { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS, MEDICAMENTOS, MED_MARCADOR };";
+  "globalThis.__x = { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS, MEDICAMENTOS, MED_MARCADOR, GLOSARIO, DEF_MARCADOR };";
 vm.runInContext(bundle, ctx, { filename: "bundle.js" });
 
-const { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS, MEDICAMENTOS, MED_MARCADOR } = ctx.__x;
+const { TRIAGE, CONSEJOS, BOTIQUIN_DEFAULT, Fuzzy, REGLAS, MEDICAMENTOS, MED_MARCADOR, GLOSARIO, DEF_MARCADOR } = ctx.__x;
 
 // --- réplica del expandir() de chat.js ---
 const SLANG = {
@@ -64,6 +64,18 @@ function rutear(textoOriginal) {
 function _rutearReal(texto) {
   // 0) reglas de alta confianza (igual que chat.js)
   const norm = Fuzzy.normalizar(texto);
+  // pregunta de definición ("que es la anafilaxia")
+  if (DEF_MARCADOR.test(norm)) {
+    const palabras = norm.split(/\s+/).filter((w) => w.length >= 4);
+    let mejor = null, mejorS = 0;
+    for (const g of GLOSARIO) for (const k of g.claves) {
+      let s = 0;
+      if ((" " + norm + " ").includes(" " + k + " ")) s = 1 + k.length / 100;
+      else for (const w of palabras) { const sim = Fuzzy.simPalabra(w, k); if (sim > s) s = sim * 0.9; }
+      if (s > mejorS && s >= 0.82) { mejorS = s; mejor = g; }
+    }
+    if (mejor) return { tipo: "def", id: mejor.titulo, score: 1 };
+  }
   // pregunta por un medicamento concreto
   if (MED_MARCADOR.test(norm)) {
     for (const m of MEDICAMENTOS) {
