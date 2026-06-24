@@ -50,8 +50,17 @@ function expandir(t) {
 }
 
 // --- réplica del responder() de chat.js: devuelve {tipo,id,score} ---
+// Memo por texto EXPANDIDO: los prefijos coloquiales colapsan al mismo texto,
+// así 10k+ contextos corren rápido sin cambiar el resultado de ninguno.
+const _memo = new Map();
 function rutear(textoOriginal) {
   const texto = expandir(textoOriginal);
+  if (_memo.has(texto)) return _memo.get(texto);
+  const res = _rutearReal(texto);
+  _memo.set(texto, res);
+  return res;
+}
+function _rutearReal(texto) {
   // 0) reglas de alta confianza (igual que chat.js)
   const norm = Fuzzy.normalizar(texto);
   for (const rg of REGLAS) {
@@ -184,7 +193,7 @@ function ok(esperado, res) {
   return ids.some((e) => e === res.id || `${res.tipo}:${res.id}`.includes(e));
 }
 
-if (require.main !== module) { module.exports = { rutear }; return; }
+if (require.main !== module) { module.exports = { rutear, expandir, TRIAGE, CONSEJOS }; return; }
 
 let pasa = 0;
 const fallos = [];

@@ -125,6 +125,12 @@ ESGUINCE.verbos.forEach((v) => ESGUINCE.partes.forEach((p) => casos.push([`${v} 
 DOLOR_VERBOS.forEach((v) => PARTES_DOLOR.forEach((p) => casos.push([`${v} ${art(p)}`, "dolor-muscular"])));
 SINTOMAS.forEach((S) => S.frases.forEach((f) => casos.push([f, S.dest])));
 
+// Si nos importan como módulo, exportamos las familias y herramientas y NO corremos.
+if (require.main !== module) {
+  module.exports = { casos, typo, art, LESION, ESGUINCE, DOLOR_VERBOS, PARTES, PARTES_DOLOR, SINTOMAS };
+  return;
+}
+
 const PREFIJOS_FULL = ["", "oe ", "uff ", "ayuda ", "auxilio ", "creo que ", "parece que ", "hermano ", "amigo ", "po ", "wn ", "oye ", "necesito ayuda "];
 // para descubrir huecos basta con 4 prefijos representativos (rápido);
 // --full usa los 13 para la validación final (~13k frases).
