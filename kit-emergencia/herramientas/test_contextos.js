@@ -42,7 +42,7 @@ const LESION = [
   { verbos: ["me corte","me corté","me hice un corte en","me hice un tajo en","me raje","me rajé","me abri","me corte feo","me hice una herida en"], dest: "sangrado" },
   { verbos: ["sangra","me sangra","no para de sangrar","esta sangrando","sangro por"], dest: "sangrado", suf: true },
   { verbos: ["me queme","me quemé","me chamusque","me queme feo","me agarro fuego en"], dest: "quemadura" },
-  { verbos: ["me quebre","me quebré","me rompi","me rompí","me fracture","me fracturé","me parti","me partí","creo que me quebre","se me rompio","se me quebro","me destroce"], dest: "hueso", partes: PARTES.filter((p)=>p!=="rodilla"&&p!=="costilla") },
+  { verbos: ["me quebre","me quebré","me rompi","me rompí","me fracture","me fracturé","me parti","me partí","creo que me quebre","se me rompio","se me quebro","me destroce"], dest: "hueso", partes: PARTES.filter((p)=>p!=="rodilla"&&p!=="costilla"&&p!=="dedo") },
 ];
 // Esguince/torcedura (mano de obra: tobillo/rodilla/muñeca)
 const ESGUINCE = { verbos: ["me torci","me torcí","me doble","me doblé","se me doblo","me hice un esguince en","me resbale y me torci"], partes: ["tobillo","rodilla","la muñeca","el pie"], dest: "rodilla" };
@@ -173,6 +173,26 @@ const SINTOMAS = [
   { dest: "perdido", frases: ["estoy perdido","me perdi en la montaña","no se donde estoy","perdi el camino","no se como volver"] },
   // --- agotamiento ---
   { dest: "agotamiento", frases: ["estoy agotado","no puedo mas","estoy exhausto","no me dan las piernas","me quede sin fuerzas"] },
+  // --- LOTE NUEVO ---
+  { dest: "dedo-roto", frases: ["me rompi un dedo","me quebre un dedo","tengo un dedo roto","se me quebro un dedo","me fracture un dedo","me rompi el dedo del pie"] },
+  { dest: "electrocucion", frases: ["me dio corriente","toque un cable y me dio corriente","me electrocute","me dio una descarga electrica","toque un cable pelado"] },
+  { dest: "vomito-sangre", frases: ["vomito sangre","estoy vomitando sangre","vomite con sangre","sangre en el vomito","devuelvo sangre"] },
+  { dest: "sangrado-oido", frases: ["me sale sangre del oido despues de un golpe","sangre por el oido","me sangra el oido tras golpearme la cabeza"] },
+  { dest: "ahogamiento", frases: ["casi se ahoga en el rio","lo sacamos del agua","se ahogo en el lago","rescatamos a alguien del agua","casi me ahogo nadando"] },
+  { dest: "hiperglucemia", frases: ["tengo el azucar por las nubes","azucar alta","soy diabetico y me siento mal","mucha sed y orino mucho","aliento dulce"] },
+  { dest: "intoxicacion-comida", frases: ["comi algo en mal estado","me intoxique con la comida","tengo vomitos y diarrea","me cayo mal la comida","comida en mal estado"] },
+  { dest: "colico-renal", frases: ["colico renal","dolor de rinon","piedra en el rinon","calculo renal","dolor que va de la espalda a la ingle"] },
+  { dest: "lumbago", frases: ["me bloquee la espalda","lumbago","no me puedo enderezar","me agarro el lumbago","se me trabo la cintura"] },
+  { dest: "desgarro", frases: ["me desgarre","me desgarre el gemelo","se me desgarro el musculo","senti un latigazo en el musculo","desgarro muscular"] },
+  { dest: "pie-trinchera", frases: ["pie de trinchera","tengo los pies mojados y helados hace horas","pies blancos y entumecidos por humedad","tengo los pies congelados y mojados"] },
+  { dest: "sabanones", frases: ["tengo sabañones","se me hincharon los dedos con el frio","tengo los dedos rojos e hinchados por el frio","me pican los dedos por el frio"] },
+  { dest: "torticolis", frases: ["tengo torticolis","amaneci con el cuello trabado","no puedo girar el cuello","me quedo el cuello duro","tengo el cuello trabado"] },
+  { dest: "cuerpo-oido", frases: ["se me metio un bicho en el oido","tengo algo en el oido","se me metio agua en el oido","tengo un insecto en el oido"] },
+  { dest: "ojo-morado", frases: ["tengo un ojo morado","me golpee el ojo","me pegaron en el ojo","ojo hinchado por un golpe"] },
+  { dest: "quemadura-quimica", frases: ["me cayo algo quimico en el ojo","quemadura quimica","me cayo lavandina","me cayo acido en la piel","me salpico acido"] },
+  { dest: "una-encarnada", frases: ["tengo una uña encarnada","se me encarno la uña","la uña se me clava en el dedo","tengo la uña enterrada"] },
+  { dest: "dolor-regla", frases: ["dolor de regla","colicos menstruales","me duele por la menstruacion","tengo colicos de la regla","dolor menstrual"] },
+  { dest: "herpes-labial", frases: ["herpes labial","me salio un fuego en el labio","tengo una calentura en el labio","me salio herpes en la boca"] },
 ];
 
 // ---------------- construir casos ----------------

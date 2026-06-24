@@ -105,8 +105,8 @@ PARTES.forEach((p) => {
   C(`me corte ${p}`, "sangrado");
   C(`me quemé ${p}`, "quemadura");
   C(`me queme ${p}`, "quemadura");
-  // cabeza/nariz (cara) -> trauma de cabeza; costilla -> escenario costilla
-  const dest = /cabeza|nariz/.test(p) ? "cabeza" : /costilla/.test(p) ? "costilla" : "hueso";
+  // cabeza/nariz -> trauma de cabeza; costilla -> costilla; dedo -> dedo-roto
+  const dest = /cabeza|nariz/.test(p) ? "cabeza" : /costilla/.test(p) ? "costilla" : /dedo/.test(p) ? "dedo-roto" : "hueso";
   C(`me rompí ${p}`, dest);
   C(`me quebré ${p}`, dest);
   C(`me fracturé ${p}`, dest);
