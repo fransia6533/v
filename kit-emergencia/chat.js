@@ -103,9 +103,14 @@
     "pata": "pierna", "patas": "piernas", "pata rota": "pierna rota",
     "cabeza me estalla": "dolor de cabeza", "jaqueca": "dolor de cabeza",
     "chuchaqui": "resaca", "caña": "resaca", "goma": "resaca", "cruda": "resaca", "guayabo": "resaca",
-    "me chante": "me desmaye", "me desplome": "me desmaye",
+    "me chante": "me desmaye", "me desplome": "me desmaye", "me desmaye": "me desmaye",
+    "me saque la cresta": "me cai fuerte", "me saque la mugre": "me cai fuerte",
+    "me pegue un costalazo": "me cai fuerte", "me di un porrazo": "me golpee fuerte",
+    "me fui de boca": "me cai fuerte", "me fui de hocico": "me cai fuerte",
+    "cototo": "chichon", "chichon": "golpe en la cabeza",
     "wea": " ", "weas": " ", "po": " ", "cachai": " ", "oe": " ", "loco": " ",
-    "remedios": "remedio", "pastillas": "pastilla",
+    "pucha": " ", "chuta": " ", "ufa": " ",
+    "remedios": "remedio", "pastillas": "pastilla", "pastis": "pastilla", "remedito": "remedio",
   };
   // muletillas / interjecciones que no aportan y rompen el match de frase
   // ("amigo me duele la cabeza" debe valer igual que "me duele la cabeza")
@@ -124,8 +129,13 @@
     return s.replace(/\s+/g, " ").trim();
   }
 
+  // ¿lo describe como algo fuerte/grave? (para reforzar el aviso)
+  const reIntenso = /\b(mucho|muchisimo|demasiado|insoportable|no aguanto|no soporto|terrible|horrible|fortisimo|fuertisimo|cada vez peor|empeora|grave|urgente|brutal|espantoso|atroz|no para|sin parar)\b/;
+  let intensoActual = false;
+
   function responder(textoOriginal) {
     const texto = expandir(textoOriginal);
+    intensoActual = reIntenso.test(window.Fuzzy.normalizar(textoOriginal));
 
     // 0) reglas de alta confianza: si hay una señal inequívoca (verbo de
     //    lesión, pedido de pastilla) rutea directo, sin pasar por la búsqueda.
@@ -178,6 +188,13 @@
       w.className = "chat-alarma";
       w.innerHTML = "🚩 <b>Cuándo preocuparte:</b> " + esc(c.cuandoConsultar);
       b.appendChild(w);
+    }
+    if (intensoActual) {
+      const e = document.createElement("div");
+      e.className = "mini-aviso";
+      e.style.marginTop = "8px";
+      e.innerHTML = "⚠️ Lo describís como algo fuerte. Si no mejora pronto o va a peor, no lo dejes pasar: pedí ayuda.";
+      b.appendChild(e);
     }
     cierre();
   }

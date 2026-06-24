@@ -77,6 +77,30 @@
     $("#estadoKey").textContent = Camara.tieneKey() ? "✅ Clave guardada" : "Sin clave";
   });
 
+  // ===================== ACTUALIZAR (forzar última versión) =====================
+  // Botón a prueba de balas contra "me quedé pegado en una versión vieja":
+  // borra TODO lo guardado (service worker + cachés) y recarga sin caché.
+  async function forzarActualizar() {
+    const btn = $("#btnActualizar");
+    if (btn) { btn.disabled = true; btn.textContent = "⏳ Actualizando…"; }
+    try {
+      if ("serviceWorker" in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister()));
+      }
+      if (window.caches) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      }
+    } catch (e) { /* seguimos igual */ }
+    // recarga saltando la caché del navegador (cache-buster en la URL)
+    const u = new URL(window.location.href);
+    u.searchParams.set("v", String(Date.now()));
+    window.location.replace(u.toString());
+  }
+  const btnAct = $("#btnActualizar");
+  if (btnAct) btnAct.addEventListener("click", forzarActualizar);
+
   // ===================== INICIO =====================
   if (window.Chat) Chat.iniciar();
   $("#versionApp").textContent = "v" + (META.version || "");

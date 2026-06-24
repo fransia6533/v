@@ -89,6 +89,27 @@ const SINTOMAS = [
   { dest: "cabeza", frases: ["me golpee la cabeza","me di un cabezazo","me pegue en la cabeza","me golpee fuerte la cabeza"] },
   { dest: "altura|mam", frases: ["tengo soroche","me falta el aire en la altura","tengo mal de altura","me agarro la puna","la altura me tiene mal"] },
   { dest: "frio|congelacion", frases: ["tengo mucho frio","estoy congelado","no siento los dedos","tengo los dedos morados","estoy tiritando","no siento las manos","tengo un dedo negro","se me congelaron los dedos"] },
+  // --- señales de peligro (deben ir a la emergencia correcta) ---
+  { dest: "inconsciente", frases: ["no respira","dejo de respirar","se puso morado","no reacciona para nada","no se despierta","esta inconsciente en el suelo","no le sale aire","se puso azul"] },
+  { dest: "atragantamiento", frases: ["se esta ahogando con comida","se atoro con un pedazo","tiene algo atorado en la garganta","se atraganto comiendo"] },
+  { dest: "convulsion", frases: ["le dio un ataque","esta temblando todo el cuerpo","le agarro una convulsion","esta convulsionando en el piso"] },
+  { dest: "sangrado", frases: ["sale mucha sangre","hay sangre por todos lados","brota sangre de la herida","no puedo parar la sangre","sangra a chorro"] },
+  { dest: "mordedura", frases: ["me mordio una vibora","me mordio una serpiente","me pico un alacran","me pico un escorpion"] },
+  // --- altura / nieve (clave en montaña) ---
+  { dest: "altura", frases: ["tengo soroche","me agarro el mal de altura","estoy apunado","me duele la cabeza por la altura","tengo nauseas en la altura","me falta el aire subiendo el cerro","mareo por la altura","no puedo dormir en la altura","la altura me tiene con dolor de cabeza"] },
+  // --- ceguera de nieve ---
+  { dest: "ceguera-nieve", frases: ["tengo ceguera de nieve","me arden los ojos por el sol","no veo bien por la nieve","ojos rojos por la nieve","siento arena en los ojos","me lloran los ojos por el reflejo"] },
+  // --- labios / piel ---
+  { dest: "labios-piel", frases: ["tengo los labios partidos","se me partieron los labios","tengo la piel agrietada","tengo la cara quemada por el viento","piel reseca por el frio"] },
+  // --- caídas fuertes (modismos chilenos) ---
+  { dest: "rodilla|hueso|cabeza", frases: ["me saque la cresta","me pegue un costalazo","me fui de boca","me saque la mugre"] },
+  { dest: "cabeza", frases: ["me sale un cototo","tengo un chichon","me salio un chichon en la cabeza"] },
+  // --- pedir ayuda sin saber qué ---
+  { dest: "ayuda-general", frases: ["no se que tengo","no se que me pasa","que hago ahora","es una emergencia","no se que hacer"] },
+  // --- dolor al defecar / hemorroides / estreñimiento ---
+  { dest: "defecar", frases: ["me duele al cagar","me arde al cagar","me duele cuando voy al baño","tengo hemorroides","me sale sangre al cagar","estoy estreñido","llevo dias sin ir al baño","me duele el ano","me duele el poto al cagar"] },
+  // --- herida infectada / pus ---
+  { dest: "infeccion", frases: ["tengo pus en la herida","sale pus","se me infecto la herida","me sale liquido amarillo","la herida huele mal","me esta saliendo sangre con amarillo","la herida supura"] },
 ];
 
 // ---------------- construir casos ----------------

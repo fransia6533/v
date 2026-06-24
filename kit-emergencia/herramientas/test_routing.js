@@ -27,9 +27,14 @@ const SLANG = {
   "pata": "pierna", "patas": "piernas", "pata rota": "pierna rota",
   "cabeza me estalla": "dolor de cabeza", "jaqueca": "dolor de cabeza",
   "chuchaqui": "resaca", "caña": "resaca", "goma": "resaca", "cruda": "resaca", "guayabo": "resaca",
-  "me chante": "me desmaye", "me desplome": "me desmaye",
+  "me chante": "me desmaye", "me desplome": "me desmaye", "me desmaye": "me desmaye",
+  "me saque la cresta": "me cai fuerte", "me saque la mugre": "me cai fuerte",
+  "me pegue un costalazo": "me cai fuerte", "me di un porrazo": "me golpee fuerte",
+  "me fui de boca": "me cai fuerte", "me fui de hocico": "me cai fuerte",
+  "cototo": "chichon", "chichon": "golpe en la cabeza",
   "wea": " ", "weas": " ", "po": " ", "cachai": " ", "oe": " ", "loco": " ",
-  "remedios": "remedio", "pastillas": "pastilla",
+  "pucha": " ", "chuta": " ", "ufa": " ",
+  "remedios": "remedio", "pastillas": "pastilla", "pastis": "pastilla", "remedito": "remedio",
 };
 const MULETILLAS_FRASE = ["creo que", "parece que", "siento que", "me parece que", "la verdad que"];
 const MULETILLAS = ("amigo amiga hermano hermana pana wey wn weon weón men " +

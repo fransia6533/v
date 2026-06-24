@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.1 (borrador)",
+  version: "1.2 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -745,7 +745,28 @@ const CONSEJOS = [
   { id: "resaca", sintomas: ["resaca", "caña", "estoy curado", "cruda", "goma", "tome mucho", "tomé mucho", "chuchaqui", "estoy crudo", "guayabo", "tengo caña", "tengo cruda", "estoy con resaca", "ando mal del trago"],
     mensaje: "Hidratate bien (agua y sales), comé algo liviano y descansá. Un analgésico ayuda con el dolor de cabeza. Evitá más alcohol.",
     items: ["sales de rehidratacion", "paracetamol", "ibuprofeno"],
-    cuandoConsultar: "Vómitos que no paran, confusión, o no podés despertar bien a alguien: puede ser intoxicación, pedí ayuda." }
+    cuandoConsultar: "Vómitos que no paran, confusión, o no podés despertar bien a alguien: puede ser intoxicación, pedí ayuda." },
+  // --- específicos de montaña / nieve ---
+  { id: "ceguera-nieve", sintomas: ["ceguera de nieve", "no veo bien por la nieve", "me arden los ojos por el sol", "ojos rojos por la nieve", "vista nublada por el sol", "queratitis", "me lloran los ojos por el sol", "no veo bien despues de la nieve", "ojos quemados por la nieve", "siento arena en los ojos", "ojos irritados por el reflejo"],
+    mensaje: "Suena a ceguera de nieve (los ojos se queman con el reflejo del sol en la nieve). Tapate los ojos y quedate en un lugar OSCURO; no te los refriegues. Paños fríos sobre los párpados cerrados y un analgésico ayudan. Suele mejorar solo en 1-2 días. De acá en más, NO salgas sin antiparras/lentes con filtro UV.",
+    items: ["paracetamol", "ibuprofeno"],
+    cuandoConsultar: "Si el dolor es muy intenso, no mejora en 2 días, o perdés visión: necesitás un médico." },
+  { id: "labios-piel", sintomas: ["labios partidos", "labios agrietados", "se me partieron los labios", "tengo los labios secos", "piel agrietada", "piel reseca", "se me agrieto la piel", "tengo la cara quemada por el viento", "piel partida por el frio"],
+    mensaje: "El frío, el viento y la altura resecan. Hidratá la piel y los labios (bálsamo/vaselina o protector labial), tomá agua y cubrí la cara del viento. No te despegues la piel.",
+    items: [],
+    cuandoConsultar: "Si hay grietas profundas que sangran, se infectan (pus, mucho rojo) o duelen mucho: tratalo como herida y consultá." },
+  { id: "defecar", sintomas: ["me duele al cagar", "me duele cuando voy al baño", "me duele al obrar", "me arde al cagar", "me arde el ano", "sangre al cagar", "sangrado al defecar", "hemorroides", "almorranas", "me duele el ano", "dolor al defecar", "me cuesta cagar", "estoy estreñido", "estreñimiento", "no puedo hacer caca", "llevo dias sin ir al baño", "me duele el poto al cagar", "me duele el poto", "me sale sangre al cagar", "ardor al defecar"],
+    mensaje: "El dolor o ardor al defecar suele ser por hemorroides, una fisura o estreñimiento. Tomá MUCHA agua, comé fibra (fruta, verdura), no pujes fuerte y no te aguantes las ganas. Higiene suave (agua, sin papel áspero) y, si arde, frío local o un baño de asiento tibio. Un analgésico ayuda con el dolor.",
+    items: ["ibuprofeno", "paracetamol"],
+    cuandoConsultar: "Mucha sangre (no solo un hilito), sangre oscura/con coágulos, dolor fuerte que no cede, fiebre, o varios días sin poder ir al baño con la panza hinchada: consultá." },
+  { id: "infeccion", sintomas: ["tengo pus", "sale pus", "herida con pus", "sale liquido amarillo", "sangre con amarillo", "me sale amarillo", "liquido amarillo", "se me infecto la herida", "herida infectada", "esta hinchado rojo y caliente", "supura", "me sale liquido de la herida", "la herida huele mal", "herida que huele feo", "se puso amarilla la herida", "pus amarillo"],
+    mensaje: "Líquido amarillo o pus, mal olor, o una zona roja-caliente-hinchada apuntan a una infección. Lavá con agua limpia y jabón, desinfectá con antiséptico y cubrí con gasa limpia; cambiá el apósito a diario. NO la aprietes ni la cierres con fuerza. Si tenés, un antibiótico lo decide el médico.",
+    items: ["antiseptico", "gasas"],
+    cuandoConsultar: "Fiebre, líneas rojas que suben desde la herida, hinchazón que crece, mucho dolor o pus abundante: necesitás antibiótico/médico, no lo dejes." },
+  { id: "ayuda-general", sintomas: ["no se que tengo", "no se que me pasa", "que hago", "que hago ahora", "ayuda que hago", "es una emergencia", "necesito ayuda urgente", "auxilio que hago", "no se que hacer", "que hago doctor", "estoy en problemas"],
+    mensaje: "Tranquilo/a, estoy con vos. Para ayudarte mejor, decime en pocas palabras qué pasa 👇\n• ¿Hay sangre, un golpe o un hueso raro?\n• ¿Cuesta respirar o alguien no responde? (eso es URGENTE)\n• ¿Dolor, fiebre, náuseas, frío?\nEscribilo simple o tocá una opción.",
+    items: [],
+    cuandoConsultar: "Si alguien no respira, no responde, sangra mucho o se está poniendo morado: es urgente, pedí rescate y empezá por eso." }
 ];
 
 /* ============================================================================
@@ -756,6 +777,28 @@ const CONSEJOS = [
    El texto llega normalizado (minúsculas, sin acentos). Primera que matchea gana.
    ============================================================================ */
 const REGLAS = [
+  // ========================================================================
+  // SEÑALES DE PELIGRO — máxima prioridad. Si alguien describe algo que pone
+  // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
+  // raro. (La nariz que sangra se evalúa más abajo y no entra acá.)
+  // ========================================================================
+  { re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se puso (morad|azul|palid|blanc)|esta morad|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
+  { re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
+  { re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
+  { re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
+  { re: /me mordio (una |la )?(vibora|serpiente|culebra)|mordedura de (vibora|serpiente)|me pico (un |una )?(alacran|escorpion)/, tipo: "sit", id: "mordedura" },
+
+  // === INTELIGENCIA DE ALTURA / NIEVE (clave en montaña) ===
+  { re: /soroche|mal de altura|mal de montaña|\bpuna\b|apunad|edema (pulmonar|cerebral)|mal de las alturas/, tipo: "sit", id: "altura" },
+  { re: /(dolor de cabeza|duele la cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir).{0,34}(altura|montaña|cordillera|subiendo|3 ?mil|4 ?mil|cumbre|cerro)/, tipo: "sit", id: "altura" },
+  { re: /(altura|montaña|cordillera|subiendo|cumbre|cerro).{0,34}(dolor de cabeza|duele la cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir)/, tipo: "sit", id: "altura" },
+
+  // === CEGUERA DE NIEVE / ojos por sol-nieve ===
+  { re: /ceguera de nieve|(no veo|vista nublada|ojos rojos|me arden los ojos|ojos irritados|me lloran los ojos|siento arena en los ojos).{0,22}(nieve|sol|reflejo)|queratitis|quemadura en los ojos/, tipo: "consejo", id: "ceguera-nieve" },
+
+  // === labios / piel agrietada por frío-viento (antes que quemadura/hueso) ===
+  { re: /(parti|agriet|seca|reseca|cuartead).{0,14}(labios|la piel|la cara)|(labios|la piel|la cara).{0,16}(partid|seca|reseca|agrietad|cuartead|quemada por el viento)|labios (partidos|secos|agrietados)|piel (agrietada|reseca|partida)/, tipo: "consejo", id: "labios-piel" },
+
   // --- pedido de medicación (analgésico, pastilla, algo para el dolor) ---
   { re: /\balgo para (el |la )?(dolor|fiebre|nausea|malestar)/, tipo: "consejo", id: "que-tomar" },
   { re: /\bdame (algo|una pastilla|un remedio|un calmante|un analg)/, tipo: "consejo", id: "que-tomar" },
@@ -765,6 +808,11 @@ const REGLAS = [
 
   // --- cabeza que late/palpita (jaqueca, NO un golpe) ---
   { re: /\b(me late|me palpita|me retumba|siento latir|me pulsa)\b.{0,14}(cabeza|sien|frente|craneo)/, tipo: "consejo", id: "dolor-cabeza" },
+
+  // --- dolor al defecar / hemorroides / estreñimiento ---
+  { re: /(duele|arde|sangre|sangra|cuesta|sale sangre).{0,14}(cagar|defecar|al baño|obrar|el ano|el poto)|hemorroide|almorrana|estreñi|no puedo (hacer caca|obrar)|dias sin (ir al baño|cagar|obrar)/, tipo: "consejo", id: "defecar" },
+  // --- herida infectada / pus ---
+  { re: /\bpus\b|sale pus|liquido amarillo|sangre con amarillo|sale amarillo|herida (con pus|infectada|que huele)|se (me )?infecto|supura|huele (mal|feo) la herida/, tipo: "consejo", id: "infeccion" },
 
   // --- sangrado de NARIZ (antes que sangrado general y quemadura) ---
   { re: /(sangr|sale sangre|sangre).{0,14}nariz|nariz.{0,16}(sangr|sangre)|hemorragia nasal|epistaxis/, tipo: "consejo", id: "sangrado-nariz" },
