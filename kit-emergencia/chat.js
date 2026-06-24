@@ -114,11 +114,14 @@
   };
   // muletillas / interjecciones que no aportan y rompen el match de frase
   // ("amigo me duele la cabeza" debe valer igual que "me duele la cabeza")
-  const MULETILLAS_FRASE = ["creo que", "parece que", "siento que", "me parece que", "la verdad que"];
+  const MULETILLAS_FRASE = ["creo que", "parece que", "siento que", "me parece que",
+    "la verdad que", "necesito ayuda", "necesito que me ayudes", "ayuda urgente", "es urgente", "es una urgencia"];
+  // "ayuda/auxilio/urgente" son gritos de auxilio, no un síntoma: se descartan
+  // para que "necesito ayuda me duele el brazo" valga igual que "me duele el brazo".
   const MULETILLAS = ("amigo amiga hermano hermana pana wey wn weon weón men " +
     "creo parece oye oiga hola disculpa disculpame perdon perdona perdoname mira " +
-    "che socorro auxilio ayudame ayudenme porfa porfavor porfis uff uf ufff aaa ay " +
-    "oye necesito_ayuda compadre causa brother bro hey eh").split(" ");
+    "che socorro auxilio ayuda ayudame ayudenme porfa porfavor porfis uff uf ufff aaa ay " +
+    "urgente urgentemente oye compadre causa brother bro hey eh").split(" ");
   const reMule = new RegExp("\\b(" + MULETILLAS_FRASE.concat(MULETILLAS).join("|") + ")\\b", "g");
   function expandir(t) {
     let s = " " + (t || "").toLowerCase() + " ";
@@ -136,6 +139,12 @@
   function responder(textoOriginal) {
     const texto = expandir(textoOriginal);
     intensoActual = reIntenso.test(window.Fuzzy.normalizar(textoOriginal));
+
+    // si solo gritó "ayuda/auxilio/urgente" (quedó vacío), lo guiamos
+    if (!texto || texto.length < 2) {
+      const ag = CONSEJOS.find((c) => c.id === "ayuda-general");
+      if (ag) { responderConsejo(ag); return; }
+    }
 
     // 0) reglas de alta confianza: si hay una señal inequívoca (verbo de
     //    lesión, pedido de pastilla) rutea directo, sin pasar por la búsqueda.

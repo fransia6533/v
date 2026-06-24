@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.2 (borrador)",
+  version: "1.3 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",

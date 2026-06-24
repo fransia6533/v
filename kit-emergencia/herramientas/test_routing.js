@@ -36,11 +36,12 @@ const SLANG = {
   "pucha": " ", "chuta": " ", "ufa": " ",
   "remedios": "remedio", "pastillas": "pastilla", "pastis": "pastilla", "remedito": "remedio",
 };
-const MULETILLAS_FRASE = ["creo que", "parece que", "siento que", "me parece que", "la verdad que"];
+const MULETILLAS_FRASE = ["creo que", "parece que", "siento que", "me parece que",
+  "la verdad que", "necesito ayuda", "necesito que me ayudes", "ayuda urgente", "es urgente", "es una urgencia"];
 const MULETILLAS = ("amigo amiga hermano hermana pana wey wn weon weón men " +
   "creo parece oye oiga hola disculpa disculpame perdon perdona perdoname mira " +
-  "che socorro auxilio ayudame ayudenme porfa porfavor porfis uff uf ufff aaa ay " +
-  "oye necesito_ayuda compadre causa brother bro hey eh").split(" ");
+  "che socorro auxilio ayuda ayudame ayudenme porfa porfavor porfis uff uf ufff aaa ay " +
+  "urgente urgentemente oye compadre causa brother bro hey eh").split(" ");
 const reMule = new RegExp("\\b(" + MULETILLAS_FRASE.concat(MULETILLAS).join("|") + ")\\b", "g");
 function expandir(t) {
   let s = " " + (t || "").toLowerCase() + " ";
