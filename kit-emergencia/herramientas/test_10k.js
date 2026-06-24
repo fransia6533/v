@@ -18,10 +18,11 @@ const OBJETIVO = argN ? (argN | 0) : 10000;
 const PREFIJOS = ["", "", "oe ", "uff ", "ayuda ", "auxilio ", "creo que ", "parece que ",
   "hermano ", "amigo ", "po ", "wn ", "oye ", "necesito ayuda ", "hola ", "disculpa ",
   "porfa ", "che ", "compadre "];
-// Sufijos coloquiales que tampoco deben romper nada.
-const SUFIJOS = ["", "", "", " po", " wn", " ayuda", " que hago", " porfa", " urgente", " :("];
-// Bandas de typo: la mayoría limpio/leve (lo realista), algo de ruido medio.
-const BANDAS = [0, 0, 0, 0, 0.06, 0.06, 0.12];
+// Sufijos coloquiales que tampoco deben romper nada (la app los descarta como
+// muletillas, así que dan variedad real al texto SIN multiplicar el costo).
+const SUFIJOS = ["", "", "", " po", " wn", " oe", " loco", " po wn", " porfa", " urgente"];
+// Bandas de typo: la mayoría limpio (lo realista), algo de ruido leve/medio.
+const BANDAS = [0, 0, 0, 0, 0, 0, 0.08, 0.12];
 
 function ok(esperado, res) {
   return esperado.split("|").some((e) => e === res.id || `${res.tipo}:${res.id}`.includes(e));
