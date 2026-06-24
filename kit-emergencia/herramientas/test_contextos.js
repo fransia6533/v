@@ -137,6 +137,18 @@ const SINTOMAS = [
   { dest: "caida-grave", frases: ["me cai de un barranco","me cai de altura","me despeñe","cai de varios metros","me cai del cerro","cai por un precipicio","me cai escalando"] },
   // --- sobrevivir la noche / frío nocturno ---
   { dest: "supervivencia", frases: ["cuantas calorias debo comer para sobrevivir la noche","como sobrevivir la noche","como aguanto la noche de frio","sobrevivir el frio","sobrevivir en la nieve"] },
+  // --- objeto clavado / empalamiento ---
+  { dest: "objeto-clavado", frases: ["me incruste el palo de ski por accidente en mi pierna","me clave un fierro en la pierna","tengo un palo clavado","me empale","tengo algo clavado","se me clavo un palo","me clave una rama"] },
+  // --- luxación / dislocación ---
+  { dest: "luxacion", frases: ["se me salio el hombro","se me zafo el hombro","se me disloco la rodilla","tengo el hombro fuera de lugar","se me salio el brazo de lugar"] },
+  // --- avalancha ---
+  { dest: "avalancha", frases: ["me tapo una avalancha","quede enterrado en la nieve","me cubrio la nieve","nos tapo un alud","quede atrapado en la nieve"] },
+  // --- caída al agua helada ---
+  { dest: "agua-fria", frases: ["me cai al rio helado","me cai al agua","me cai a un lago helado","cai en agua fria","me moje entero en el rio"] },
+  // --- diente por golpe ---
+  { dest: "diente-golpe", frases: ["se me cayo un diente de un golpe","me rompi un diente","se me salto un diente","perdi un diente por un golpe","se me quebro un diente"] },
+  // --- monóxido en carpa cerrada ---
+  { dest: "monoxido", frases: ["cocine en la carpa y me duele la cabeza","me siento mal en la carpa cerrada","intoxicacion por monoxido","mareo en la carpa cerrada"] },
 ];
 
 // ---------------- construir casos ----------------

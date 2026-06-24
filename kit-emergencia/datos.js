@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "1.6 (borrador)",
+  version: "1.7 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -791,6 +791,30 @@ const CONSEJOS = [
     mensaje: "Para aguantar una noche de frío en la montaña lo MÁS importante no es comer mucho, sino CONSERVAR EL CALOR: aislate del suelo (mochila, ramas, lo que tengas), tapate con la manta térmica (lado plateado hacia el cuerpo), cubrí cabeza, cuello y manos, y achicá el espacio de aire a tu alrededor. Comé lo que tengas y que sea calórico (frutos secos, chocolate, barritas) para tener energía y generar calor, y tomá agua aunque no tengas sed. Movete de a ratos (contraé los músculos) para no enfriarte. NO tomes alcohol: enfría más.",
     items: ["manta termica"],
     cuandoConsultar: "Si alguien tirita sin parar y después deja de tiritar de golpe, se pone confundido, torpe o con mucho sueño: es hipotermia grave. Mantenelo abrigado, dale algo caliente y dulce si está consciente, y pedí rescate." },
+  { id: "objeto-clavado", sintomas: ["me clave un palo", "se me clavo un palo", "me incruste el palo de ski", "me incruste el palo", "tengo algo clavado", "me atravieso un fierro", "me clave un fierro", "tengo un palo clavado", "se me incrusto", "me empale", "tengo algo enterrado en la pierna", "me clave una rama", "me atraveso un palo", "tengo un hierro clavado", "objeto clavado", "me clave el piolet", "se me clavo un fierro", "me clave un clavo grande", "tengo un fierro clavado", "me incruste algo"],
+    mensaje: "⚠️ Si quedó un objeto clavado (palo, fierro, rama, piolet), NO lo saques: está taponando la herida y, si lo retirás, puede sangrar mucho más. Estabilizalo con gasas y vendas ALREDEDOR para que no se mueva, hacé presión al LADO de la herida (no encima del objeto) para controlar el sangrado, y mantené quieta la zona. Que lo retire un profesional en un lugar seguro.",
+    items: ["gasas", "venda elastica", "torniquete"],
+    cuandoConsultar: "Si sangra mucho, el objeto está clavado en el pecho, abdomen, cuello o cabeza, o la persona se descompensa: es URGENTE, rescate YA. No lo saques vos." },
+  { id: "luxacion", sintomas: ["se me salio el hombro", "se me zafo el hombro", "se me disloco", "luxacion", "se me salio de lugar", "se me zafo la rodilla", "tengo el hombro fuera de lugar", "se me salio el brazo", "se me corrio el hueso", "se me disloco el hombro", "dislocacion", "se me salto el hombro", "tengo la articulacion fuera de lugar"],
+    mensaje: "Parece una luxación (el hueso se salió de la articulación). NO intentes meterlo en su lugar a la fuerza. Inmovilizá el brazo o la pierna en la posición en que quedó (cabestrillo o férula), poné frío y tomá un analgésico. Buscá ayuda para acomodarlo.",
+    items: ["ferula", "venda elastica", "ibuprofeno", "analgesico fuerte"],
+    cuandoConsultar: "Si la zona se pone fría, pálida, azulada, o no sentís/movés más abajo: urgente. No fuerces el hueso." },
+  { id: "avalancha", sintomas: ["me tapo una avalancha", "quede enterrado en la nieve", "me cubrio la nieve", "avalancha", "quede atrapado en la nieve", "me sepulto la nieve", "alud", "nos tapo un alud", "quede bajo la nieve", "me enterro la nieve"],
+    mensaje: "Si alguien quedó bajo una avalancha: lo PRIMERO es liberar la cara y el pecho y despejar la vía aérea (sacar la nieve de boca y nariz) para que respire. Después abrigalo (manta térmica), tratá la hipotermia y revisá golpes o fracturas. Marcá la zona y pedí rescate de inmediato.",
+    items: ["manta termica"],
+    cuandoConsultar: "Si no respira o no responde: empezá RCP si sabés y pedí rescate YA. El tiempo bajo la nieve es crítico." },
+  { id: "agua-fria", sintomas: ["me cai al agua", "me cai al rio", "me cai a un lago helado", "me cai al agua helada", "cai en agua fria", "me moje entero en el rio", "cai a una laguna", "me cai al rio helado", "me cai a un lago", "cai al agua fria"],
+    mensaje: "Salí del agua YA y sacate la ropa mojada (mojado te enfriás muchísimo más rápido). Secate, abrigate con ropa seca y manta térmica, y entrá en calor de a poco. Movete suave. Ojo: el cuerpo se enfría rápido aunque no lo sientas todavía.",
+    items: ["manta termica"],
+    cuandoConsultar: "Si tirita sin parar y luego deja de tiritar, se confunde o le da mucho sueño: hipotermia grave, pedí rescate." },
+  { id: "diente-golpe", sintomas: ["se me cayo un diente de un golpe", "se me salto un diente", "me rompi un diente", "perdi un diente por un golpe", "se me quebro un diente", "me golpee y se me cayo un diente", "se me salio un diente", "me saltaron un diente", "se me partio un diente"],
+    mensaje: "Si se salió un diente entero por un golpe: agarralo de la corona (la parte blanca), NO de la raíz; enjuagalo suave sin frotar y, si podés, volvé a ponerlo en su lugar o guardalo en leche o en tu propia saliva. Andá a un dentista lo antes posible (las primeras horas cuentan). Para el dolor, un analgésico y frío.",
+    items: ["ibuprofeno", "paracetamol", "gasas"],
+    cuandoConsultar: "Sangrado de la boca que no para, o si el golpe en la cara/cabeza fue fuerte: revisá también la cabeza y consultá." },
+  { id: "monoxido", sintomas: ["monoxido", "cocine en la carpa y me duele la cabeza", "me siento mal en la carpa cerrada", "intoxicacion por monoxido", "dolor de cabeza cocinando en la carpa", "mareo en la carpa cerrada", "use la estufa en la carpa y me siento mal", "dolor de cabeza en la carpa cerrada"],
+    mensaje: "⚠️ Si cocinaste o usaste calentador/estufa en una carpa o refugio CERRADO y te dio dolor de cabeza, mareo o náuseas, puede ser monóxido de carbono (no se ve ni se huele): SALÍ al aire libre YA y ventilá todo. Nunca uses cocina o estufa a combustión dentro de un espacio cerrado.",
+    items: [],
+    cuandoConsultar: "Si alguien se desmaya, está muy confundido o no despierta: sacalo al aire libre de inmediato y pedí rescate." },
   { id: "zumbido", sintomas: ["me zumban los oidos", "escucho un pitido", "tengo un pitido en el oido", "me suenan los oidos", "tinnitus", "siento un zumbido"],
     mensaje: "Suele pasar por presión (altura), ruido fuerte o cansancio. Tragá saliva o bostezá para destapar los oídos, descansá y tomá agua. Bajá el ritmo.",
     items: [],
@@ -837,6 +861,19 @@ const REGLAS = [
 
   // === SOBREVIVIR LA NOCHE / frío nocturno / calorías ===
   { re: /cuantas calorias|calorias para sobrevivir|sobrevivir la noche|aguantar la noche|pasar la noche (en|al|a la)|sobrevivir (el|al) frio|como no morir de frio|sobrevivir (en|a) la (nieve|montaña|intemperie)|aguantar el frio (toda |por )?la noche|como aguanto la noche/, tipo: "consejo", id: "supervivencia" },
+
+  // === OBJETO CLAVADO / empalamiento — NO sacarlo ===
+  { re: /me clave (un |el )?(palo|fierro|hierro|rama|piolet|cuchillo|clavo|estaca)|se me clavo (un |el )|me incruste|me empale|tengo (un |el )?(palo|fierro|hierro|cuchillo|objeto) clavado|tengo algo clavado|objeto clavado|me atraves|se me incrusto|quedo clavado|clavado en (la|el|mi)|tengo algo enterrado en/, tipo: "consejo", id: "objeto-clavado" },
+  // === LUXACIÓN / dislocación ===
+  { re: /se me (salio|zafo|corrio|salto|disloco) (el |la )?(hombro|brazo|rodilla|cadera|hueso|articulacion|mandibula)|luxacion|dislocacion|se me disloco|fuera de lugar (el|la)|hombro fuera de lugar|se me salio de lugar/, tipo: "consejo", id: "luxacion" },
+  // === AVALANCHA / alud ===
+  { re: /avalancha|\balud\b|me (tapo|cubrio|sepulto|enterro) (la |una )?(nieve|avalancha|alud)|quede (enterrado|atrapado|sepultado|bajo) .{0,12}nieve/, tipo: "consejo", id: "avalancha" },
+  // === CAÍDA AL AGUA HELADA ===
+  { re: /me cai al (agua|rio|lago)|cai (en|a) (el |un |una )?(agua|rio|lago|laguna)|agua (fria|helada)|me moje entero|me cai a (un|una)/, tipo: "consejo", id: "agua-fria" },
+  // === DIENTE por golpe (no es dolor de muela) ===
+  { re: /se me (cayo|salto|quebro|partio|salio) (un |el )?diente|me rompi un diente|perdi un diente|me saltaron un diente|me golpee.{0,12}diente/, tipo: "consejo", id: "diente-golpe" },
+  // === MONÓXIDO en carpa/refugio cerrado ===
+  { re: /monoxido|cocin(e|ar|ando) (en|dentro de) (la |una )?carpa|(estufa|calentador|cocina) (en|dentro) (la |de )?carpa|(me siento mal|mareo|mareado|nausea|dolor de cabeza|me duele la cabeza) (en|dentro de) (la |una )?carpa( cerrada)?/, tipo: "consejo", id: "monoxido" },
 
   // === labios / piel agrietada por frío-viento (antes que quemadura/hueso) ===
   { re: /(parti|agriet|seca|reseca|cuartead).{0,14}(labios|la piel|la cara)|(labios|la piel|la cara).{0,16}(partid|seca|reseca|agrietad|cuartead|quemada por el viento)|labios (partidos|secos|agrietados)|piel (agrietada|reseca|partida)/, tipo: "consejo", id: "labios-piel" },
