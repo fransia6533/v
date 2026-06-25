@@ -61,9 +61,12 @@ function rutear(textoOriginal) {
   _memo.set(texto, res);
   return res;
 }
+const reSeguir = /^(y |y ahora |ahora |entonces |despues |y despues |y luego |bueno |ok )*(que (hago|hago ahora|mas hago|mas puedo hacer|sigue|hago despues|otra cosa hago)|que me (pongo|aplico|hecho|echo)|que me puedo (poner|aplicar|echar)|me puedo poner algo|me pongo algo|que mas|algo (mas )?(que )?(pueda|puedo) (hacer|poner|aplicar)|que mas puedo hacer|necesito (hacer )?algo mas|hay algo mas que pueda hacer|y despues|y luego)\s*\??$/;
 function _rutearReal(texto) {
   // 0) reglas de alta confianza (igual que chat.js)
   const norm = Fuzzy.normalizar(texto);
+  // seguimiento vago, sin memoria en el test -> ayuda-general (default seguro)
+  if (reSeguir.test(norm)) return { tipo: "consejo", id: "ayuda-general", score: 1 };
   // pregunta de definición ("que es la anafilaxia")
   if (DEF_MARCADOR.test(norm)) {
     const palabras = norm.split(/\s+/).filter((w) => w.length >= 4);

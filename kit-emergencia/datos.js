@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.1 (borrador)",
+  version: "2.2 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -970,152 +970,152 @@ const REGLAS = [
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
   // raro. (La nariz que sangra se evalúa más abajo y no entra acá.)
   // ========================================================================
-  { re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se puso (morad|azul)|esta morad|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
-  { re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
-  { re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
-  { re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
-  { re: /me mordio (una |la )?(vibora|serpiente|culebra)|mordedura de (vibora|serpiente)|me pico (un |una )?(alacran|escorpion)/, tipo: "sit", id: "mordedura" },
+{ re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se puso (morad|azul)|esta morad|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
+{ re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
+{ re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
+{ re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
+{ re: /me mordio (una |la )?(vibora|serpiente|culebra)|mordedura de (vibora|serpiente)|me pico (un |una )?(alacran|escorpion)/, tipo: "sit", id: "mordedura" },
   // ACV / derrame (FAST): cara torcida, no habla, no mueve un lado
-  { re: /se le (tuerce|torcio|cayo|durmio) (la )?(cara|media cara)|boca chueca|cara torcida|no (puede|le sale) hablar|habla raro|se le traba la lengua|no mueve un (brazo|lado)|no mueve la mitad|perdio fuerza en un lado|derrame cerebral|\bacv\b/, tipo: "consejo", id: "acv" },
+{ re: /se le (tuerce|torcio|cayo|durmio) (la )?(cara|media cara)|boca chueca|cara torcida|no (puede|le sale) hablar|habla raro|se le traba la lengua|no mueve un (brazo|lado)|no mueve la mitad|perdio fuerza en un lado|derrame cerebral|\bacv\b/, tipo: "consejo", id: "acv" },
   // ataque de asma / broncoespasmo
-  { re: /ataque de asma|crisis de asma|broncoespasmo|asma y (me ahogo|no puedo respirar|me falta el aire)|soy asmatico|me agarro el asma|silbo al respirar|pita el pecho/, tipo: "consejo", id: "asma" },
+{ re: /ataque de asma|crisis de asma|broncoespasmo|asma y (me ahogo|no puedo respirar|me falta el aire)|soy asmatico|me agarro el asma|silbo al respirar|pita el pecho/, tipo: "consejo", id: "asma" },
   // shock: necesita la COMBINACIÓN (palidez + sudor frío/pulso débil), no
   // "sudor frío" suelto (eso también es bajón de azúcar o susto)
-  { re: /esta en shock|(esta |se puso )?(muy )?palid[oa].{0,16}(sudor|sudando) frio|(sudor|sudando) frio.{0,16}(palid|pulso debil|debil)|pulso debil( y palid)?|se puso palid|palid[oa] y (debil|maread)|esta blanco y (con sudor|debil)/, tipo: "consejo", id: "shock" },
+{ re: /esta en shock|(esta |se puso )?(muy )?palid[oa].{0,16}(sudor|sudando) frio|(sudor|sudando) frio.{0,16}(palid|pulso debil|debil)|pulso debil( y palid)?|se puso palid|palid[oa] y (debil|maread)|esta blanco y (con sudor|debil)/, tipo: "consejo", id: "shock" },
   // rayo / tormenta eléctrica
-  { re: /me cayo un rayo|nos cayo un rayo|le cayo un rayo|cayo un rayo|tormenta electrica|me electrocuto un rayo|hay muchos rayos|tormenta con rayos/, tipo: "consejo", id: "rayo" },
+{ re: /me cayo un rayo|nos cayo un rayo|le cayo un rayo|cayo un rayo|tormenta electrica|me electrocuto un rayo|hay muchos rayos|tormenta con rayos/, tipo: "consejo", id: "rayo" },
   // cara/nariz/mandíbula rota de un golpe -> trauma de cabeza (no fractura genérica)
-  { re: /(rompi|quebre|fracture|parti|reventaron|rompieron|destroce).{0,14}(la cara|la nariz|la mandibula|el pomulo|la mejilla|el craneo)|se me rompio la cara|me rompieron la cara|me reventaron la cara/, tipo: "sit", id: "cabeza" },
+{ re: /(rompi|quebre|fracture|parti|reventaron|rompieron|destroce).{0,14}(la cara|la nariz|la mandibula|el pomulo|la mejilla|el craneo)|se me rompio la cara|me rompieron la cara|me reventaron la cara/, tipo: "sit", id: "cabeza" },
   // amputación / dedo cortado entero (antes que sangrado)
-  { re: /me corte (un |el )?dedo (entero|completo)|me corte (un |el )?(dedo|mano|pie) (entero|completo)|se me corto (un |el )?dedo|me amputaron|amputacion|perdi (un |el )?dedo|me corte la punta del dedo|me corte un pedazo de dedo/, tipo: "consejo", id: "amputacion" },
+{ re: /me corte (un |el )?dedo (entero|completo)|me corte (un |el )?(dedo|mano|pie) (entero|completo)|se me corto (un |el )?dedo|me amputaron|amputacion|perdi (un |el )?dedo|me corte la punta del dedo|me corte un pedazo de dedo/, tipo: "consejo", id: "amputacion" },
   // costilla golpeada/rota (antes que fractura genérica)
-  { re: /(rompi|quebre|fracture|parti|pegue|golpe).{0,14}costilla|costilla.{0,16}(rota|quebrada|al respirar|fracturada)|me duele (el costado|al respirar) (despues|tras) (de |del )?(un )?golpe/, tipo: "consejo", id: "costilla" },
+{ re: /(rompi|quebre|fracture|parti|pegue|golpe).{0,14}costilla|costilla.{0,16}(rota|quebrada|al respirar|fracturada)|me duele (el costado|al respirar) (despues|tras) (de |del )?(un )?golpe/, tipo: "consejo", id: "costilla" },
   // dedo machucado / aplastado
-  { re: /me machuque|me aplaste (el |un )?(dedo|la uña|uña)|me pille el dedo|me agarre el dedo|me golpee el dedo con|uña (morada|negra)|se me puso negra la uña|me reviente el dedo/, tipo: "consejo", id: "dedo-machucado" },
+{ re: /me machuque|me aplaste (el |un )?(dedo|la una|una)|me pille el dedo|me agarre el dedo|me golpee el dedo con|una (morada|negra)|se me puso negra la una|me reviente el dedo/, tipo: "consejo", id: "dedo-machucado" },
   // garrapata
-  { re: /garrapata/, tipo: "consejo", id: "garrapata" },
+{ re: /garrapata/, tipo: "consejo", id: "garrapata" },
   // apendicitis / dolor abdominal bajo derecho
-  { re: /apendicitis|dolor.{0,22}(abajo a la derecha|parte baja derecha|lado derecho de la panza|abdominal.{0,6}derecha)|me duele.{0,16}(abajo a la derecha|la parte baja derecha)/, tipo: "consejo", id: "apendicitis" },
+{ re: /apendicitis|dolor.{0,22}(abajo a la derecha|parte baja derecha|lado derecho de la panza|abdominal.{0,6}derecha)|me duele.{0,16}(abajo a la derecha|la parte baja derecha)/, tipo: "consejo", id: "apendicitis" },
   // perdido / extraviado
-  { re: /estoy perdido|me perdi|no se donde estoy|perdi (el camino|la huella|el sendero)|no encuentro el sendero|no se como volver|me extravie/, tipo: "consejo", id: "perdido" },
+{ re: /estoy perdido|me perdi|no se donde estoy|perdi (el camino|la huella|el sendero)|no encuentro el sendero|no se como volver|me extravie/, tipo: "consejo", id: "perdido" },
   // agotamiento / no puedo más
-  { re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio/, tipo: "consejo", id: "agotamiento" },
+{ re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio/, tipo: "consejo", id: "agotamiento" },
 
   // === LOTE NUEVO: cuadros médicos y de montaña adicionales ===
   // corazón acelerado SIN dolor -> calmar pulsaciones (no es infarto)
-  { re: /(como|debo|quiero|necesito) (bajar|bajo|calmar|calmo|controlar) (las pulsaciones|el pulso|el corazon|el ritmo cardiaco|las palpitaciones)|tengo (el )?corazon (acelerado|a mil|disparado)|me late (muy )?rapido el corazon|se me acelera el corazon|tengo taquicardia|tengo palpitaciones|el corazon a mil|me palpita (el corazon )?(rapido|fuerte)|corazon acelerado/, tipo: "consejo", id: "palpitaciones" },
+{ re: /(como|debo|quiero|necesito) (bajar|bajo|calmar|calmo|controlar) (las pulsaciones|el pulso|el corazon|el ritmo cardiaco|las palpitaciones)|tengo (el )?corazon (acelerado|a mil|disparado)|me late (muy )?rapido el corazon|se me acelera el corazon|tengo taquicardia|tengo palpitaciones|el corazon a mil|me palpita (el corazon )?(rapido|fuerte)|corazon acelerado/, tipo: "consejo", id: "palpitaciones" },
   // golpe fuerte en el abdomen -> posible daño interno (no es la rodilla)
-  { re: /(me golpee|me pegaron|me dieron|recibi un golpe|me pegue|me cai sobre).{0,16}(estomago|panza|abdomen|barriga|guata|boca del estomago|higado|bazo)|golpe (fuerte )?en (la|el) (panza|abdomen|barriga|estomago)/, tipo: "consejo", id: "golpe-abdomen" },
+{ re: /(me golpee|me pegaron|me dieron|recibi un golpe|me pegue|me cai sobre).{0,16}(estomago|panza|abdomen|barriga|guata|boca del estomago|higado|bazo)|golpe (fuerte )?en (la|el) (panza|abdomen|barriga|estomago)/, tipo: "consejo", id: "golpe-abdomen" },
   // no poder mover / no sentir un miembro -> posible fractura o lesión seria
-  { re: /no (puedo|logro|consigo) mover (la |el |mi |un |una )?(pierna|brazo|mano|dedo|dedos|pie|rodilla|tobillo|muñeca|codo|hombro|cadera)|no siento (la |el )(pierna|brazo)\b|no me responde (la |el )(pierna|brazo|mano)/, tipo: "sit", id: "hueso" },
+{ re: /no (puedo|logro|consigo) mover (la |el |mi |un |una )?(pierna|brazo|mano|dedo|dedos|pie|rodilla|tobillo|muneca|codo|hombro|cadera)|no siento (la |el )(pierna|brazo)\b|no me responde (la |el )(pierna|brazo|mano)/, tipo: "sit", id: "hueso" },
   // calor (NO confundir con "no entra en calor" = frío)
-  { re: /(siento|tengo|hace|me muero de|hay|paso) (mucho |muchisimo |demasiado |tanto )*calor|estoy hirviendo de calor|me estoy (cocinando|derritiendo|asando) de calor|golpe de calor|me insole|estoy acalorado|mucho calor/, tipo: "consejo", id: "insolacion" },
-  { re: /me dio (la )?corriente|me electrocute|descarga electrica|toque un cable( pelado)?|me dio una descarga/, tipo: "consejo", id: "electrocucion" },
-  { re: /vomito sangre|vomitando sangre|vomite (con )?sangre|sangre en el vomito|devuelvo sangre/, tipo: "consejo", id: "vomito-sangre" },
-  { re: /sangre (por|del|sale del) (el )?oido|me sangra el oido|(liquido|sale liquido).{0,14}oido.{0,18}golpe|golpe.{0,18}(sangre|liquido).{0,10}oido/, tipo: "consejo", id: "sangrado-oido" },
-  { re: /se (estaba |esta )?ahog(o|aba|ando) (en|dentro)? ?(el |del )?(agua|rio|lago|mar|laguna)|lo sacamos del agua|casi se ahoga (en|nadando)|trago agua y casi se ahoga|se ahogo en (el|un)|rescatamos a alguien del agua|casi me ahogo nadando/, tipo: "consejo", id: "ahogamiento" },
-  { re: /hiperglucemia|azucar (alta|muy alta|por las nubes)|aliento dulce|diabetic[oa].{0,20}(mucha sed|me siento mal|\bmal\b)|mucha sed y orino mucho/, tipo: "consejo", id: "hiperglucemia" },
-  { re: /comi algo en mal estado|intoxicacion (por |con )?(la )?comida|me cayo mal la comida|me intoxique (con la |comiendo)|comida en mal estado|vomito y diarrea (juntos|al mismo tiempo)|tengo vomitos y diarrea/, tipo: "consejo", id: "intoxicacion-comida" },
-  { re: /colico renal|dolor de rinon|piedra en (el )?rinon|calculo renal|me duele el rinon|dolor.{0,18}(espalda baja|costado).{0,18}(ingle|adelante|al frente)|dolor que va de la espalda a la ingle/, tipo: "consejo", id: "colico-renal" },
-  { re: /lumbago|me bloquee la espalda|me quedo trabada la espalda|no me puedo enderezar|me agarro el lumbago|se me trabo la cintura|tiron en la espalda baja/, tipo: "consejo", id: "lumbago" },
-  { re: /me desgarre|se me desgarro( el musculo)?|desgarro muscular|senti que algo se rompio en el musculo|senti un latigazo en el musculo/, tipo: "consejo", id: "desgarro" },
-  { re: /pie de trinchera|pies (mojados y (helados|frios)|frios y mojados|congelados y mojados)|tengo los pies mojados y helados|pies blancos y entumecidos por humedad/, tipo: "consejo", id: "pie-trinchera" },
-  { re: /sabañones|sabanones|dedos rojos e hinchados por el frio|se me hincharon los dedos con el frio|manchas rojas que pican por el frio|me pican los dedos por el frio/, tipo: "consejo", id: "sabanones" },
-  { re: /torticolis|amaneci con el cuello trabado|no puedo girar el cuello|me quedo el cuello duro|cuello trabado|me duele el cuello y no lo puedo mover/, tipo: "consejo", id: "torticolis" },
-  { re: /se me metio (un bicho|un insecto|algo|agua) (en|al) ?(el )?oido|tengo (algo|un insecto|un bicho) en el oido|algo me entro al oido/, tipo: "consejo", id: "cuerpo-oido" },
-  { re: /ojo morado|ojo en compota|me golpee el ojo|me pegaron en el ojo|ojo hinchado por un golpe|me dieron un ojo|me deje el ojo morado/, tipo: "consejo", id: "ojo-morado" },
-  { re: /quemadura quimica|me cayo (algo )?(quimico|acido|lavandina|lejia|soda)|me salpico (quimico|acido)|me entro quimico al ojo|me cayo acido en la piel/, tipo: "consejo", id: "quemadura-quimica" },
-  { re: /uña encarnada|una encarnada|se me encarno la uña|la uña se me clava|uña enterrada|uña del pie encarnada/, tipo: "consejo", id: "una-encarnada" },
-  { re: /dolor de regla|colicos? menstruales?|dolor menstrual|me duele por la menstruacion|colicos de la regla|me vino la regla con dolor/, tipo: "consejo", id: "dolor-regla" },
-  { re: /herpes labial|fuego en el labio|calentura en el labio|herpes en la boca|ampolla en el labio que arde/, tipo: "consejo", id: "herpes-labial" },
+{ re: /(siento|tengo|hace|me muero de|hay|paso) (mucho |muchisimo |demasiado |tanto )*calor|estoy hirviendo de calor|me estoy (cocinando|derritiendo|asando) de calor|golpe de calor|me insole|estoy acalorado|mucho calor/, tipo: "consejo", id: "insolacion" },
+{ re: /me dio (la )?corriente|me electrocute|descarga electrica|toque un cable( pelado)?|me dio una descarga/, tipo: "consejo", id: "electrocucion" },
+{ re: /vomito sangre|vomitando sangre|vomite (con )?sangre|sangre en el vomito|devuelvo sangre/, tipo: "consejo", id: "vomito-sangre" },
+{ re: /sangre (por|del|sale del) (el )?oido|me sangra el oido|(liquido|sale liquido).{0,14}oido.{0,18}golpe|golpe.{0,18}(sangre|liquido).{0,10}oido/, tipo: "consejo", id: "sangrado-oido" },
+{ re: /se (estaba |esta )?ahog(o|aba|ando) (en|dentro)? ?(el |del )?(agua|rio|lago|mar|laguna)|lo sacamos del agua|casi se ahoga (en|nadando)|trago agua y casi se ahoga|se ahogo en (el|un)|rescatamos a alguien del agua|casi me ahogo nadando/, tipo: "consejo", id: "ahogamiento" },
+{ re: /hiperglucemia|azucar (alta|muy alta|por las nubes)|aliento dulce|diabetic[oa].{0,20}(mucha sed|me siento mal|\bmal\b)|mucha sed y orino mucho/, tipo: "consejo", id: "hiperglucemia" },
+{ re: /comi algo en mal estado|intoxicacion (por |con )?(la )?comida|me cayo mal la comida|me intoxique (con la |comiendo)|comida en mal estado|vomito y diarrea (juntos|al mismo tiempo)|tengo vomitos y diarrea/, tipo: "consejo", id: "intoxicacion-comida" },
+{ re: /colico renal|dolor de rinon|piedra en (el )?rinon|calculo renal|me duele el rinon|dolor.{0,18}(espalda baja|costado).{0,18}(ingle|adelante|al frente)|dolor que va de la espalda a la ingle/, tipo: "consejo", id: "colico-renal" },
+{ re: /lumbago|me bloquee la espalda|me quedo trabada la espalda|no me puedo enderezar|me agarro el lumbago|se me trabo la cintura|tiron en la espalda baja/, tipo: "consejo", id: "lumbago" },
+{ re: /me desgarre|se me desgarro( el musculo)?|desgarro muscular|senti que algo se rompio en el musculo|senti un latigazo en el musculo/, tipo: "consejo", id: "desgarro" },
+{ re: /pie de trinchera|pies (mojados y (helados|frios)|frios y mojados|congelados y mojados)|tengo los pies mojados y helados|pies blancos y entumecidos por humedad/, tipo: "consejo", id: "pie-trinchera" },
+{ re: /sabanones|sabanones|dedos rojos e hinchados por el frio|se me hincharon los dedos con el frio|manchas rojas que pican por el frio|me pican los dedos por el frio/, tipo: "consejo", id: "sabanones" },
+{ re: /torticolis|amaneci con el cuello trabado|no puedo girar el cuello|me quedo el cuello duro|cuello trabado|me duele el cuello y no lo puedo mover/, tipo: "consejo", id: "torticolis" },
+{ re: /se me metio (un bicho|un insecto|algo|agua) (en|al) ?(el )?oido|tengo (algo|un insecto|un bicho) en el oido|algo me entro al oido/, tipo: "consejo", id: "cuerpo-oido" },
+{ re: /ojo morado|ojo en compota|me golpee el ojo|me pegaron en el ojo|ojo hinchado por un golpe|me dieron un ojo|me deje el ojo morado/, tipo: "consejo", id: "ojo-morado" },
+{ re: /quemadura quimica|me cayo (algo )?(quimico|acido|lavandina|lejia|soda)|me salpico (quimico|acido)|me entro quimico al ojo|me cayo acido en la piel/, tipo: "consejo", id: "quemadura-quimica" },
+{ re: /una encarnada|una encarnada|se me encarno la una|la una se me clava|una enterrada|una del pie encarnada/, tipo: "consejo", id: "una-encarnada" },
+{ re: /dolor de regla|colicos? menstruales?|dolor menstrual|me duele por la menstruacion|colicos de la regla|me vino la regla con dolor/, tipo: "consejo", id: "dolor-regla" },
+{ re: /herpes labial|fuego en el labio|calentura en el labio|herpes en la boca|ampolla en el labio que arde/, tipo: "consejo", id: "herpes-labial" },
   // dedo roto/quebrado -> manejo propio (entablillar), antes que fractura genérica
-  { re: /(me|se me) (rompi|quebre|quebro|fracture|parti).{0,8}(un |el |mi )?dedo|tengo (un |el )?dedo (roto|quebrado|fracturado)|dedo (roto|torcido y roto)|me (rompi|quebre) (un |el )?dedo (de la mano|del pie)/, tipo: "consejo", id: "dedo-roto" },
+{ re: /(me|se me) (rompi|quebre|quebro|fracture|parti).{0,8}(un |el |mi )?dedo|tengo (un |el )?dedo (roto|quebrado|fracturado)|dedo (roto|torcido y roto)|me (rompi|quebre) (un |el )?dedo (de la mano|del pie)/, tipo: "consejo", id: "dedo-roto" },
 
   // === INTELIGENCIA DE ALTURA / NIEVE (clave en montaña) ===
-  { re: /soroche|mal de altura|mal de montaña|\bpuna\b|apunad|edema (pulmonar|cerebral)|mal de las alturas/, tipo: "sit", id: "altura" },
-  { re: /(dolor de cabeza|duele la cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir).{0,34}(altura|montaña|cordillera|subiendo|3 ?mil|4 ?mil|cumbre|cerro)/, tipo: "sit", id: "altura" },
-  { re: /(altura|montaña|cordillera|subiendo|cumbre|cerro).{0,34}(dolor de cabeza|duele la cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir)/, tipo: "sit", id: "altura" },
+{ re: /soroche|mal de altura|mal de montana|\bpuna\b|apunad|edema (pulmonar|cerebral)|mal de las alturas/, tipo: "sit", id: "altura" },
+{ re: /(dolor de cabeza|duele.{0,12}cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir).{0,40}(altura|montana|cordillera|subiendo|3 ?mil|4 ?mil|cumbre|cerro)/, tipo: "sit", id: "altura" },
+{ re: /(altura|montana|cordillera|subiendo|cumbre|cerro).{0,40}(dolor de cabeza|duele.{0,12}cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir)/, tipo: "sit", id: "altura" },
 
   // === CEGUERA DE NIEVE / ojos por sol-nieve ===
-  { re: /ceguera de nieve|(no veo|vista nublada|ojos rojos|me arden los ojos|ojos irritados|me lloran los ojos|siento arena en los ojos).{0,22}(nieve|sol|reflejo)|queratitis|quemadura en los ojos/, tipo: "consejo", id: "ceguera-nieve" },
+{ re: /ceguera de nieve|(no veo|vista nublada|ojos rojos|me arden los ojos|ojos irritados|me lloran los ojos|siento arena en los ojos).{0,22}(nieve|sol|reflejo)|queratitis|quemadura en los ojos/, tipo: "consejo", id: "ceguera-nieve" },
 
   // === CAÍDA GRAVE (barranco/altura) — trauma serio, NO un esguince ===
-  { re: /(cai|caí|caida|me despeñe|me precipite|rode|rodé|cai rodando).{0,24}(barranco|precipicio|risco|acantilado|ladera|abismo|quebrada|de altura|de (varios |muchos )?metros|al vacio|por (un |el )?cerro|de (un |el )?cerro|de la montaña|de una pared|escalando|de muy alto)|me despeñe|cai al vacio|cai de muy alto/, tipo: "consejo", id: "caida-grave" },
+{ re: /(cai|cai|caida|me despene|me precipite|rode|rode|cai rodando).{0,24}(barranco|precipicio|risco|acantilado|ladera|abismo|quebrada|de altura|de (varios |muchos )?metros|al vacio|por (un |el )?cerro|de (un |el )?cerro|de la montana|de una pared|escalando|de muy alto)|me despene|cai al vacio|cai de muy alto/, tipo: "consejo", id: "caida-grave" },
 
   // === SOBREVIVIR LA NOCHE / frío nocturno / calorías ===
-  { re: /cuantas calorias|calorias para sobrevivir|sobrevivir la noche|aguantar la noche|pasar la noche (en|al|a la)|sobrevivir (el|al) frio|como no morir de frio|sobrevivir (en|a) la (nieve|montaña|intemperie)|aguantar el frio (toda |por )?la noche|como aguanto la noche/, tipo: "consejo", id: "supervivencia" },
+{ re: /cuantas calorias|calorias para sobrevivir|sobrevivir la noche|aguantar la noche|pasar la noche (en|al|a la)|sobrevivir (el|al) frio|como no morir de frio|sobrevivir (en|a) la (nieve|montana|intemperie)|aguantar el frio (toda |por )?la noche|como aguanto la noche/, tipo: "consejo", id: "supervivencia" },
 
   // === OBJETO CLAVADO / empalamiento — NO sacarlo ===
-  { re: /me clave (un |el )?(palo|fierro|hierro|rama|piolet|cuchillo|clavo|estaca)|se me clavo (un |el )|me incruste|me empale|tengo (un |el )?(palo|fierro|hierro|cuchillo|objeto) clavado|tengo algo clavado|objeto clavado|me atraves|se me incrusto|quedo clavado|clavado en (la|el|mi)|tengo algo enterrado en/, tipo: "consejo", id: "objeto-clavado" },
+{ re: /me clave (un |el )?(palo|fierro|hierro|rama|piolet|cuchillo|clavo|estaca)|se me clavo (un |el )|me incruste|me empale|tengo (un |el )?(palo|fierro|hierro|cuchillo|objeto) clavado|tengo algo clavado|objeto clavado|me atraves|se me incrusto|quedo clavado|clavado en (la|el|mi)|tengo algo enterrado en/, tipo: "consejo", id: "objeto-clavado" },
   // === LUXACIÓN / dislocación ===
-  { re: /se me (salio|zafo|corrio|salto|disloco) (el |la )?(hombro|brazo|rodilla|cadera|hueso|articulacion|mandibula)|luxacion|dislocacion|se me disloco|fuera de lugar (el|la)|hombro fuera de lugar|se me salio de lugar/, tipo: "consejo", id: "luxacion" },
+{ re: /se me (salio|zafo|corrio|salto|disloco) (el |la )?(hombro|brazo|rodilla|cadera|hueso|articulacion|mandibula)|luxacion|dislocacion|se me disloco|fuera de lugar (el|la)|hombro fuera de lugar|se me salio de lugar/, tipo: "consejo", id: "luxacion" },
   // === AVALANCHA / alud ===
-  { re: /avalancha|\balud\b|me (tapo|cubrio|sepulto|enterro) (la |una )?(nieve|avalancha|alud)|quede (enterrado|atrapado|sepultado|bajo) .{0,12}nieve/, tipo: "consejo", id: "avalancha" },
+{ re: /avalancha|\balud\b|me (tapo|cubrio|sepulto|enterro) (la |una )?(nieve|avalancha|alud)|quede (enterrado|atrapado|sepultado|bajo) .{0,12}nieve/, tipo: "consejo", id: "avalancha" },
   // === CAÍDA AL AGUA HELADA ===
-  { re: /me cai al (agua|rio|lago)|cai (en|a) (el |un |una )?(agua|rio|lago|laguna)|agua (fria|helada)|me moje entero|me cai a (un|una)/, tipo: "consejo", id: "agua-fria" },
+{ re: /me cai al (agua|rio|lago)|cai (en|a) (el |un |una )?(agua|rio|lago|laguna)|agua (fria|helada)|me moje entero|me cai a (un|una)/, tipo: "consejo", id: "agua-fria" },
   // === DIENTE por golpe (no es dolor de muela) ===
-  { re: /se me (cayo|salto|quebro|partio|salio) (un |el )?diente|me rompi un diente|perdi un diente|me saltaron un diente|me golpee.{0,12}diente/, tipo: "consejo", id: "diente-golpe" },
+{ re: /se me (cayo|salto|quebro|partio|salio) (un |el )?diente|me rompi un diente|perdi un diente|me saltaron un diente|me golpee.{0,12}diente/, tipo: "consejo", id: "diente-golpe" },
   // === MONÓXIDO en carpa/refugio cerrado ===
-  { re: /monoxido|cocin(e|ar|ando) (en|dentro de) (la |una )?carpa|(estufa|calentador|cocina) (en|dentro) (la |de )?carpa|(me siento mal|mareo|mareado|nausea|dolor de cabeza|me duele la cabeza) (en|dentro de) (la |una )?carpa( cerrada)?/, tipo: "consejo", id: "monoxido" },
+{ re: /monoxido|cocin(e|ar|ando) (en|dentro de) (la |una )?carpa|(estufa|calentador|cocina) (en|dentro) (la |de )?carpa|(me siento mal|mareo|mareado|nausea|dolor de cabeza|me duele la cabeza) (en|dentro de) (la |una )?carpa( cerrada)?/, tipo: "consejo", id: "monoxido" },
 
   // === labios / piel agrietada por frío-viento (antes que quemadura/hueso) ===
-  { re: /(parti|agriet|seca|reseca|cuartead).{0,14}(labios|la piel|la cara)|(labios|la piel|la cara).{0,16}(partid|seca|reseca|agrietad|cuartead|quemada por el viento)|labios (partidos|secos|agrietados)|piel (agrietada|reseca|partida)/, tipo: "consejo", id: "labios-piel" },
+{ re: /(parti|agriet|seca|reseca|cuartead).{0,14}(labios|la piel|la cara)|(labios|la piel|la cara).{0,16}(partid|seca|reseca|agrietad|cuartead|quemada por el viento)|labios (partidos|secos|agrietados)|piel (agrietada|reseca|partida)/, tipo: "consejo", id: "labios-piel" },
 
   // --- pedido de medicación (analgésico, pastilla, algo para el dolor) ---
-  { re: /\balgo para (el |la )?(dolor|fiebre|nausea|malestar)/, tipo: "consejo", id: "que-tomar" },
-  { re: /\bdame (algo|una pastilla|un remedio|un calmante|un analg)/, tipo: "consejo", id: "que-tomar" },
-  { re: /\b(necesito|quiero|deme|me das|paso)\b.{0,18}\b(pastilla|remedio|calmante|analg|antiinflamatori|antifebril|algo para)/, tipo: "consejo", id: "que-tomar" },
-  { re: /\b(que|cual|cuales)\b.{0,16}\b(pastilla|remedio|medicament|analg|calmante|antiinflamatori|antifebril|antipiretic)/, tipo: "consejo", id: "que-tomar" },
-  { re: /\b(que|cual|cuales)\b.{0,14}\b(me )?(puedo |debo |podria )?(tomar|tomo)\b/, tipo: "consejo", id: "que-tomar" },
+{ re: /\balgo para (el |la )?(dolor|fiebre|nausea|malestar)/, tipo: "consejo", id: "que-tomar" },
+{ re: /\bdame (algo|una pastilla|un remedio|un calmante|un analg)/, tipo: "consejo", id: "que-tomar" },
+{ re: /\b(necesito|quiero|deme|me das|paso)\b.{0,18}\b(pastilla|remedio|calmante|analg|antiinflamatori|antifebril|algo para)/, tipo: "consejo", id: "que-tomar" },
+{ re: /\b(que|cual|cuales)\b.{0,16}\b(pastilla|remedio|medicament|analg|calmante|antiinflamatori|antifebril|antipiretic)/, tipo: "consejo", id: "que-tomar" },
+{ re: /\b(que|cual|cuales)\b.{0,14}\b(me )?(puedo |debo |podria )?(tomar|tomo)\b/, tipo: "consejo", id: "que-tomar" },
 
   // --- cabeza que late/palpita (jaqueca, NO un golpe) ---
-  { re: /\b(me late|me palpita|me retumba|siento latir|me pulsa)\b.{0,14}(cabeza|sien|frente|craneo)/, tipo: "consejo", id: "dolor-cabeza" },
+{ re: /\b(me late|me palpita|me retumba|siento latir|me pulsa)\b.{0,14}(cabeza|sien|frente|craneo)/, tipo: "consejo", id: "dolor-cabeza" },
 
   // --- dolor al defecar / hemorroides / estreñimiento ---
-  { re: /(duele|arde|sangre|sangra|cuesta|sale sangre).{0,14}(cagar|defecar|al baño|obrar|el ano|el poto)|hemorroide|almorrana|estreñi|no puedo (hacer caca|obrar)|dias sin (ir al baño|cagar|obrar)/, tipo: "consejo", id: "defecar" },
+{ re: /(duele|arde|sangre|sangra|cuesta|sale sangre).{0,14}(cagar|defecar|al bano|obrar|el ano|el poto)|hemorroide|almorrana|estreni|no puedo (hacer caca|obrar)|dias sin (ir al bano|cagar|obrar)/, tipo: "consejo", id: "defecar" },
   // --- orinar / hacer pis (ganas, ardor, infección urinaria) ---
   // (ojo: "no orino" suelto es señal de deshidratación, no entra acá)
-  { re: /\b(orinar|mear|meo|meas|miccion)\b|hacer (pis|pipi|pichi|chichi)|retencion de orina|infeccion urinaria|sangre en la orina|me arde (al |para )?(orinar|mear)|ganas de (orinar|mear)|no puedo (orinar|mear)|orino (mucho|poco)/, tipo: "consejo", id: "orina" },
+{ re: /\b(orinar|mear|meo|meas|miccion)\b|hacer (pis|pipi|pichi|chichi)|retencion de orina|infeccion urinaria|sangre en la orina|me arde (al |para )?(orinar|mear)|ganas de (orinar|mear)|no puedo (orinar|mear)|orino (mucho|poco)/, tipo: "consejo", id: "orina" },
   // --- raspón / rasguño (herida leve; el verbo "raspar" manda sobre la parte) ---
-  { re: /\bme raspe|me raspé|\braspon|\braspadura|rasmillon|me rasmille|me rasgu|\brasguñ|\brasguno|me pele (la|el|un|mi)|me raye (la|el) (piel|rodilla|brazo|pierna|cara)/, tipo: "consejo", id: "raspon" },
+{ re: /\bme raspe|me raspe|\braspon|\braspadura|rasmillon|me rasmille|me rasgu|\brasgun|\brasguno|me pele (la|el|un|mi)|me raye (la|el) (piel|rodilla|brazo|pierna|cara)/, tipo: "consejo", id: "raspon" },
   // --- hipo ---
-  { re: /\bhipo\b|no se me quita el hipo|me dio hipo/, tipo: "consejo", id: "hipo" },
+{ re: /\bhipo\b|no se me quita el hipo|me dio hipo/, tipo: "consejo", id: "hipo" },
   // --- no puedo dormir / insomnio (la altura ya se evaluó arriba) ---
-  { re: /no (puedo|logro|consigo) dormir|tengo insomnio|no pego un ojo|me cuesta (mucho )?dormir|no duermo( nada)?/, tipo: "consejo", id: "insomnio" },
+{ re: /no (puedo|logro|consigo) dormir|tengo insomnio|no pego un ojo|me cuesta (mucho )?dormir|no duermo( nada)?/, tipo: "consejo", id: "insomnio" },
   // --- zumbido / pitido de oídos ---
-  { re: /\bzumb|pitido en (el |los )?oido|me suenan los oidos|tinnitus|me zumban los oidos/, tipo: "consejo", id: "zumbido" },
+{ re: /\bzumb|pitido en (el |los )?oido|me suenan los oidos|tinnitus|me zumban los oidos/, tipo: "consejo", id: "zumbido" },
   // --- vista borrosa (si es de golpe, el mensaje avisa que es grave) ---
-  { re: /veo (borroso|nublado|doble|puntos|lucecitas)|se me nubla la vista|vision borrosa/, tipo: "consejo", id: "vista" },
+{ re: /veo (borroso|nublado|doble|puntos|lucecitas)|se me nubla la vista|vision borrosa/, tipo: "consejo", id: "vista" },
   // --- encías que sangran ---
-  { re: /sangran las encias|me sangra la encia|encias (inflamadas|hinchadas|sangrando)/, tipo: "consejo", id: "encias" },
+{ re: /sangran las encias|me sangra la encia|encias (inflamadas|hinchadas|sangrando)/, tipo: "consejo", id: "encias" },
   // --- herida infectada / pus ---
-  { re: /\bpus\b|sale pus|liquido amarillo|sangre con amarillo|sale amarillo|herida (con pus|infectada|que huele)|se (me )?infecto|supura|huele (mal|feo) la herida/, tipo: "consejo", id: "infeccion" },
+{ re: /\bpus\b|sale pus|liquido amarillo|sangre con amarillo|sale amarillo|herida (con pus|infectada|que huele)|se (me )?infecto|supura|huele (mal|feo) la herida/, tipo: "consejo", id: "infeccion" },
 
   // --- sangrado de NARIZ (antes que sangrado general y quemadura) ---
-  { re: /(sangr|sale sangre|sangre).{0,14}nariz|nariz.{0,16}(sangr|sangre)|hemorragia nasal|epistaxis/, tipo: "consejo", id: "sangrado-nariz" },
+{ re: /(sangr|sale sangre|sangre).{0,14}nariz|nariz.{0,16}(sangr|sangre)|hemorragia nasal|epistaxis/, tipo: "consejo", id: "sangrado-nariz" },
 
   // --- quemadura de sol (suave) antes que quemadura grave ---
-  { re: /quem.{0,18}\bsol\b|\bsol\b.{0,10}quem|insolad|quemad[oa] del sol/, tipo: "consejo", id: "quemadura-sol" },
+{ re: /quem.{0,18}\bsol\b|\bsol\b.{0,10}quem|insolad|quemad[oa] del sol/, tipo: "consejo", id: "quemadura-sol" },
   // --- quemadura (fuego/agua caliente) ---
-  { re: /\bme quem|\bquemad|\bquemadura\b|me chamusqu|agarr[eo] fuego|prend[io] fuego|me incendi/, tipo: "sit", id: "quemadura" },
+{ re: /\bme quem|\bquemad|\bquemadura\b|me chamusqu|agarr[eo] fuego|prend[io] fuego|me incendi/, tipo: "sit", id: "quemadura" },
 
   // --- golpe/fractura de CABEZA -> trauma de cabeza (más apropiado que hueso) ---
   // (parti = pasado/accidente; "me parte la cabeza" es jaqueca, NO trauma)
-  { re: /(golpe|golpee|golpie|pegue|cabezazo|me di un golpe).{0,16}(cabeza|craneo|nuca)/, tipo: "sit", id: "cabeza" },
-  { re: /(cabeza|craneo|nuca).{0,12}(golpe|golpee|cabezazo|porrazo)/, tipo: "sit", id: "cabeza" },
-  { re: /(fractur|me quebr|me romp|me parti|me fisur|fisurad|fractura).{0,14}(cabeza|craneo|cabesa)/, tipo: "sit", id: "cabeza" },
-  { re: /(cabeza|craneo|cabesa).{0,14}(fractur|quebr|rota|roto|partid|fisur)/, tipo: "sit", id: "cabeza" },
+{ re: /(golpe|golpee|golpie|pegue|cabezazo|me di un golpe).{0,16}(cabeza|craneo|nuca)/, tipo: "sit", id: "cabeza" },
+{ re: /(cabeza|craneo|nuca).{0,12}(golpe|golpee|cabezazo|porrazo)/, tipo: "sit", id: "cabeza" },
+{ re: /(fractur|me quebr|me romp|me parti|me fisur|fisurad|fractura).{0,14}(cabeza|craneo|cabesa)/, tipo: "sit", id: "cabeza" },
+{ re: /(cabeza|craneo|cabesa).{0,14}(fractur|quebr|rota|roto|partid|fisur)/, tipo: "sit", id: "cabeza" },
   // --- fractura / hueso roto en cualquier otra parte ---
-  { re: /\b(fractur|fisur)/, tipo: "sit", id: "hueso" },
-  { re: /\b(me|se me) (quebr|qebr|romp|parti|destroc|destroz|machuq|reventé|revente)/, tipo: "sit", id: "hueso" },
-  { re: /\bhueso (roto|partid|quebrad|fractur)/, tipo: "sit", id: "hueso" },
-  { re: /\b(quebrad|partid) (un |el |la )?(hueso|pierna|brazo|tobillo|muñeca|cadera|costilla|dedo)/, tipo: "sit", id: "hueso" },
+{ re: /\b(fractur|fisur)/, tipo: "sit", id: "hueso" },
+{ re: /\b(me|se me) (quebr|qebr|romp|parti|destroc|destroz|machuq|revente|revente)/, tipo: "sit", id: "hueso" },
+{ re: /\bhueso (roto|partid|quebrad|fractur)/, tipo: "sit", id: "hueso" },
+{ re: /\b(quebrad|partid) (un |el |la )?(hueso|pierna|brazo|tobillo|muneca|cadera|costilla|dedo)/, tipo: "sit", id: "hueso" },
 
   // --- esguince / torcedura -> rodilla/tobillo ---
-  { re: /\b(me torci|se me torcio|me doble|se me doblo|me hice un esguince|me esguince|me torce)\b/, tipo: "sit", id: "rodilla" },
+{ re: /\b(me torci|se me torcio|me doble|se me doblo|me hice un esguince|me esguince|me torce)\b/, tipo: "sit", id: "rodilla" },
 
   // --- corte / herida que sangra (el verbo manda; nariz ya salió arriba) ---
-  { re: /\b(me cort|me raj|me hice un (corte|tajo)|me hice una herida|me abri (el |la |un )|tengo un (corte|tajo)|tengo una herida|me taje|estoy sangrando|esta sangrando|me sangra|sangra (el|la|un)|no para de sangrar|sangro |perdiendo sangre|sangra mucho)/, tipo: "sit", id: "sangrado" },
+{ re: /\b(me cort|me raj|me hice un (corte|tajo)|me hice una herida|me abri (el |la |un )|tengo un (corte|tajo)|tengo una herida|me taje|estoy sangrando|esta sangrando|me sangra|sangra (el|la|un)|no para de sangrar|sangro |perdiendo sangre|sangra mucho)/, tipo: "sit", id: "sangrado" },
 ];
 
 /* ============================================================================
@@ -1136,13 +1136,13 @@ const MEDICAMENTOS = [
   { re: /antidiarreic|loperamid/, nombre: "Antidiarreico" },
   { re: /antibiotic|amoxicilin|azitromicin|ciprofloxacin/, nombre: "Antibiótico" },
   { re: /omeprazol|protector gastric/, nombre: "Protector gástrico" },
-  { re: /sales de rehidrat|suero oral|electrolit/, nombre: "Sales de rehidratación" },
+  { re: /sales de rehidrat|suero oral|electrolit|(me tomo|tomar|tomo|beber|bebo|tragar) (el |un )?suero|suero de rehidratacion|suero para tomar/, nombre: "Sales de rehidratación" },
   { re: /inhalador|salbutamol|ventolin|broncodilatad/, nombre: "Inhalador" },
-  { re: /colirio|suero ocular/, nombre: "Colirio" },
+  { re: /colirio|suero (ocular|en el ojo|en los ojos|para (el|los) ojos?)|lavado ocular|gotas para (el |los )?ojos?/, nombre: "Colirio" },
   { re: /torniquete/, nombre: "Torniquete" },
   { re: /\bferula|entablill|sam splint/, nombre: "Férula" },
   { re: /antiseptic|povidona|clorhexidin|\byodo\b/, nombre: "Antiséptico" },
-  { re: /suero fisiolog|solucion salin/, nombre: "Suero fisiológico" },
+  { re: /suero fisiolog|solucion salin|\bsuero\b/, nombre: "Suero fisiológico" },
   { re: /manta termic|manta de emergencia/, nombre: "Manta térmica" },
   { re: /termometro/, nombre: "Termómetro" },
   { re: /jeringa|\baguja\b/, nombre: "Jeringa" },
@@ -1152,7 +1152,7 @@ const MEDICAMENTOS = [
   { re: /sutura|steri.?strip|puntos? de mariposa/, nombre: "Suturas adhesivas" },
 ];
 // señales de que es una PREGUNTA/uso sobre un remedio (no un síntoma)
-const MED_MARCADOR = /\b(puedo|puede|debo|podria|tomar|tomo|me tomo|inyect|usar|uso|aplic|darme|me doy|ponerme|me pongo|sirve|para que|cuant[oa]s?|cuando|dosis|conviene|administr|le doy|me inyecto|funciona|es bueno|esta bien)\b/;
+const MED_MARCADOR = /\b(puedo|puede|debo|podria|tomar|tomo|me tomo|inyect|usar|uso|aplic|darme|me doy|ponerme|me pongo|me aplico|sirve|para que|cuant[oa]s?|cuando|dosis|conviene|administr|le doy|me inyecto|funciona|es bueno|esta bien)/;
 
 /* ============================================================================
    GLOSARIO — para preguntas tipo "¿qué es la anafilaxia?", "¿qué significa

@@ -11,6 +11,10 @@
 
   let flujo = null;       // { sit, nodeId, hist }
   let arrancado = false;
+  let ultimoTema = null;  // { nombre, items } — para entender "¿y qué me pongo?"
+
+  // preguntas de seguimiento vagas que dependen del tema anterior
+  const reSeguir = /^(y |y ahora |ahora |entonces |despues |y despues |y luego |bueno |ok )*(que (hago|hago ahora|mas hago|mas puedo hacer|sigue|hago despues|otra cosa hago)|que me (pongo|aplico|hecho|echo)|que me puedo (poner|aplicar|echar)|me puedo poner algo|me pongo algo|que mas|algo (mas )?(que )?(pueda|puedo) (hacer|poner|aplicar)|que mas puedo hacer|necesito (hacer )?algo mas|hay algo mas que pueda hacer|y despues|y luego)\s*\??$/;
 
   function cont() { return $("#lista"); }
   function scrollAbajo() { window.scrollTo(0, document.body.scrollHeight); }
@@ -185,6 +189,10 @@
     const def = definicion(window.Fuzzy.normalizar(textoOriginal));
     if (def) { responderDefinicion(def); return; }
 
+    // ¿pregunta de SEGUIMIENTO vaga? ("¿y qué me pongo?", "¿qué hago ahora?",
+    // "¿algo más que pueda hacer?") -> respondemos según el último tema.
+    if (reSeguir.test(norm)) { responderSeguimiento(); return; }
+
     // si solo gritó "ayuda/auxilio/urgente" (quedó vacío), lo guiamos
     if (!texto || texto.length < 2) {
       const ag = CONSEJOS.find((c) => c.id === "ayuda-general");
@@ -245,8 +253,26 @@
     else responderItem(top.item._o);
   }
 
+  // ---------- seguimiento ("¿y qué me pongo?") según el último tema ----------
+  function responderSeguimiento() {
+    if (ultimoTema && ultimoTema.items && ultimoTema.items.length) {
+      const b = botMsg("Seguimos con <b>" + esc(ultimoTema.nombre.toLowerCase()) + "</b> 👇 Del botiquín te puede servir:");
+      chipsItems(ultimoTema.items, b);
+      cierre();
+      return;
+    }
+    if (ultimoTema) {
+      botMsg("Para <b>" + esc(ultimoTema.nombre.toLowerCase()) + "</b> ya te di los pasos arriba. Contame si apareció algo nuevo (más dolor, sangre, fiebre, etc.) y lo vemos.");
+      cierre();
+      return;
+    }
+    const ag = CONSEJOS.find((c) => c.id === "ayuda-general");
+    if (ag) responderConsejo(ag);
+  }
+
   // ---------- consejo (síntoma común) ----------
   function responderConsejo(c) {
+    ultimoTema = { nombre: (c.titulo || c.id.replace(/-/g, " ")), items: c.items || [] };
     const b = botMsg(esc(c.mensaje));
     chipsItems(c.items, b);
     if (c.cuandoConsultar) {
@@ -268,6 +294,7 @@
   // ---------- item del botiquín ----------
   // esPregunta = lo pidió preguntando por el remedio ("¿puedo usar X?")
   function responderItem(it, esPregunta) {
+    ultimoTema = { nombre: it.objeto.split(" (")[0], items: [] };
     const dosis = (window.Paciente && window.Paciente.calcular(it)) || null;
     let html = "<b>" + esc(it.objeto.split(" (")[0]) + "</b>";
     if (!it.validado) html += ' <span class="mini-aviso">⚠️ sin validar</span>';
@@ -284,6 +311,7 @@
 
   // ---------- flujo de preguntas (situación grave) ----------
   function iniciarFlujo(sit) {
+    ultimoTema = { nombre: sit.titulo, items: (typeof SITUACION_ITEMS !== "undefined" && SITUACION_ITEMS[sit.id]) || [] };
     flujo = { sit, nodeId: sit.inicio, hist: [] };
     botMsg("Entiendo, vamos a ver <b>" + esc(sit.titulo.toLowerCase()) + "</b>. Te hago un par de preguntas 👇");
     pintarNodo();

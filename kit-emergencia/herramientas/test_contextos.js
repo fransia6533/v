@@ -212,6 +212,18 @@ const SINTOMAS = [
   { dest: "golpe-abdomen", frases: ["me golpee fuerte el estomago","me golpee el estomago","me pegaron en la panza","me golpee el abdomen","recibi un golpe en el abdomen"] },
   // --- no poder mover un miembro -> posible fractura ---
   { dest: "hueso", frases: ["no puedo mover la pierna","no puedo mover el brazo","no siento la pierna","no me responde la mano","no puedo mover la mano"] },
+  // --- preguntas de seguimiento (sin memoria -> guía general) ---
+  { dest: "ayuda-general", frases: ["que me pongo","me puedo poner algo","que hago ahora","que mas hago","algo mas que pueda hacer","y ahora que hago","que mas puedo hacer","me pongo algo"] },
+  // --- "me pongo/aplico/tomo suero" (distinguir tipo de suero) ---
+  { dest: "Suero fisiológico", frases: ["me pongo suero","me aplico suero","me pongo suero en la herida"] },
+  { dest: "Sales de rehidratación", frases: ["me tomo suero","tomar suero","quiero tomar suero"] },
+  { dest: "Colirio", frases: ["me pongo suero en el ojo","suero ocular","lavado ocular"] },
+  // --- contextos LARGOS (frases con varias partes) ---
+  { dest: "altura", frases: ["me duele mucho la cabeza desde que subimos a la montaña y tengo nauseas","tengo nauseas y dolor de cabeza desde que estamos en la altura","me falta el aire desde que subimos al cerro"] },
+  { dest: "sangrado", frases: ["me corte la mano con un cuchillo en la cocina y sale mucha sangre","me hice un corte profundo en el brazo y no para de sangrar","me corte con un vidrio y sangra bastante"] },
+  { dest: "inconsciente", frases: ["se cayo mi amigo de un barranco y no responde","encontre a alguien tirado que no responde ni respira","mi compañero se desmayo y no despierta"] },
+  { dest: "hueso", frases: ["me cai esquiando y no puedo mover la pierna del dolor","me golpee fuerte y creo que me quebre el brazo porque no lo puedo mover"] },
+  { dest: "quemadura", frases: ["se me volco agua hirviendo en el brazo y me queme","me queme la mano con la olla cocinando"] },
 ];
 
 // ---------------- construir casos ----------------
