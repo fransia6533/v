@@ -238,6 +238,15 @@ const SINTOMAS = [
   { dest: "frio", frases: ["tengo la nariz congelada","se me congelo la nariz","tengo las orejas congeladas"] },
   { dest: "altura", frases: ["me cuesta respirar aca arriba","me duele la cabeza aca arriba","tengo nauseas en la cima"] },
   { dest: "Corticoide", frases: ["que hace la dexametasona","para que es el corticoide"] },
+  // --- lote audit2: escenarios nuevos ---
+  { dest: "flato", frases: ["tengo una puntada en el costado de tanto correr","me dio flato corriendo","tengo flato","puntada al costado corriendo"] },
+  { dest: "mareo-movimiento", frases: ["me mareo en el auto","me mareo en el bus y tengo nauseas","me mareo viajando a la montaña","me mareo en la micro"] },
+  { dest: "rozadura", frases: ["me rozaron las correas de la mochila","me roza la entrepierna de caminar","tengo rozadura por la mochila","me roza el zapato"] },
+  { dest: "golpe-genitales", frases: ["me pegaron una patada en los testiculos","me golpee los huevos","me golpee los testiculos","golpe en la ingle"] },
+  { dest: "humo", frases: ["hay mucho humo y me cuesta respirar","trague humo del fuego","inhale humo","me ahogo con el humo"] },
+  { dest: "planta-urticante", frases: ["toque una ortiga y me arde la piel","me pico una ortiga","me roce con una planta y me arde","toque una planta urticante"] },
+  { dest: "aftas", frases: ["tengo llagas en la boca","me salio un afta en la lengua","tengo aftas","tengo una llaga en la boca que arde"] },
+  { dest: "pre-desmayo", frases: ["siento que me voy a desmayar","estoy por desmayarme veo todo negro","me voy a desmayar","estoy a punto de desmayarme"] },
 ];
 
 // ---------------- construir casos ----------------

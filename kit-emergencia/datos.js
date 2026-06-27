@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.3 (borrador)",
+  version: "2.4 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -943,6 +943,38 @@ const CONSEJOS = [
     mensaje: "Suena a tímpano perforado (se 'rompe' por un golpe, un buceo, una explosión o una infección fuerte). NO te metas nada en el oído ni eches gotas ni agua: mantenelo seco, podés tapar la oreja por fuera con una gasa floja. Un analgésico ayuda con el dolor. Suele cerrar solo en semanas.",
     items: ["paracetamol", "ibuprofeno", "gasas"],
     cuandoConsultar: "Mucho sangrado, mareo fuerte con vómitos, pérdida de audición que no mejora, o si fue por un golpe fuerte en la cabeza: consultá pronto." },
+  { id: "flato", sintomas: ["tengo una puntada en el costado de tanto correr", "me dio flato", "tengo flato", "puntada al costado corriendo", "puntada en el costado al correr", "puntada de tanto caminar"],
+    mensaje: "El flato (puntada en el costado al correr/caminar) no es grave. Bajá el ritmo o pará un momento, respirá lento y profundo, y presioná suave la zona inclinándote hacia ese lado. Se va en unos minutos. Evitá comer mucho justo antes de esfuerzo.",
+    items: [],
+    cuandoConsultar: "Si el dolor del costado es fuerte, no se va al parar, o viene con falta de aire o dolor de pecho: no es flato, prestá atención." },
+  { id: "mareo-movimiento", sintomas: ["me mareo en el auto", "me mareo en el bus", "mareo de auto", "me mareo viajando", "cinetosis", "me mareo en el viaje a la montaña", "me dan nauseas en el auto", "me mareo en la micro"],
+    mensaje: "Mareo por movimiento (auto/bus): mirá un punto fijo lejano o el horizonte, sentate adelante, ventilá con aire fresco y evitá leer o el celular. Comé liviano antes de viajar. Un antiemético/antimareo ayuda si lo tenés.",
+    items: ["antiemetico"],
+    cuandoConsultar: "Si los vómitos no paran o te deshidratás, prestá atención y rehidratate." },
+  { id: "rozadura", sintomas: ["me rozaron las correas de la mochila", "me roza la entrepierna de caminar", "me roza el zapato", "tengo rozadura por la mochila", "me roza la ropa y arde", "rozadura entre las piernas", "me peló la correa"],
+    mensaje: "Rozadura (la piel se irrita por el roce de la ropa, mochila o zapatos): limpiá y secá la zona, poné algo que separe/lubrique (vaselina) y cubrí con apósito si va a seguir rozando. Ajustá las correas y usá ropa que no apriete. Evitá que se ampolle.",
+    items: ["curitas", "antiseptico"],
+    cuandoConsultar: "Si la piel se abre, se pone muy roja con pus o duele mucho: tratala como herida e infección." },
+  { id: "golpe-genitales", sintomas: ["me pegaron una patada en los testiculos", "me golpee los testiculos", "me golpee los huevos", "golpe en la ingle", "me pegue en las partes", "golpe en los genitales", "me golpee ahi abajo"],
+    mensaje: "Golpe en los testículos: sentate, descansá y poné frío suave (paño con hielo, no directo) sobre la zona. El dolor y las náuseas suelen pasar en un rato. Un analgésico ayuda.",
+    items: ["ibuprofeno", "paracetamol"],
+    cuandoConsultar: "Si el dolor es muy fuerte y no cede, se hincha mucho, hay sangre en la orina, o un testículo queda muy duro/torcido: consultá pronto, puede ser grave." },
+  { id: "humo", sintomas: ["hay mucho humo y me cuesta respirar", "trague humo del fuego", "inhale humo", "me ahogo con el humo", "respire humo de la fogata", "humo en la carpa", "intoxicacion por humo"],
+    mensaje: "⚠️ Salí del humo al aire libre YA y agachate (el aire más limpio está abajo). Respirá tranquilo, tomá agua. El humo puede irritar y dañar las vías respiratorias aunque te sientas bien al rato.",
+    items: [],
+    cuandoConsultar: "Tos que no para, ronquera, falta de aire, hollín en la boca/nariz, confusión o labios azules: es urgente, pedí rescate. Tras inhalar mucho humo, controlate aunque mejores." },
+  { id: "planta-urticante", sintomas: ["toque una ortiga y me arde la piel", "me roce con una planta y me pica", "me salieron ronchas por una planta", "toque una planta y me arde", "me pico una ortiga", "contacto con planta urticante"],
+    mensaje: "Contacto con planta que pica (ortiga, etc.): NO te rasques. Lavá la zona con agua fría y jabón sin frotar, sacá pelitos/espinas con cinta adhesiva si quedaron, y poné frío. Un antihistamínico calma la picazón.",
+    items: ["antihistaminico"],
+    cuandoConsultar: "Si se hincha mucho, se extiende por todo el cuerpo, o cuesta respirar (alergia grave): tratalo como reacción alérgica seria." },
+  { id: "aftas", sintomas: ["tengo llagas en la boca", "me salio un afta", "tengo aftas", "llaga en la lengua", "tengo una herida en la boca que arde", "me salieron llagas"],
+    mensaje: "Las aftas (llaguitas en la boca) duelen pero no son graves. Enjuagá con agua tibia con sal o bicarbonato, evitá comidas ácidas, muy calientes o picantes, y mantené la boca limpia. Suelen irse solas en 1-2 semanas.",
+    items: [],
+    cuandoConsultar: "Si duran más de 2-3 semanas, son muy grandes, se repiten mucho o vienen con fiebre: consultá." },
+  { id: "pre-desmayo", sintomas: ["siento que me voy a desmayar", "estoy por desmayarme", "veo todo negro", "se me nubla la vista y me mareo", "me voy a desmayar", "siento que me desvanezco", "estoy a punto de desmayarme", "me falta poco para desmayarme"],
+    mensaje: "Si sentís que te vas a desmayar: ACOSTATE YA y levantá las piernas (o sentate con la cabeza entre las rodillas) para que llegue sangre al cerebro. Aflojá la ropa, aire fresco, y cuando mejores tomá agua y algo con azúcar. Levantate de a poco.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Si llega a desmayarse y no responde, le cuesta respirar, hay dolor de pecho, o se repite: es para tomar en serio, pedí ayuda." },
   { id: "sangrado-oido", sintomas: ["me sale sangre del oido despues de un golpe", "sangre por el oido", "me sangra el oido tras golpearme la cabeza", "sale liquido del oido despues del golpe"],
     mensaje: "⚠️ Sangre o líquido claro saliendo del oído después de un golpe en la cabeza puede indicar una lesión grave de cráneo. NO tapones el oído: dejá que drene, mantené la cabeza quieta, recostá a la persona de ese lado y pedí rescate URGENTE.",
     items: ["gasas"],
@@ -978,7 +1010,7 @@ const REGLAS = [
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
   // raro. (La nariz que sangra se evalúa más abajo y no entra acá.)
   // ========================================================================
-{ re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se (puso|esta poniendo|pone) (morad|azul)|esta (morad|azul)|labios azules|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
+{ re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se (puso|esta poniendo|pone) (morad|azul)|esta (morad|azul)|labios azules|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta|se desmayo|se desvanecio|se desplomo|esta desmayad/, tipo: "sit", id: "inconsciente" },
 { re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
 { re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
 { re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
@@ -989,6 +1021,48 @@ const REGLAS = [
   { re: /se me (cierra|hincha) la garganta|se me hincha la (lengua|cara|boca)|se le hincha la (cara|garganta|lengua)|hinchazon de (garganta|lengua|labios|cara)|se (le )?hincha.{0,20}cuesta respirar|cuesta respirar.{0,20}se (le )?hincha/, tipo: "sit", id: "alergia" },
   // tímpano / oído reventado (NO es fractura de hueso) -> antes que hueso
   { re: /se me (rompio|revento|perforo) (el )?(oido|timpano|tambor del oido)|me revente el oido|se me rompio el tambor/, tipo: "consejo", id: "timpano" },
+  // humo / inhalación -> salir al aire (antes que asma/pecho)
+  { re: /(mucho |trague |respire |inhale )?humo.{0,20}(respirar|me ahogo|me cuesta|carpa|fogata|fuego)|trague humo|inhale humo|respire humo|me ahogo con el humo|intoxicacion por humo/, tipo: "consejo", id: "humo" },
+  // sensación de desmayo (pre-síncope)
+  { re: /(siento|creo) que me (voy a |) ?(desmayo|voy a desmayar|desvanezco)|estoy (por|a punto de) desmayar|me voy a desmayar|veo todo negro|me falta poco para desmayarme/, tipo: "consejo", id: "pre-desmayo" },
+  // flato / puntada al correr
+  { re: /\bflato\b|me dio flato|puntada (en el|al) costado|puntada de tanto (correr|caminar)|me duele el costado (al|de tanto) (correr|caminar)/, tipo: "consejo", id: "flato" },
+  // mareo por movimiento (auto/bus)
+  { re: /me mareo en (el|la) (auto|bus|micro|combi|colectivo|camioneta|viaje)|mareo de (auto|bus|viaje)|cinetosis|me mareo viajando|me dan nauseas en el (auto|bus)/, tipo: "consejo", id: "mareo-movimiento" },
+  // rozadura por mochila/ropa/zapato
+  { re: /me roza(ron|) (las correas|la mochila|la entrepierna|el zapato|la ropa)|tengo rozadura|me roza.{0,12}(caminar|mochila|zapato)|rozadura entre las piernas|me pelo la correa/, tipo: "consejo", id: "rozadura" },
+  // golpe en genitales
+  { re: /(patada|golpe|me golpee|me pegue|me pegaron).{0,16}(testiculos|huevos|genitales|las partes|la ingle|ahi abajo)|me golpee ahi abajo/, tipo: "consejo", id: "golpe-genitales" },
+  // contacto con planta urticante (ortiga)
+  { re: /toque una ortiga|me pico una ortiga|toque una planta y me (arde|pica)|me roce con una planta|planta urticante|me salieron ronchas por una planta/, tipo: "consejo", id: "planta-urticante" },
+  // aftas / llagas en la boca
+  { re: /\bafta\b|\baftas\b|llagas? en la boca|llaga en la lengua|me salio un afta|herida en la boca que arde/, tipo: "consejo", id: "aftas" },
+  // quemadura de SOL / piel pelada por el sol (antes que raspón/quemadura)
+  { re: /me pele.{0,14}(del sol|por el sol|con el sol)|me queme.{0,12}(con el |el |del )sol|piel (pelada|quemada|roja) (del|por el) sol|me queme la (cara|nariz|piel|espalda) (con|del) sol|quemadura de sol|me insole la piel/, tipo: "consejo", id: "quemadura-sol" },
+  // picadura de abeja/avispa + cuesta respirar/se hincha -> alergia grave
+  { re: /(cuesta respirar|se (le )?hincha|no puede respirar|hinchazon).{0,30}(picadura|abeja|avispa|me pico)|(picadura|abeja|avispa|me pico).{0,30}(cuesta respirar|se (le )?hincha|no puede respirar|hinchazon)/, tipo: "sit", id: "alergia" },
+  // mareo / vértigo (todo gira)
+  { re: /todo me gira|todo gira|tengo vertigo|\bvertigo\b|me da vueltas todo|siento que (todo )?gira/, tipo: "consejo", id: "mareo" },
+  // calambre / acalambrado
+  { re: /\bcalambre|se me acalambro|me acalambre|se me acalambraron/, tipo: "consejo", id: "calambre" },
+  // miembro dormido (se durmió el brazo) -> molestia general (no es ACV)
+  { re: /se me (durmio|adormecio|adormecieron) (el brazo|la mano|la pierna|el pie|el dedo)|tengo el (brazo|pie|la mano) dormid/, tipo: "consejo", id: "dolor-muscular" },
+  // dolor muscular por esfuerzo / agujetas / todo el cuerpo
+  { re: /me duelen los musculos|tengo agujetas|me duele todo el cuerpo|me duele el cuerpo (de|despues de)|estoy molido|me duele todo (de|despues de) (caminar|correr|la caminata|el ejercicio|entrenar)|me duelen las piernas de (tanto )?(caminar|correr)/, tipo: "consejo", id: "dolor-muscular" },
+  // gases / hinchazón / boca del estómago -> panza
+  { re: /muchos gases|ando con gases|tengo gases|flatulencia|hinchado de gases|panza hinchada|me duele la boca del estomago(?! y vomito sangre)|boca del estomago/, tipo: "consejo", id: "panza" },
+  // vomité varias veces (sin sangre) -> náuseas
+  { re: /vomite (muchas|varias|un par de|como \w+) veces|vomite mucho|no paro de vomitar|vomito mucho|vomite un monton|estuve vomitando/, tipo: "consejo", id: "nauseas" },
+  // perdí la voz / afonía -> garganta
+  { re: /perdi la voz|me quede afonico|estoy afonico|me quede ronco|\bafonia\b|no me sale la voz/, tipo: "consejo", id: "garganta" },
+  // ampollas en los pies -> ampolla
+  { re: /me salieron ampollas|me salio una ampolla|me ampolle|tengo (una )?ampolla|ampollas en (el pie|los pies|el talon|la mano)/, tipo: "consejo", id: "ampolla" },
+  // golpe en un miembro (codo, etc.) -> contusión
+  { re: /me golpee (el|la) (codo|antebrazo|muslo|espinilla|hombro|cadera|canilla|rodilla del golpe)/, tipo: "consejo", id: "contusion" },
+  // descompuesto por el calor -> insolación
+  { re: /(descompuesto|mal|mareo|nausea|malestar|me siento mal|me descompuse) (del|por el|con el) calor|me descompuse del calor/, tipo: "consejo", id: "insolacion" },
+  // no poder moverse del todo / golpe en la espalda con inmovilidad -> serio
+  { re: /no (puedo|me puedo) mover(me)?\b|me golpee la espalda.{0,20}no (puedo|me puedo) mover|no me puedo levantar del (golpe|dolor)/, tipo: "sit", id: "hueso" },
   // ACV / derrame (FAST): cara torcida, no habla, no mueve un lado
 { re: /se le (tuerce|torcio|cayo|durmio) (la )?(cara|media cara)|boca chueca|cara torcida|no (puede|le sale) hablar|habla raro|se le traba la lengua|no mueve un (brazo|lado)|no mueve la mitad|perdio fuerza en un lado|derrame cerebral|\bacv\b/, tipo: "consejo", id: "acv" },
   // ataque de asma / broncoespasmo
@@ -1056,7 +1130,7 @@ const REGLAS = [
 { re: /se (estaba |esta )?ahog(o|aba|ando) (en|dentro)? ?(el |del )?(agua|rio|lago|mar|laguna)|lo sacamos del agua|casi se ahoga (en|nadando)|trago agua y casi se ahoga|se ahogo en (el|un)|rescatamos a alguien del agua|casi me ahogo nadando/, tipo: "consejo", id: "ahogamiento" },
 { re: /hiperglucemia|azucar (alta|muy alta|por las nubes)|aliento dulce|diabetic[oa].{0,20}(mucha sed|me siento mal|\bmal\b)|mucha sed y orino mucho/, tipo: "consejo", id: "hiperglucemia" },
 { re: /comi algo en mal estado|intoxicacion (por |con )?(la )?comida|me cayo mal la comida|me intoxique (con la |comiendo)|comida en mal estado|vomito y diarrea (juntos|al mismo tiempo)|tengo vomitos y diarrea/, tipo: "consejo", id: "intoxicacion-comida" },
-{ re: /colico renal|dolor de rinon|piedra en (el )?rinon|calculo renal|me duele el rinon|dolor.{0,18}(espalda baja|costado).{0,18}(ingle|adelante|al frente)|dolor que va de la espalda a la ingle/, tipo: "consejo", id: "colico-renal" },
+{ re: /colico renal|dolor de rinon|piedra en (el )?rinon|calculo renal|me duele el rinon|dolor.{0,22}(espalda baja|espalda|costado|rinon).{0,22}(ingle|testiculo|adelante|al frente)|dolor que (va|baja) de la espalda (a la ingle|al testiculo)/, tipo: "consejo", id: "colico-renal" },
 { re: /lumbago|me bloquee la espalda|me quedo trabada la espalda|no me puedo enderezar|me agarro el lumbago|se me trabo la cintura|tiron en la espalda baja/, tipo: "consejo", id: "lumbago" },
 { re: /me desgarre|se me desgarro( el musculo)?|desgarro muscular|senti que algo se rompio en el musculo|senti un latigazo en el musculo/, tipo: "consejo", id: "desgarro" },
 { re: /pie de trinchera|pies (mojados y (helados|frios)|frios y mojados|congelados y mojados)|tengo los pies mojados y helados|pies blancos y entumecidos por humedad/, tipo: "consejo", id: "pie-trinchera" },
@@ -1140,7 +1214,7 @@ const REGLAS = [
   // --- quemadura de sol (suave) antes que quemadura grave ---
 { re: /quem.{0,18}\bsol\b|\bsol\b.{0,10}quem|insolad|quemad[oa] del sol/, tipo: "consejo", id: "quemadura-sol" },
   // --- quemadura (fuego/agua caliente) ---
-{ re: /\bme quem|\bquemad|\bquemadura\b|me chamusqu|agarr[eo] fuego|prend[io] fuego|me incendi/, tipo: "sit", id: "quemadura" },
+{ re: /\bme quem|\bse quem|\bte quem|\bnos quem|\bquemad|\bquemadura\b|me chamusqu|se chamusqu|agarr[eo] fuego|prend[io] fuego|me incendi/, tipo: "sit", id: "quemadura" },
 
   // --- golpe/fractura de CABEZA -> trauma de cabeza (más apropiado que hueso) ---
   // (parti = pasado/accidente; "me parte la cabeza" es jaqueca, NO trauma)

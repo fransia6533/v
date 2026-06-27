@@ -61,7 +61,7 @@ function rutear(textoOriginal) {
   _memo.set(texto, res);
   return res;
 }
-const reSeguir = /^(y |y ahora |ahora |entonces |despues |y despues |y luego |bueno |ok )*(que (hago|hago ahora|mas hago|mas puedo hacer|sigue|hago despues|otra cosa hago)|que me (pongo|aplico|hecho|echo)|que me puedo (poner|aplicar|echar)|me puedo poner algo|me pongo algo|que mas|algo (mas )?(que )?(pueda|puedo) (hacer|poner|aplicar)|que mas puedo hacer|necesito (hacer )?algo mas|hay algo mas que pueda hacer|y despues|y luego)\s*\??$/;
+const reSeguir = /^(y |y ahora |ahora |entonces |despues |y despues |y luego |bueno |ok )*(que (hago|hago ahora|mas hago|mas puedo hacer|sigue|hago despues|otra cosa hago)|que me (pongo|aplico|hecho|echo)|que me puedo (poner|aplicar|echar)|me puedo poner algo|me pongo algo|que mas|algo (mas )?(que )?(pueda|puedo) (hacer|poner|aplicar)|que mas puedo hacer|necesito (hacer )?algo mas|hay algo mas que pueda hacer|y despues|y luego|eso es grave|es grave|es peligroso|es serio|me tengo que preocupar|cuando (tengo que )?(bajar|preocuparme)|cuando (pido|llamo a?) (rescate|emergencias|ayuda))\s*\??$/;
 function _rutearReal(texto) {
   // 0) reglas de alta confianza (igual que chat.js)
   const norm = Fuzzy.normalizar(texto);

@@ -14,7 +14,7 @@
   let ultimoTema = null;  // { nombre, items } — para entender "¿y qué me pongo?"
 
   // preguntas de seguimiento vagas que dependen del tema anterior
-  const reSeguir = /^(y |y ahora |ahora |entonces |despues |y despues |y luego |bueno |ok )*(que (hago|hago ahora|mas hago|mas puedo hacer|sigue|hago despues|otra cosa hago)|que me (pongo|aplico|hecho|echo)|que me puedo (poner|aplicar|echar)|me puedo poner algo|me pongo algo|que mas|algo (mas )?(que )?(pueda|puedo) (hacer|poner|aplicar)|que mas puedo hacer|necesito (hacer )?algo mas|hay algo mas que pueda hacer|y despues|y luego)\s*\??$/;
+  const reSeguir = /^(y |y ahora |ahora |entonces |despues |y despues |y luego |bueno |ok )*(que (hago|hago ahora|mas hago|mas puedo hacer|sigue|hago despues|otra cosa hago)|que me (pongo|aplico|hecho|echo)|que me puedo (poner|aplicar|echar)|me puedo poner algo|me pongo algo|que mas|algo (mas )?(que )?(pueda|puedo) (hacer|poner|aplicar)|que mas puedo hacer|necesito (hacer )?algo mas|hay algo mas que pueda hacer|y despues|y luego|eso es grave|es grave|es peligroso|es serio|me tengo que preocupar|cuando (tengo que )?(bajar|preocuparme)|cuando (pido|llamo a?) (rescate|emergencias|ayuda))\s*\??$/;
 
   function cont() { return $("#lista"); }
   function scrollAbajo() { window.scrollTo(0, document.body.scrollHeight); }
