@@ -224,6 +224,20 @@ const SINTOMAS = [
   { dest: "inconsciente", frases: ["se cayo mi amigo de un barranco y no responde","encontre a alguien tirado que no responde ni respira","mi compañero se desmayo y no despierta"] },
   { dest: "hueso", frases: ["me cai esquiando y no puedo mover la pierna del dolor","me golpee fuerte y creo que me quebre el brazo porque no lo puedo mover"] },
   { dest: "quemadura", frases: ["se me volco agua hirviendo en el brazo y me queme","me queme la mano con la olla cocinando"] },
+  // --- lote de auditoría: escenarios y arreglos nuevos ---
+  { dest: "contusion", frases: ["me salio un moreton enorme","tengo un moreton","me di un golpe fuerte en la pierna","me pegue fuerte en el brazo","me magulle"] },
+  { dest: "timpano", frases: ["se me rompio el oido","se me revento el timpano","se me perforo el timpano","me reventé el oido"] },
+  { dest: "pecho", frases: ["me duele el pecho","me duele el pecho y se corre al brazo izquierdo con sudor frio","opresion en el pecho","me aprieta el pecho"] },
+  { dest: "alergia", frases: ["se me cierra la garganta","se me hincha la lengua","me llene de ronchas","me pica todo el cuerpo","le cuesta respirar y se le hincha la cara"] },
+  { dest: "dolor-cabeza", frases: ["me duele la cabeza hace dos dias","tengo una jaqueca terrible","me esta matando la cabeza","me parte la cabeza"] },
+  { dest: "resfrio", frases: ["tengo tos seca","estoy todo congestionado","tengo la nariz tapada","estoy engripado"] },
+  { dest: "deshidratacion", frases: ["tengo mucha sed","me quede sin agua y tengo mucha sed","tengo la boca muy seca"] },
+  { dest: "ojo", frases: ["me entro una basurita al ojo","tengo los ojos rojos","me arde el ojo","tengo algo en el ojo"] },
+  { dest: "panza", frases: ["me agarraron retortijones","tengo retortijones","colicos de panza"] },
+  { dest: "garganta", frases: ["no puedo tragar nada","me cuesta tragar","me duele al tragar"] },
+  { dest: "frio", frases: ["tengo la nariz congelada","se me congelo la nariz","tengo las orejas congeladas"] },
+  { dest: "altura", frases: ["me cuesta respirar aca arriba","me duele la cabeza aca arriba","tengo nauseas en la cima"] },
+  { dest: "Corticoide", frases: ["que hace la dexametasona","para que es el corticoide"] },
 ];
 
 // ---------------- construir casos ----------------

@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.2 (borrador)",
+  version: "2.3 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -935,6 +935,14 @@ const CONSEJOS = [
     mensaje: "Un golpe fuerte en la panza puede lastimar órganos por dentro aunque por fuera no se vea nada. Recostate, aflojá la ropa, NO comas ni tomes nada por un rato y vigilate. Frío suave sobre la zona ayuda con el dolor de la pared.",
     items: [],
     cuandoConsultar: "Dolor que crece, panza dura o hinchada, vómitos (sobre todo con sangre), sangre en la orina o en la caca, mareo, palidez o desmayo, o un moretón grande: puede haber daño interno, pedí rescate." },
+  { id: "contusion", sintomas: ["me salio un moreton", "me salio un moreton enorme", "tengo un moreton", "me sale un cardenal", "me di un golpe fuerte en la pierna", "me pegue fuerte en el brazo", "me golpee la pierna", "tengo un golpe sin herida", "me magulle", "me di un porrazo en la pierna", "tengo un chichon en la pierna", "golpe morado"],
+    mensaje: "Un golpe o moretón (contusión) sin herida abierta: aplicá FRÍO (hielo en un paño, no directo) 15-20 minutos las primeras horas, mantené la zona en alto y descansala. Pasadas 48 hs podés usar calor suave. Un analgésico ayuda. El color del moretón va cambiando varios días, es normal.",
+    items: ["ibuprofeno", "venda elastica"],
+    cuandoConsultar: "Si no podés mover o apoyar la zona, se hincha muchísimo, el dolor es muy fuerte o el moretón crece rápido: puede haber algo más (fractura, sangrado), consultá." },
+  { id: "timpano", sintomas: ["se me rompio el oido", "se me revento el timpano", "se me rompio el timpano", "me reventé el oido", "se me perforo el timpano", "se me rompio el tambor del oido", "me duele mucho el oido y no escucho", "me sangra el oido y no escucho", "se me tapo el oido despues de un golpe"],
+    mensaje: "Suena a tímpano perforado (se 'rompe' por un golpe, un buceo, una explosión o una infección fuerte). NO te metas nada en el oído ni eches gotas ni agua: mantenelo seco, podés tapar la oreja por fuera con una gasa floja. Un analgésico ayuda con el dolor. Suele cerrar solo en semanas.",
+    items: ["paracetamol", "ibuprofeno", "gasas"],
+    cuandoConsultar: "Mucho sangrado, mareo fuerte con vómitos, pérdida de audición que no mejora, o si fue por un golpe fuerte en la cabeza: consultá pronto." },
   { id: "sangrado-oido", sintomas: ["me sale sangre del oido despues de un golpe", "sangre por el oido", "me sangra el oido tras golpearme la cabeza", "sale liquido del oido despues del golpe"],
     mensaje: "⚠️ Sangre o líquido claro saliendo del oído después de un golpe en la cabeza puede indicar una lesión grave de cráneo. NO tapones el oído: dejá que drene, mantené la cabeza quieta, recostá a la persona de ese lado y pedí rescate URGENTE.",
     items: ["gasas"],
@@ -970,11 +978,17 @@ const REGLAS = [
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
   // raro. (La nariz que sangra se evalúa más abajo y no entra acá.)
   // ========================================================================
-{ re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se puso (morad|azul)|esta morad|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
+{ re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se (puso|esta poniendo|pone) (morad|azul)|esta (morad|azul)|labios azules|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta/, tipo: "sit", id: "inconsciente" },
 { re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
 { re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
 { re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
 { re: /me mordio (una |la )?(vibora|serpiente|culebra)|mordedura de (vibora|serpiente)|me pico (un |una )?(alacran|escorpion)/, tipo: "sit", id: "mordedura" },
+  // dolor de pecho que se irradia al brazo (posible infarto) -> máxima prioridad
+  { re: /me duele el pecho|dolor (de|en el) pecho|opresion en el pecho|me aprieta el pecho|se me aprieta el pecho|dolor de pecho.{0,45}brazo|pecho.{0,30}brazo izquierdo|parece un infarto|creo que es un infarto/, tipo: "sit", id: "pecho" },
+  // garganta/cara/lengua que se hincha (anafilaxia) -> alergia grave
+  { re: /se me (cierra|hincha) la garganta|se me hincha la (lengua|cara|boca)|se le hincha la (cara|garganta|lengua)|hinchazon de (garganta|lengua|labios|cara)|se (le )?hincha.{0,20}cuesta respirar|cuesta respirar.{0,20}se (le )?hincha/, tipo: "sit", id: "alergia" },
+  // tímpano / oído reventado (NO es fractura de hueso) -> antes que hueso
+  { re: /se me (rompio|revento|perforo) (el )?(oido|timpano|tambor del oido)|me revente el oido|se me rompio el tambor/, tipo: "consejo", id: "timpano" },
   // ACV / derrame (FAST): cara torcida, no habla, no mueve un lado
 { re: /se le (tuerce|torcio|cayo|durmio) (la )?(cara|media cara)|boca chueca|cara torcida|no (puede|le sale) hablar|habla raro|se le traba la lengua|no mueve un (brazo|lado)|no mueve la mitad|perdio fuerza en un lado|derrame cerebral|\bacv\b/, tipo: "consejo", id: "acv" },
   // ataque de asma / broncoespasmo
@@ -1002,6 +1016,32 @@ const REGLAS = [
 { re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio/, tipo: "consejo", id: "agotamiento" },
 
   // === LOTE NUEVO: cuadros médicos y de montaña adicionales ===
+  // golpe en la CABEZA -> trauma (antes que el dolor de cabeza común)
+  { re: /me (golpee|pegue|di) (un golpe )?(fuerte )?(en )?la cabeza|me di un cabezazo|golpe (fuerte )?en la cabeza|me cai.{0,18}(y )?me (golpee|pegue) la cabeza|me chante la cabeza|me pegue en la nuca/, tipo: "sit", id: "cabeza" },
+  // herida en la ceja / corte por golpe en cara (no es tímpano ni hueso)
+  { re: /me (abri|corte|revento|parti|rompi) (la |una )?ceja|se me (abrio|revento|partio) la ceja|me abri la (frente|ceja)/, tipo: "sit", id: "sangrado" },
+  // ronchas / picazón en todo el cuerpo -> reacción alérgica
+  { re: /me pica todo el cuerpo|me pica todo|me llene de ronchas|tengo ronchas|me salieron ronchas|picazon en (todo )?el cuerpo|urticaria/, tipo: "sit", id: "alergia" },
+  // retortijones / cólicos de panza
+  { re: /retortijones|retortijon|me agarraron retortijones|colicos? de (panza|estomago|guata)/, tipo: "consejo", id: "panza" },
+  // no poder tragar / duele al tragar -> garganta
+  { re: /no puedo tragar|me cuesta (mucho )?tragar|no logro tragar|me duele (mucho )?al tragar|me arde al tragar/, tipo: "consejo", id: "garganta" },
+  // resfrío / congestión / tos
+  { re: /tos seca|tos con flema|ataque de tos|estoy (todo )?congestionad|tengo congestion|nariz tapada|estoy resfriad|me agarro un resfrio|tengo gripe|estoy engripad|tengo mocos|me sale moco/, tipo: "consejo", id: "resfrio" },
+  // partes del cuerpo congeladas -> frío (los pies mojados+fríos van a pie-trinchera)
+  { re: /(nariz|orejas|oreja|cara|mejillas|manos|dedos|labios) congelad|se me congelo (la nariz|la cara|las orejas|las manos|los dedos)|tengo (la nariz|las orejas|los dedos|las manos) (helad|congelad)/, tipo: "sit", id: "frio" },
+  // sed / sin agua -> deshidratación (no caída al agua)
+  { re: /tengo mucha sed|me quede sin agua|estoy deshidratad|tengo la boca muy seca|no tengo agua y tengo sed|me muero de sed/, tipo: "consejo", id: "deshidratacion" },
+  // algo en el ojo / ojo rojo (irritación, sin nieve) -> ojo
+  { re: /me entro (algo|tierra|una basurita|polvo|una pestaña) (al|en el) ojo|tengo algo en el ojo|me arde el ojo|me pica el ojo|tengo (los |el )?ojos? rojos?|ojo irritado|se me metio algo en el ojo/, tipo: "consejo", id: "ojo" },
+  // astilla / espina clavada (herida chica) -> astilla
+  { re: /me clave una (astilla|espina)|tengo una (astilla|espina) clavada|se me clavo una (astilla|espina)|espina clavada|tengo una espina/, tipo: "consejo", id: "astilla" },
+  // pisar un clavo/vidrio (herida punzante) -> sangrado/herida
+  { re: /pise un (clavo|vidrio|fierro|palo)|me clave un clavo en el pie|se me clavo un (clavo|vidrio) en el pie/, tipo: "sit", id: "sangrado" },
+  // golpe/moretón en un miembro (sin herida) -> contusión
+  { re: /me salio un moreton|tengo un moreton|me sale un cardenal|me di un golpe fuerte en (la|el) (pierna|brazo|muslo|hombro|espalda|cadera)|me pegue (fuerte )?en (la|el) (pierna|brazo|muslo|hombro|espalda)|me magulle|golpe morado/, tipo: "consejo", id: "contusion" },
+  // pregunta por pomada/crema -> qué aplicar
+  { re: /me puedo poner (la |una )?(pomada|crema|ungüento)|me pongo (la |una )?(pomada|crema)|que (pomada|crema|ungüento) (me pongo|uso|puedo usar)/, tipo: "consejo", id: "que-tomar" },
   // corazón acelerado SIN dolor -> calmar pulsaciones (no es infarto)
 { re: /(como|debo|quiero|necesito) (bajar|bajo|calmar|calmo|controlar) (las pulsaciones|el pulso|el corazon|el ritmo cardiaco|las palpitaciones)|tengo (el )?corazon (acelerado|a mil|disparado)|me late (muy )?rapido el corazon|se me acelera el corazon|tengo taquicardia|tengo palpitaciones|el corazon a mil|me palpita (el corazon )?(rapido|fuerte)|corazon acelerado/, tipo: "consejo", id: "palpitaciones" },
   // golpe fuerte en el abdomen -> posible daño interno (no es la rodilla)
@@ -1033,8 +1073,8 @@ const REGLAS = [
 
   // === INTELIGENCIA DE ALTURA / NIEVE (clave en montaña) ===
 { re: /soroche|mal de altura|mal de montana|\bpuna\b|apunad|edema (pulmonar|cerebral)|mal de las alturas/, tipo: "sit", id: "altura" },
-{ re: /(dolor de cabeza|duele.{0,12}cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir).{0,40}(altura|montana|cordillera|subiendo|3 ?mil|4 ?mil|cumbre|cerro)/, tipo: "sit", id: "altura" },
-{ re: /(altura|montana|cordillera|subiendo|cumbre|cerro).{0,40}(dolor de cabeza|duele.{0,12}cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir)/, tipo: "sit", id: "altura" },
+{ re: /(dolor de cabeza|duele.{0,12}cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir).{0,40}(altura|montana|cordillera|subiendo|3 ?mil|4 ?mil|cumbre|cerro|aca arriba|aqui arriba|en la cima|en lo alto|tan arriba)/, tipo: "sit", id: "altura" },
+{ re: /(altura|montana|cordillera|subiendo|cumbre|cerro|aca arriba|aqui arriba|en la cima|en lo alto).{0,40}(dolor de cabeza|duele.{0,12}cabeza|jaqueca|nausea|vomit|mareo|me falta el aire|cuesta respirar|no puedo dormir)/, tipo: "sit", id: "altura" },
 
   // === CEGUERA DE NIEVE / ojos por sol-nieve ===
 { re: /ceguera de nieve|(no veo|vista nublada|ojos rojos|me arden los ojos|ojos irritados|me lloran los ojos|siento arena en los ojos).{0,22}(nieve|sol|reflejo)|queratitis|quemadura en los ojos/, tipo: "consejo", id: "ceguera-nieve" },
@@ -1070,6 +1110,9 @@ const REGLAS = [
 
   // --- cabeza que late/palpita (jaqueca, NO un golpe) ---
 { re: /\b(me late|me palpita|me retumba|siento latir|me pulsa)\b.{0,14}(cabeza|sien|frente|craneo)/, tipo: "consejo", id: "dolor-cabeza" },
+  // dolor de cabeza común / jaqueca (sin golpe, sin altura, sin pedir pastilla:
+  // esas ya se evaluaron arriba) -> consejo
+  { re: /me duele (mucho |un poco |fuerte |bastante |horrible )?la cabeza|dolor de cabeza|tengo (una )?jaqueca|tengo migraña|me parte la cabeza|me esta matando la cabeza|me estalla la cabeza/, tipo: "consejo", id: "dolor-cabeza" },
 
   // --- dolor al defecar / hemorroides / estreñimiento ---
 { re: /(duele|arde|sangre|sangra|cuesta|sale sangre).{0,14}(cagar|defecar|al bano|obrar|el ano|el poto)|hemorroide|almorrana|estreni|no puedo (hacer caca|obrar)|dias sin (ir al bano|cagar|obrar)/, tipo: "consejo", id: "defecar" },
@@ -1152,7 +1195,7 @@ const MEDICAMENTOS = [
   { re: /sutura|steri.?strip|puntos? de mariposa/, nombre: "Suturas adhesivas" },
 ];
 // señales de que es una PREGUNTA/uso sobre un remedio (no un síntoma)
-const MED_MARCADOR = /\b(puedo|puede|debo|podria|tomar|tomo|me tomo|inyect|usar|uso|aplic|darme|me doy|ponerme|me pongo|me aplico|sirve|para que|cuant[oa]s?|cuando|dosis|conviene|administr|le doy|me inyecto|funciona|es bueno|esta bien)/;
+const MED_MARCADOR = /\b(puedo|puede|debo|podria|tomar|tomo|me tomo|inyect|usar|uso|aplic|darme|me doy|ponerme|me pongo|me aplico|sirve|para que|que hace|que efecto|cuant[oa]s?|cuando|dosis|conviene|administr|le doy|me inyecto|funciona|es bueno|esta bien)/;
 
 /* ============================================================================
    GLOSARIO — para preguntas tipo "¿qué es la anafilaxia?", "¿qué significa
@@ -1212,6 +1255,14 @@ const GLOSARIO = [
     def: "Es la temperatura del cuerpo más alta de lo normal (38 °C o más), casi siempre por una infección. Se baja con paracetamol o ibuprofeno e hidratación, y se vigila." },
   { titulo: "Taquicardia", claves: ["taquicardia", "palpitaciones"],
     def: "Es el corazón latiendo más rápido de lo normal. Puede ser por esfuerzo, fiebre, deshidratación, susto o algo del corazón. Si viene con dolor de pecho o falta de aire, consultá." },
+  { titulo: "Contusión / hematoma", claves: ["contusion", "hematoma", "moreton", "cardenal", "morton"],
+    def: "Una contusión es un golpe sin herida abierta; el hematoma (moretón) es la sangre acumulada bajo la piel por ese golpe. Se trata con frío las primeras horas, reposo y elevación. El color va cambiando varios días, es normal." },
+  { titulo: "Cianosis", claves: ["cianosis", "labios azules", "piel azulada"],
+    def: "Es cuando la piel, los labios o las uñas se ponen azulados/morados por falta de oxígeno en la sangre. Es una señal de alarma (problema respiratorio o circulatorio): revisá si respira bien y pedí ayuda." },
+  { titulo: "Disnea", claves: ["disnea", "falta de aire", "dificultad para respirar"],
+    def: "Es la sensación de falta de aire o dificultad para respirar. Puede ser por esfuerzo, asma, altura, un problema del corazón o de los pulmones. Si aparece de golpe o en reposo, es para tomar en serio." },
+  { titulo: "Fractura expuesta", claves: ["fractura expuesta", "hueso expuesto", "fractura abierta"],
+    def: "Es una fractura en la que el hueso rompió la piel y queda a la vista. Es más grave por el riesgo de sangrado e infección: NO se empuja el hueso adentro, se cubre con gasa estéril, se inmoviliza como quedó y se pide rescate urgente." },
 ];
 // detecta preguntas de definición ("qué es / qué significa / explicame ...")
 const DEF_MARCADOR = /\b(que|qué) (es|son|significa|significan|seria|quiere decir)\b|explica(me|r)?\b|definicion de\b|que es eso de\b|en que consiste\b/;
