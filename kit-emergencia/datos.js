@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.5 (borrador)",
+  version: "2.6 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -996,6 +996,14 @@ const CONSEJOS = [
     pasos: ["Parate detrás de la persona y rodeala con los brazos por la cintura.", "Cerrá un puño y apoyalo con el pulgar justo ARRIBA del ombligo, debajo de las costillas.", "Agarrá el puño con la otra mano y hacé compresiones FUERTES hacia adentro y hacia arriba (como dibujando una J).", "Repetí los empujones hasta que salga el objeto o la persona pueda respirar o toser.", "Si se desmaya, bajala con cuidado al suelo y empezá RCP."],
     items: [],
     cuandoConsultar: "Si TODAVÍA puede toser, dejala toser (es lo más efectivo, no le pegues). En bebés es distinto: golpes en la espalda y en el pecho, no Heimlich." },
+  { id: "presion-alta", sintomas: ["me subio la presion", "tengo la presion alta", "presion arterial alta", "tengo presion alta", "se me subio la presion", "tengo la presion por las nubes", "presion alta y dolor de cabeza"],
+    mensaje: "Si te subió la presión (dolor de cabeza, zumbido en los oídos, cara caliente): sentate y tranquilizate, respirá lento, evitá esfuerzos, la sal y el café. Si tomás remedios para la presión, seguí la indicación de tu médico. Volvé a medirla en un rato si podés.",
+    items: [],
+    cuandoConsultar: "Presión muy alta CON dolor de pecho, falta de aire, dolor de cabeza muy fuerte, visión borrosa, vómitos o se te duerme un lado del cuerpo: es una urgencia, pedí ayuda." },
+  { id: "boca-herida", sintomas: ["me mordi la lengua", "me parti el labio", "me mordi el cachete", "sangra la lengua", "me reventaron el labio", "me corte la lengua", "me sangra la lengua de un mordiscon", "me mordi adentro de la boca"],
+    mensaje: "Cortes o mordeduras en el labio o la lengua sangran bastante pero suelen verse peor de lo que son. Hacé presión con una gasa limpia 5-10 minutos, poné algo frío (hielo envuelto en un paño) y enjuagá con agua fría. Evitá comidas calientes o picantes un rato.",
+    items: ["gasas"],
+    cuandoConsultar: "Si el corte es grande o profundo, los bordes quedan separados, no para de sangrar a los 15 minutos, o falta un pedazo de labio/diente: consultá, puede necesitar puntos." },
   { id: "sangrado-oido", sintomas: ["me sale sangre del oido despues de un golpe", "sangre por el oido", "me sangra el oido tras golpearme la cabeza", "sale liquido del oido despues del golpe"],
     mensaje: "⚠️ Sangre o líquido claro saliendo del oído después de un golpe en la cabeza puede indicar una lesión grave de cráneo. NO tapones el oído: dejá que drene, mantené la cabeza quieta, recostá a la persona de ese lado y pedí rescate URGENTE.",
     items: ["gasas"],
@@ -1066,6 +1074,12 @@ const REGLAS = [
   { re: /toque una ortiga|me pico una ortiga|toque una planta y me (arde|pica)|me roce con una planta|planta urticante|me salieron ronchas por una planta/, tipo: "consejo", id: "planta-urticante" },
   // aftas / llagas en la boca
   { re: /\bafta\b|\baftas\b|llagas? en la boca|llaga en la lengua|me salio un afta|herida en la boca que arde/, tipo: "consejo", id: "aftas" },
+  // presión alta
+  { re: /(me|se me) subio la presion|tengo (la )?presion (alta|arterial alta|por las nubes)|presion (arterial )?alta|alta (la )?presion/, tipo: "consejo", id: "presion-alta" },
+  // mordí la lengua / partí el labio (herida en la boca por golpe/mordiscón)
+  { re: /me mordi (la lengua|el cachete|el labio|adentro)|me parti el labio|me reventaron el labio|sangra (la lengua|el labio)|me corte la lengua|mordiscon en la lengua/, tipo: "consejo", id: "boca-herida" },
+  // escalofríos / tiritón -> suele ser fiebre
+  { re: /escalofrios|escalofrio|tiritando de fiebre|me agarraron escalofrios/, tipo: "consejo", id: "fiebre" },
   // quemadura de SOL / piel pelada por el sol (antes que raspón/quemadura)
   { re: /me pele.{0,14}(del sol|por el sol|con el sol)|me queme.{0,12}(con el |el |del )sol|piel (pelada|quemada|roja) (del|por el) sol|me queme la (cara|nariz|piel|espalda) (con|del) sol|quemadura de sol|me insole la piel/, tipo: "consejo", id: "quemadura-sol" },
   // picadura de abeja/avispa + cuesta respirar/se hincha -> alergia grave
@@ -1116,7 +1130,11 @@ const REGLAS = [
   // perdido / extraviado
 { re: /estoy perdido|me perdi|no se donde estoy|perdi (el camino|la huella|el sendero)|no encuentro el sendero|no se como volver|me extravie/, tipo: "consejo", id: "perdido" },
   // agotamiento / no puedo más
-{ re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio/, tipo: "consejo", id: "agotamiento" },
+{ re: /estoy (agotado|exhausto|reventado|muerto de cansancio)|no puedo mas|no doy mas|no me dan las piernas|no puedo seguir caminando|me quede sin fuerzas|no aguanto mas el cansancio|estoy que no doy mas/, tipo: "consejo", id: "agotamiento" },
+  // bajón de azúcar / debilidad con temblor y sudor frío -> hipoglucemia
+  { re: /bajon de azucar|azucar baja|hipoglucemia|sin fuerzas y (tiemblo|tembloroso)|cero fuerza y tiemblo|tiemblo y (sudo frio|no tengo fuerza)|sudor frio y (hambre|debilidad)/, tipo: "consejo", id: "hipoglucemia" },
+  // caída fuerte genérica (me saqué la cresta, me fui al suelo) -> golpe/triage
+  { re: /^(?!.*\b(cabeza|craneo|nuca|cabezazo)\b).*(\bme cai fuerte\b|me fui al suelo de golpe|me cai (esquiando|patinando|en la nieve)|me pegue un (golpazo|costalazo))/, tipo: "sit", id: "rodilla" },
 
   // === LOTE NUEVO: cuadros médicos y de montaña adicionales ===
   // golpe en la CABEZA -> trauma (antes que el dolor de cabeza común)
@@ -1132,9 +1150,9 @@ const REGLAS = [
   // resfrío / congestión / tos
   { re: /tos seca|tos con flema|ataque de tos|estoy (todo )?congestionad|tengo congestion|nariz tapada|estoy resfriad|me agarro un resfrio|tengo gripe|estoy engripad|tengo mocos|me sale moco/, tipo: "consejo", id: "resfrio" },
   // partes del cuerpo congeladas -> frío (los pies mojados+fríos van a pie-trinchera)
-  { re: /(nariz|orejas|oreja|cara|mejillas|manos|dedos|labios) congelad|se me congelo (la nariz|la cara|las orejas|las manos|los dedos)|tengo (la nariz|las orejas|los dedos|las manos) (helad|congelad)/, tipo: "sit", id: "frio" },
+  { re: /(nariz|orejas|oreja|cara|mejillas|manos|dedos|labios) congelad|se me congelo (la nariz|la cara|las orejas|las manos|los dedos)|tengo (la nariz|las orejas|los dedos|las manos) (helad|congelad)|no (me )?siento (la cara|la nariz|las orejas) (del |por el )?frio|no me siento la cara del frio/, tipo: "sit", id: "frio" },
   // sed / sin agua -> deshidratación (no caída al agua)
-  { re: /tengo mucha sed|me quede sin agua|estoy deshidratad|tengo la boca muy seca|no tengo agua y tengo sed|me muero de sed/, tipo: "consejo", id: "deshidratacion" },
+  { re: /tengo mucha sed|me quede sin agua|estoy deshidratad|tengo la boca muy seca|no tengo agua y tengo sed|me muero de sed|estoy muerto de sed|muerto de sed/, tipo: "consejo", id: "deshidratacion" },
   // algo en el ojo / ojo rojo (irritación, sin nieve) -> ojo
   { re: /me entro (algo|tierra|una basurita|polvo|una pestaña) (al|en el) ojo|tengo algo en el ojo|me arde el ojo|me pica el ojo|tengo (los |el )?ojos? rojos?|ojo irritado|se me metio algo en el ojo/, tipo: "consejo", id: "ojo" },
   // astilla / espina clavada (herida chica) -> astilla

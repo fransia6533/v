@@ -143,16 +143,32 @@
   // modismos / formas coloquiales -> palabra que la app entiende
   const SLANG = {
     "guata": "panza", "guatita": "panza", "wawa": "panza",
+    "estoy enfermo del guata": "me duele la panza", "ando mal del guata": "me duele la panza",
+    "me eche a perder el estomago": "me duele la panza", "ando mal del estomago": "me duele la panza",
     "pata": "pierna", "patas": "piernas", "pata rota": "pierna rota",
-    "cabeza me estalla": "dolor de cabeza", "jaqueca": "dolor de cabeza",
-    "chuchaqui": "resaca", "caña": "resaca", "goma": "resaca", "cruda": "resaca", "guayabo": "resaca",
+    "cabeza me estalla": "dolor de cabeza", "jaqueca": "dolor de cabeza", "me duele el coco": "dolor de cabeza",
+    "chuchaqui": "resaca", "cana": "resaca", "goma": "resaca", "cruda": "resaca", "guayabo": "resaca",
+    "me cure": "tengo resaca", "ando curado": "tengo resaca", "estoy con la goma": "tengo resaca",
+    "ando con la cana": "tengo resaca", "estoy pasado de copas": "tengo resaca",
     "me chante": "me desmaye", "me desplome": "me desmaye", "me desmaye": "me desmaye",
-    "me saque la cresta": "me cai fuerte", "me saque la mugre": "me cai fuerte",
+    "me dio la palida": "me voy a desmayar", "la palida": "me voy a desmayar",
+    "me dio un patatus": "me voy a desmayar", "me dio un soponcio": "me voy a desmayar",
+    "me dio un yeyo": "me voy a desmayar", "me dio un telele": "me voy a desmayar",
+    "me saque la cresta": "me cai fuerte", "me saque la mugre": "me cai fuerte", "me saque la chucha": "me cai fuerte",
     "me pegue un costalazo": "me cai fuerte", "me di un porrazo": "me golpee fuerte",
-    "me fui de boca": "me cai fuerte", "me fui de hocico": "me cai fuerte",
+    "me fui de boca": "me cai fuerte", "me fui de hocico": "me cai fuerte", "me pegue": "me golpee",
     "cototo": "chichon", "chichon": "golpe en la cabeza",
-    "wea": " ", "weas": " ", "po": " ", "cachai": " ", "oe": " ", "loco": " ",
-    "pucha": " ", "chuta": " ", "ufa": " ",
+    "estoy hecho bolsa": "me duele todo el cuerpo", "estoy hecho pebre": "me duele todo el cuerpo",
+    "estoy molido": "me duele todo el cuerpo", "quede muerto": "me duele todo el cuerpo",
+    "me agarro un aire": "tengo torticolis", "me dio un aire": "tengo torticolis",
+    "ando con tiriton": "tengo escalofrios", "tiriton": "escalofrios",
+    "devolvi": "vomite mucho", "eche la pota": "vomite mucho", "lance": "vomite mucho", "eche la chola": "vomite mucho",
+    "me vino la regla": "dolor de regla", "estoy indispuesta": "dolor de regla", "ando con la regla": "dolor de regla",
+    "ando achacado": "me siento mal", "estoy achacado": "me siento mal", "ando pa la caga": "me siento mal",
+    "estoy pa la caga": "me siento mal", "ando desganado": "me siento mal",
+    "se me bajo la presion": "me voy a desmayar", "me dio un bajon": "me siento debil",
+    "wea": " ", "weas": " ", "po": " ", "cachai": " ", "oe": " ", "loco": " ", "weon": " ", "wn": " ",
+    "pucha": " ", "chuta": " ", "ufa": " ", "altiro": " ", "filo": " ", "ya po": " ", "posta": " ",
     "remedios": "remedio", "pastillas": "pastilla", "pastis": "pastilla", "remedito": "remedio",
   };
   // muletillas / interjecciones que no aportan y rompen el match de frase
@@ -167,7 +183,9 @@
     "urgente urgentemente oye compadre causa brother bro hey eh").split(" ");
   const reMule = new RegExp("\\b(" + MULETILLAS_FRASE.concat(MULETILLAS).join("|") + ")\\b", "g");
   function expandir(t) {
-    let s = " " + (t || "").toLowerCase() + " ";
+    // sacamos acentos y ñ ANTES de los modismos, así "me curé"/"la pálida"
+    // matchean igual que sin tilde (las claves del SLANG van sin acento).
+    let s = " " + (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "") + " ";
     for (const k in SLANG) {
       s = s.split(" " + k + " ").join(" " + SLANG[k] + " ");
     }

@@ -68,7 +68,9 @@ const SINTOMAS = [
   { dest: "oido", frases: ["me duele el oido","tengo dolor de oido","me duele un oido"] },
   { dest: "astilla", frases: ["se me clavo una astilla","me clave una espina","tengo una astilla clavada","me clave una astilla"] },
   { dest: "que-tomar", frases: ["que pastilla tomo","que me tomo","dame algo para el dolor","necesito un analgesico","que remedio tomo","algo para la fiebre","que puedo tomar","que medicamento tomo","necesito algo para el dolor","quiero un calmante","que pastillas debo tomar"] },
-  { dest: "malestar", frases: ["me siento mal","no me siento bien","me siento raro","ando para atras","estoy hecho pebre","ando como las pelotas","no doy mas"] },
+  { dest: "malestar", frases: ["me siento mal","no me siento bien","me siento raro","ando para atras","ando como las pelotas"] },
+  { dest: "dolor-muscular|malestar", frases: ["estoy hecho pebre"] },
+  { dest: "agotamiento|malestar", frases: ["no doy mas"] },
   { dest: "malestar|hipoglucemia", frases: ["me siento debil","me siento flojo"] },
   { dest: "resaca", frases: ["tengo resaca","ando con caña","estoy crudo","tengo chuchaqui","me pase con el trago","ando con la goma","tengo cruda"] },
   { dest: "insolacion|quemadura-sol", frases: ["me insole","me pego el sol","tengo golpe de calor","me quede mucho al sol"] },
@@ -252,6 +254,9 @@ const SINTOMAS = [
   { dest: "boca-a-boca", frases: ["como doy respiracion boca a boca","respiracion boca a boca","como hacer respiracion artificial","como le doy aire"] },
   { dest: "posicion-recuperacion", frases: ["posicion de recuperacion","como pongo a alguien de costado","esta inconsciente pero respira que hago","como lo pongo de lado"] },
   { dest: "heimlich", frases: ["como hago la maniobra de heimlich","maniobra de heimlich","como saco algo de la garganta","como ayudo a alguien que se atraganta"] },
+  // --- lote v2.6: escenarios nuevos ---
+  { dest: "presion-alta", frases: ["me subio la presion","tengo la presion alta","se me subio la presion","ando con la presion alta"] },
+  { dest: "boca-herida", frases: ["me mordi la lengua y sangra","me parti el labio de un golpe","me reventaron el labio","me mordi el cachete"] },
 ];
 
 // ---------------- construir casos ----------------
