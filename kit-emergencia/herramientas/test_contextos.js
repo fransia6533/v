@@ -34,7 +34,7 @@ const art = (p) => {
   return (fem ? "la " : "el ") + p;
 };
 const PARTES = ["pierna","brazo","mano","dedo","pie","tobillo","rodilla","cadera","muñeca","hombro","costilla","muslo","antebrazo","gemelo","pantorrilla","codo","espinilla","talon"];
-const PARTES_DOLOR = ["espalda","trasero","cintura","nuca","cuello","hombro","brazo","muslo","cadera","gluteo","nalga","pantorrilla","gemelo","costado","ingle","axila","riñones","lomo","antebrazo","codo","espinilla","las piernas","los brazos"];
+const PARTES_DOLOR = ["espalda","trasero","cintura","nuca","cuello","hombro","brazo","muslo","cadera","gluteo","nalga","pantorrilla","gemelo","ingle","axila","riñones","lomo","antebrazo","codo","espinilla","las piernas","los brazos"];
 
 // ---------------- familias: verbo/frase -> escenario ----------------
 // Lesiones que se combinan con una parte del cuerpo
@@ -247,6 +247,11 @@ const SINTOMAS = [
   { dest: "planta-urticante", frases: ["toque una ortiga y me arde la piel","me pico una ortiga","me roce con una planta y me arde","toque una planta urticante"] },
   { dest: "aftas", frases: ["tengo llagas en la boca","me salio un afta en la lengua","tengo aftas","tengo una llaga en la boca que arde"] },
   { dest: "pre-desmayo", frases: ["siento que me voy a desmayar","estoy por desmayarme veo todo negro","me voy a desmayar","estoy a punto de desmayarme"] },
+  // --- guías que salvan vidas (paso a paso) ---
+  { dest: "rcp", frases: ["como hago rcp","como hacer reanimacion","como doy masaje cardiaco","rcp paso a paso","como hago las compresiones"] },
+  { dest: "boca-a-boca", frases: ["como doy respiracion boca a boca","respiracion boca a boca","como hacer respiracion artificial","como le doy aire"] },
+  { dest: "posicion-recuperacion", frases: ["posicion de recuperacion","como pongo a alguien de costado","esta inconsciente pero respira que hago","como lo pongo de lado"] },
+  { dest: "heimlich", frases: ["como hago la maniobra de heimlich","maniobra de heimlich","como saco algo de la garganta","como ayudo a alguien que se atraganta"] },
 ];
 
 // ---------------- construir casos ----------------

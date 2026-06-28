@@ -273,7 +273,17 @@
   // ---------- consejo (síntoma común) ----------
   function responderConsejo(c) {
     ultimoTema = { nombre: (c.titulo || c.id.replace(/-/g, " ")), items: c.items || [] };
-    const b = botMsg(esc(c.mensaje));
+    let html = "";
+    if (c.titulo) html += "<b>" + esc(c.titulo) + "</b><br>";
+    html += esc(c.mensaje);
+    const b = botMsg(html);
+    // pasos numerados (guías tipo RCP, Heimlich, posición de recuperación...)
+    if (c.pasos && c.pasos.length) {
+      const ol = document.createElement("ol");
+      ol.className = "pasos-chat";
+      c.pasos.forEach((p) => { const li = document.createElement("li"); li.innerHTML = esc(p); ol.appendChild(li); });
+      b.appendChild(ol);
+    }
     chipsItems(c.items, b);
     if (c.cuandoConsultar) {
       const w = document.createElement("div");

@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.4 (borrador)",
+  version: "2.5 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -975,6 +975,27 @@ const CONSEJOS = [
     mensaje: "Si sentís que te vas a desmayar: ACOSTATE YA y levantá las piernas (o sentate con la cabeza entre las rodillas) para que llegue sangre al cerebro. Aflojá la ropa, aire fresco, y cuando mejores tomá agua y algo con azúcar. Levantate de a poco.",
     items: ["sales de rehidratacion"],
     cuandoConsultar: "Si llega a desmayarse y no responde, le cuesta respirar, hay dolor de pecho, o se repite: es para tomar en serio, pedí ayuda." },
+  // ===================== GUÍAS QUE SALVAN VIDAS (paso a paso) =====================
+  { id: "rcp", titulo: "RCP (reanimación) paso a paso", sintomas: ["como hago rcp", "como hacer rcp", "como dar masaje cardiaco", "como hago reanimacion", "como reanimar a alguien", "como hago compresiones", "rcp paso a paso", "como hacer reanimacion cardiopulmonar", "masaje al corazon", "como revivir a alguien"],
+    mensaje: "Si la persona NO responde y NO respira (o solo hace boqueadas), es un paro: empezá RCP YA y que alguien llame al rescate / busque un desfibrilador (DEA).",
+    pasos: ["Acostala boca arriba sobre algo firme (el suelo).", "Apoyá el talón de una mano en el CENTRO del pecho y la otra mano encima, con los dedos entrelazados.", "Comprimí FUERTE y rápido: hundí el pecho unos 5 cm, a 100-120 por minuto (el ritmo de 'La Macarena' o 'Stayin' Alive').", "Dejá que el pecho suba del todo entre cada compresión, sin despegar las manos.", "Si sabés dar respiraciones: cada 30 compresiones, 2 soplos boca a boca. Si no, hacé SOLO compresiones, sin parar.", "No pares hasta que llegue ayuda, la persona reaccione, o no puedas más. Si hay otra persona, túrnense cada 2 minutos."],
+    items: [],
+    cuandoConsultar: "Si estás solo y hay señal, llamá al rescate ANTES de empezar. Un DEA, si aparece, se usa siguiendo sus instrucciones de voz." },
+  { id: "boca-a-boca", titulo: "Respiración boca a boca", sintomas: ["como doy respiracion boca a boca", "respiracion boca a boca", "como hacer respiracion artificial", "como dar respiraciones de rescate", "como le soplo aire", "como hago respiracion de rescate", "como darle aire a alguien"],
+    mensaje: "Las respiraciones de rescate dan oxígeno cuando alguien no respira. Van junto con la RCP (2 soplos cada 30 compresiones).",
+    pasos: ["Incliná la cabeza hacia atrás levantando el mentón para abrir la garganta.", "Tapá la nariz con dos dedos y sellá tu boca sobre la boca de la persona.", "Soplá suave y parejo durante 1 segundo, mirando que el PECHO SUBA.", "Despegate, dejá salir el aire, y dá un segundo soplo.", "Si el pecho no sube, reacomodá la cabeza y fijate que no haya algo tapando la boca."],
+    items: [],
+    cuandoConsultar: "Si no querés o no podés dar boca a boca, hacé SOLO compresiones de pecho: igual salva vidas." },
+  { id: "posicion-recuperacion", titulo: "Posición de recuperación (de costado)", sintomas: ["posicion de recuperacion", "como pongo a alguien de costado", "posicion lateral de seguridad", "alguien inconsciente que respira", "esta desmayado pero respira que hago", "como acuesto a alguien inconsciente", "como pongo a alguien de lado", "esta inconsciente pero respira"],
+    mensaje: "Si la persona está INCONSCIENTE pero RESPIRA, ponela de costado para que no se ahogue si vomita y la lengua no le tape la garganta:",
+    pasos: ["Arrodillate a su lado. Estirá el brazo más cercano a vos hacia arriba (como saludando).", "Cruzá el otro brazo sobre el pecho y apoyá el dorso de su mano contra su mejilla.", "Flexioná la rodilla más lejana y, tirando de ella, girala hacia vos hasta dejarla de costado.", "Acomodá la cabeza un poco hacia atrás para que la vía quede abierta y la boca pueda drenar.", "Controlá que siga respirando hasta que llegue ayuda. Si deja de respirar, ponela boca arriba y empezá RCP."],
+    items: ["manta termica"],
+    cuandoConsultar: "Si NO respira o no estás seguro de que respira: no la pongas de costado, empezá RCP y pedí rescate." },
+  { id: "heimlich", titulo: "Maniobra de Heimlich (atragantamiento)", sintomas: ["como hago la maniobra de heimlich", "como ayudo a alguien que se ahoga con comida", "como saco algo de la garganta", "maniobra de heimlich", "como desatoro a alguien", "se esta ahogando con comida que hago", "como saco la comida atorada", "alguien se atraganto que hago"],
+    mensaje: "Si se atragantó y NO puede toser, hablar ni respirar (se agarra el cuello), actuá rápido:",
+    pasos: ["Parate detrás de la persona y rodeala con los brazos por la cintura.", "Cerrá un puño y apoyalo con el pulgar justo ARRIBA del ombligo, debajo de las costillas.", "Agarrá el puño con la otra mano y hacé compresiones FUERTES hacia adentro y hacia arriba (como dibujando una J).", "Repetí los empujones hasta que salga el objeto o la persona pueda respirar o toser.", "Si se desmaya, bajala con cuidado al suelo y empezá RCP."],
+    items: [],
+    cuandoConsultar: "Si TODAVÍA puede toser, dejala toser (es lo más efectivo, no le pegues). En bebés es distinto: golpes en la espalda y en el pecho, no Heimlich." },
   { id: "sangrado-oido", sintomas: ["me sale sangre del oido despues de un golpe", "sangre por el oido", "me sangra el oido tras golpearme la cabeza", "sale liquido del oido despues del golpe"],
     mensaje: "⚠️ Sangre o líquido claro saliendo del oído después de un golpe en la cabeza puede indicar una lesión grave de cráneo. NO tapones el oído: dejá que drene, mantené la cabeza quieta, recostá a la persona de ese lado y pedí rescate URGENTE.",
     items: ["gasas"],
@@ -1005,12 +1026,20 @@ const CONSEJOS = [
    El texto llega normalizado (minúsculas, sin acentos). Primera que matchea gana.
    ============================================================================ */
 const REGLAS = [
+  // === GUÍAS "CÓMO HAGO..." — preguntas educativas, van antes que las
+  // señales de peligro (preguntar cómo hacer RCP no es la emergencia en sí). ===
+  { re: /como (hago|hacer|se hace|dar|doy) (el |la )?(rcp|reanimacion|masaje cardiaco|compresiones|reanimacion cardiopulmonar)|rcp paso a paso|como reanim|como revivir a alguien|como hago las compresiones/, tipo: "consejo", id: "rcp" },
+  { re: /(como|respiracion) (doy|dar|hacer|se hace|le doy)? ?(respiracion )?(boca a boca|de rescate|artificial)|como le soplo aire|como darle aire/, tipo: "consejo", id: "boca-a-boca" },
+  { re: /posicion (de recuperacion|lateral)|como (pongo|acuesto|coloco|lo pongo) a? ?alguien? (de costado|de lado|inconsciente)|esta (inconsciente|desmayad).{0,16}(pero )?respira|como lo pongo de (costado|lado)|respira pero (esta inconsciente|no responde)/, tipo: "consejo", id: "posicion-recuperacion" },
+  { re: /maniobra de heimlich|como (hago|hacer) (la )?heimlich|como (desatoro|saco (la comida|algo) (atorad|de la garganta))|como ayudo a alguien que se (ahoga|atraganta)|como saco la comida atorada/, tipo: "consejo", id: "heimlich" },
+  // como detener una hemorragia
+  { re: /como (paro|detengo|freno|corto) (el |la |una )?(sangrado|hemorragia|sangre)/, tipo: "sit", id: "sangrado" },
   // ========================================================================
   // SEÑALES DE PELIGRO — máxima prioridad. Si alguien describe algo que pone
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
   // raro. (La nariz que sangra se evalúa más abajo y no entra acá.)
   // ========================================================================
-{ re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se (puso|esta poniendo|pone) (morad|azul)|esta (morad|azul)|labios azules|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta|se desmayo|se desvanecio|se desplomo|esta desmayad/, tipo: "sit", id: "inconsciente" },
+{ re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se (puso|esta poniendo|pone) (morad|azul)|esta (morad|azul)|labios azules|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta|se desmayo|se desvanecio|se desplomo|esta desmayad|esta tirad.{0,18}no (se mueve|responde|reacciona)|esta tirado (en el suelo|inconsciente)|no reacciona ni se mueve/, tipo: "sit", id: "inconsciente" },
 { re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
 { re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
 { re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
