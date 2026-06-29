@@ -255,6 +255,11 @@ body { padding-bottom: 132px; }
   background: #2a1518; border: 1px solid #b00020; border-radius: 10px;
   padding: 10px 12px; margin-top: 10px; font-size: .95rem;
 }
+.chat-puedeser {
+  background: #14202a; border: 1px solid #25506b; border-radius: 10px;
+  padding: 9px 12px; margin-top: 10px; font-size: .92rem; line-height: 1.4;
+}
+.chat-medlabel { margin-top: 10px; font-size: .9rem; }
 .chip-item { background: #1c6e2e; border-color: #2a8f40; margin: 4px 6px 0 0; }
 .chip-dosis { font-size: .8rem; opacity: .9; }
 .chip-sug { background: var(--tarjeta2); border: 1px solid #39414f; margin: 4px 6px 0 0; font-size: .92rem; }

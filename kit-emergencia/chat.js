@@ -34,6 +34,10 @@
   function chipsItems(keywords, contenedor) {
     const items = resolverItems(keywords);
     if (!items.length) return;
+    const lbl = document.createElement("div");
+    lbl.className = "chat-medlabel";
+    lbl.innerHTML = "💊 <b>Del botiquín te puede servir</b> <span style=\"opacity:.75\">(tocá para ver cómo se usa)</span>:";
+    contenedor.appendChild(lbl);
     const wrap = document.createElement("div");
     wrap.className = "chat-ops";
     items.forEach((it) => {
@@ -295,6 +299,13 @@
     if (c.titulo) html += "<b>" + esc(c.titulo) + "</b><br>";
     html += esc(c.mensaje);
     const b = botMsg(html);
+    // "qué puede ser" — posibles causas del síntoma (orientativo, no diagnóstico)
+    if (c.puedeSer) {
+      const ps = document.createElement("div");
+      ps.className = "chat-puedeser";
+      ps.innerHTML = "🔎 <b>Qué puede ser:</b> " + esc(c.puedeSer);
+      b.appendChild(ps);
+    }
     // pasos numerados (guías tipo RCP, Heimlich, posición de recuperación...)
     if (c.pasos && c.pasos.length) {
       const ol = document.createElement("ol");
