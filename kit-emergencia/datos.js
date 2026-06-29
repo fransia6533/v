@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.6 (borrador)",
+  version: "2.7 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -366,8 +366,9 @@ const TRIAGE = [
       grave: { resultado: { nivel: "alta", titulo: "Hemorragia importante", pasos: [
         "Presión DIRECTA, fuerte y constante con gasa o paño limpio. No la levantes para mirar: mantené la presión.",
         "Si la gasa se empapa, poné otra ENCIMA (no quites la primera) y seguí presionando.",
+        "Herida profunda en brazo/pierna/ingle/axila que no para con presión: RELLENÁ la herida apretando gasa (o gasa hemostática si tenés) bien adentro, contra el punto que sangra, y seguí presionando fuerte encima.",
         "Elevá la zona por encima del corazón si es brazo o pierna y no hay fractura.",
-        "Si es un brazo/pierna, el sangrado no para y peligra la vida: torniquete varios cm por encima de la herida y ANOTÁ la hora.",
+        "Si es un brazo/pierna, el sangrado no para y peligra la vida: torniquete varios cm por encima de la herida, apretá hasta que pare, y ANOTÁ la hora. No lo aflojes.",
         "Pedí rescate urgente." ],
         cuandoBajar: "Siempre que uses torniquete o no controles el sangrado: evacuación urgente." } },
       moderado: { resultado: { nivel: "media", titulo: "Herida profunda/grande", pasos: [
@@ -416,9 +417,9 @@ const TRIAGE = [
         opciones: [{ texto: "Sí (alguna)", ir: "grave" }, { texto: "No", ir: "leve" }] },
       grave: { resultado: { nivel: "alta", titulo: "Reacción grave (anafilaxia)", pasos: [
         "USÁ LA ADRENALINA del botiquín YA, en la cara lateral del muslo, según la indicación validada por tu médico.",
-        "Recostalo con las piernas elevadas. Si le cuesta respirar, mejor semisentado.",
+        "Recostalo con las piernas elevadas. Si le cuesta respirar, mejor semisentado. NO lo pongas de pie ni lo sientes de golpe: el cambio brusco a vertical puede ser mortal.",
         "Antihistamínico DESPUÉS de la adrenalina, nunca en lugar de.",
-        "Si no mejora, repetí la adrenalina según la indicación del médico.",
+        "Si no mejora en unos minutos, repetí la adrenalina (hace falta una segunda dosis hasta en 1 de cada 5 casos).",
         "Pedí rescate URGENTE siempre, aunque mejore." ],
         cuandoBajar: "Siempre. La anafilaxia es una emergencia: rescate de inmediato." } },
       leve: { resultado: { nivel: "baja", titulo: "Reacción leve", pasos: [
@@ -439,17 +440,17 @@ const TRIAGE = [
       q2: { pregunta: "¿Hay dedos, nariz u orejas blancos, duros o sin sensibilidad?",
         opciones: [{ texto: "Sí (congelación)", ir: "congelacion" }, { texto: "No", ir: "leve" }] },
       grave: { resultado: { nivel: "alta", titulo: "Hipotermia (grave)", pasos: [
-        "Movelo con suavidad (los movimientos bruscos son peligrosos). Sacalo del viento y del suelo.",
-        "Quitá ropa mojada, poné ropa seca y abrigá todo, incluida la cabeza y el cuello.",
+        "Movelo con MUCHA suavidad y mantenelo ACOSTADO y quieto: no lo hagas caminar ni mover brazos/piernas (el movimiento manda sangre fría al corazón y puede pararlo). Sacalo del viento.",
+        "Aislalo del SUELO (mochila, ramas, aislante): el suelo le roba el calor. Quitá ropa mojada, poné ropa seca y abrigá todo, incluida la cabeza y el cuello.",
         "Manta térmica con el lado plateado hacia el cuerpo.",
-        "Si está consciente y traga bien, bebida tibia y azucarada. NUNCA alcohol.",
+        "Si está bien despierto y traga sin problema, bebida tibia y azucarada. NUNCA alcohol (enfría más y es un factor de riesgo, no un remedio).",
         "Pedí rescate urgente." ],
         cuandoBajar: "Confusión, deja de tiritar o se adormece: emergencia, evacuar." } },
       congelacion: { resultado: { nivel: "media", titulo: "Congelación", pasos: [
-        "NO frotar ni dar masajes en la zona.",
-        "Recalentá suave con calor corporal (manos bajo las axilas) o agua tibia (NO caliente).",
-        "No recalientes si hay riesgo de que se vuelva a congelar (es peor descongelar y recongelar).",
-        "No revientes ampollas. Quitá anillos/cosas ajustadas. Protegé con gasa." ],
+        "NO frotar ni dar masajes, y NO aplicar nieve ni hielo en la zona (es un mito y daña más el tejido).",
+        "Recalentá en agua TIBIA, 37-39°C (apenas soportable, como para bañar un bebé — NO caliente), unos 30 min, hasta que la zona se ponga blanda y rosada. Si no hay agua, calor corporal (manos bajo las axilas).",
+        "No recalientes si hay riesgo de que se vuelva a congelar: es peor descongelar y recongelar. En ese caso, mejor mantenerla congelada hasta llegar a un lugar donde no se recongele.",
+        "No revientes ampollas (menos las de sangre). Quitá anillos/cosas ajustadas. Protegé con gasa. Un ibuprofeno ayuda contra el daño del tejido (dosis ⚠️ VALIDAR)." ],
         cuandoBajar: "Zonas que no recuperan color/sensibilidad, ampollas o piel negra: atención médica." } },
       leve: { resultado: { nivel: "baja", titulo: "Frío — todavía leve", pasos: [
         "Resguardate del viento y del frío. Ropa seca y abrigo, cabeza cubierta.",
@@ -495,18 +496,18 @@ const TRIAGE = [
       q2: { pregunta: "¿Hay ampollas?",
         opciones: [{ texto: "Sí", ir: "moderado" }, { texto: "No", ir: "leve" }] },
       grave: { resultado: { nivel: "alta", titulo: "Quemadura grande o profunda", pasos: [
-        "Enfriá con agua a temperatura ambiente 10-20 min. NO uses hielo.",
+        "Enfriá con agua FRESCA corriente (no helada) 10-20 min. NO uses hielo: empeora la quemadura.",
         "No revientes ampollas. Cubrí con gasa estéril sin apretar.",
         "Quitá anillos/ropa que NO esté pegada a la piel. Hidratá a la persona.",
         "Evacuá." ],
         cuandoBajar: "Quemaduras grandes/profundas o en zonas delicadas: atención médica." } },
       moderado: { resultado: { nivel: "media", titulo: "Quemadura con ampollas", pasos: [
-        "Enfriá con agua 10-20 min. No revientes las ampollas.",
+        "Enfriá con agua fresca corriente (no helada) 10-20 min. No revientes las ampollas.",
         "Cubrí con gasa estéril sin apretar. No apliques cremas/pasta/grasa.",
         "Vigilá infección." ],
         cuandoBajar: "Si se infecta o es extensa, consultá." } },
       leve: { resultado: { nivel: "baja", titulo: "Quemadura leve", pasos: [
-        "Enfriá con agua varios minutos.",
+        "Enfriá con agua fresca corriente (no helada) 10-20 min.",
         "Cubrí si hace falta. No apliques cremas/pasta dental/grasa.",
         "Hidratate (el sol y la altura deshidratan)." ],
         cuandoBajar: "Si aparecen muchas ampollas o dolor que no cede, consultá." } }
@@ -1421,9 +1422,9 @@ const ESCENARIOS = [
     pasos: [
       "Reconocer signos GRAVES: hinchazón de labios/lengua/garganta, dificultad para respirar, ronchas extendidas, mareo o desmayo.",
       "USAR ADRENALINA / autoinyector según indicación del médico. Dosis: ____ ⚠️ VALIDAR. Inyectar en la cara lateral del muslo.",
-      "Recostar a la persona y elevar las piernas (salvo que cueste respirar: entonces semisentado).",
+      "Recostar a la persona y elevar las piernas (salvo que cueste respirar: entonces semisentado). NO ponerla de pie ni sentarla de golpe: el cambio brusco a vertical puede causar paro. ",
       "Si hay antihistamínico indicado, darlo DESPUÉS de la adrenalina (no en lugar de). Dosis: ____ ⚠️ VALIDAR.",
-      "Repetir adrenalina a los ____ minutos si no mejora ⚠️ VALIDAR.",
+      "Repetir adrenalina a los ____ minutos si no mejora ⚠️ VALIDAR (una segunda dosis hace falta hasta en el 18% de los casos).",
       "Pedir rescate URGENTE: esto siempre requiere evacuación."
     ],
     items: ["adrenalina", "antihistaminico"],
@@ -1438,9 +1439,10 @@ const ESCENARIOS = [
     pasos: [
       "Presión DIRECTA y firme sobre la herida con gasa o paño limpio. No la levantes para 'mirar', mantené la presión.",
       "Si la gasa se empapa, poné otra ENCIMA (no quites la primera) y seguí presionando.",
+      "Herida profunda que no para con presión (en lugar donde no se puede poner torniquete, como ingle, axila o cuello): RELLENÁ la herida empujando gasa (o gasa hemostática si tenés) bien adentro contra lo que sangra, y presioná fuerte encima. (AHA/ILCOR recomiendan gasa hemostática antes que gasa común si está disponible.)",
       "Elevar la zona por encima del corazón si es un brazo o pierna y no hay sospecha de fractura.",
       "Una vez controlado, cubrir con gasa estéril y vendar con presión (sin cortar la circulación: revisá que el dedo siga rosado).",
-      "Torniquete SOLO si el sangrado de un miembro no para y peligra la vida: colocar varios cm por encima de la herida y anotar la hora. ____ ⚠️ VALIDAR técnica con el médico."
+      "Torniquete SOLO si el sangrado de un miembro no para y peligra la vida: colocar varios cm por encima de la herida, apretar hasta que pare y anotar la hora. NO aflojarlo. ____ ⚠️ VALIDAR técnica con el médico."
     ],
     items: ["gasas", "vendas", "guantes", "antiseptico"],
     cuandoBajar: "Si el sangrado no se controla, si usaste torniquete, o si la herida es profunda/extensa: evacuar.",
@@ -1452,10 +1454,10 @@ const ESCENARIOS = [
     sintomas: ["frio", "hipotermia", "tiritar", "temblar", "confusion", "congelacion", "manta"],
     gravedad: "alta",
     pasos: [
-      "Sacar a la persona del viento/frío y del suelo. Quitar ropa mojada y reemplazar por seca.",
+      "Sacar a la persona del viento/frío y aislarla del SUELO (mochila, ramas, aislante: el suelo roba el calor). Quitar ropa mojada y reemplazar por seca.",
       "Abrigar de la cabeza a los pies, incluida la cabeza y el cuello. Usar manta térmica (lado plateado hacia el cuerpo).",
-      "Si está consciente y puede tragar bien, dar bebidas tibias y azucaradas. NUNCA alcohol.",
-      "Mover a la persona con suavidad; los movimientos bruscos pueden ser peligrosos en hipotermia severa.",
+      "Si está bien despierto y puede tragar bien, dar bebidas tibias y azucaradas. NUNCA alcohol (enfría más; es un factor de riesgo, no un remedio).",
+      "Mantenerla ACOSTADA y quieta, moverla con mucha suavidad: no hacerla caminar ni mover brazos/piernas (el movimiento manda sangre fría al corazón y puede pararlo).",
       "Si deja de tiritar, se confunde o se adormece: es hipotermia grave, emergencia."
     ],
     items: ["manta-termica"],
@@ -1468,10 +1470,10 @@ const ESCENARIOS = [
     sintomas: ["congelacion", "dedos", "blanco", "duro", "entumecido", "nariz", "orejas"],
     gravedad: "media",
     pasos: [
-      "Llevar a lugar resguardado. NO frotar ni dar masajes en la zona congelada (daña el tejido).",
-      "Recalentar con calor corporal suave (ej. manos bajo las axilas) o agua tibia (NO caliente) si hay.",
-      "NO recalentar si existe riesgo de que se vuelva a congelar: es peor descongelar y recongelar.",
-      "No reventar ampollas. Proteger la zona con gasa y mantenerla abrigada.",
+      "Llevar a lugar resguardado. NO frotar ni dar masajes, y NO aplicar nieve ni hielo (es un mito que daña el tejido).",
+      "Recalentar en agua TIBIA a 37-39°C (apenas soportable, como para bañar un bebé — NO caliente), unos 30 min, hasta que la zona quede blanda y rosada. Si no hay agua, calor corporal (manos bajo las axilas).",
+      "NO recalentar si existe riesgo de que se vuelva a congelar: es peor descongelar y recongelar. Mejor mantener congelado hasta un lugar seguro.",
+      "No reventar ampollas (menos aún las de sangre). Proteger la zona con gasa y mantenerla abrigada. Un ibuprofeno ayuda contra el daño del tejido (dosis ⚠️ VALIDAR).",
       "Quitar anillos/cosas ajustadas antes de que hinche."
     ],
     items: ["gasas", "manta-termica"],
