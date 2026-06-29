@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "2.7 (borrador)",
+  version: "2.8 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -1021,6 +1021,57 @@ const CONSEJOS = [
     mensaje: "Sentate, descansá la vista y tomá agua. En altura o con cansancio puede pasar. Si fue de golpe o solo en un ojo, prestá mucha atención.",
     items: [],
     cuandoConsultar: "Pérdida de visión REPENTINA, ver doble, con dolor de cabeza fuerte, debilidad en un lado del cuerpo o al hablar: puede ser grave (golpe, presión, altura), pedí ayuda YA." },
+  // ===================== LOTE v2.8: rescates que salvan la vida =====================
+  { id: "lesion-columna", titulo: "Posible lesión de columna / cuello", sintomas: ["me lastime la espalda en una caida", "no siento las piernas despues de caer", "me golpee la columna", "no puedo mover las piernas despues de la caida", "lesion de columna", "me cai de altura y no siento el cuerpo", "me duele la espalda y no siento las piernas", "no siento los brazos despues del golpe", "me fracture la columna"],
+    mensaje: "⚠️ Tras una caída fuerte, un golpe en la cabeza/espalda o un accidente, si la persona tiene dolor en el cuello o la espalda, hormigueo, debilidad, o no siente o no mueve brazos o piernas: sospechá lesión de columna. NO la muevas ni le dobles el cuello. Dejala como está, sostené la cabeza con las dos manos alineada con el cuerpo para que no se mueva, abrigala y pedí rescate URGENTE. Solo movela si hay peligro de muerte ahí mismo (fuego, agua que sube, avalancha) y siempre en bloque (cabeza-cuello-tronco juntos, como un tronco).",
+    items: [],
+    cuandoConsultar: "Siempre urgente. Si deja de respirar, igual tendrás que hacer RCP: movela lo mínimo y en bloque." },
+  { id: "atragantamiento-bebe", titulo: "Bebé atragantado (NO es Heimlich)", sintomas: ["un bebe se atraganta", "mi bebe se esta ahogando", "el bebe se atoro", "como desatoro a un bebe", "bebe atragantado", "se atraganto un bebe con comida", "mi guagua se atraganto", "un niño chico se ahoga con comida", "como ayudo a un bebe que se ahoga", "mi bebe no puede respirar se atraganto"],
+    mensaje: "En bebés (menores de 1 año) NO se hace Heimlich. Si el bebé no puede toser, llorar ni respirar:",
+    pasos: ["Sentate y poné al bebé boca abajo sobre tu antebrazo, con la cabeza más baja que el cuerpo, sosteniéndole la mandíbula (sin apretar el cuello).", "Dale 5 golpes firmes con el talón de la mano entre los omóplatos (en la espalda).", "Si no sale, dalo vuelta boca arriba, cabeza más baja, y hacé 5 compresiones en el centro del pecho con DOS dedos (como mini-RCP).", "Repetí: 5 golpes en la espalda, 5 compresiones en el pecho, hasta que salga el objeto o el bebé respire o llore.", "Si se desmaya, empezá RCP de bebé (compresiones suaves con dos dedos) y que alguien pida rescate YA."],
+    items: [],
+    cuandoConsultar: "Pedí rescate apenas puedas. Aunque el objeto salga y el bebé respire bien, hacelo revisar después." },
+  { id: "me-atore-solo", titulo: "Me atraganté y estoy solo", sintomas: ["me estoy atragantando y estoy solo", "me atore y no hay nadie", "me ahogo con comida y estoy solo", "como me desatoro solo", "estoy solo y me atragante", "me atragante estando solo", "me atore solo que hago"],
+    mensaje: "Si te atragantás, estás solo y no podés respirar, actuá ya:",
+    pasos: ["Tosé con toda la fuerza que puedas: la tos es lo más efectivo.", "Hacete el Heimlich a vos mismo: cerrá un puño justo arriba del ombligo, agarralo con la otra mano y empujá fuerte hacia adentro y hacia arriba, repetidas veces.", "O apoyá la parte de arriba de la panza (arriba del ombligo) contra el borde firme de una roca, una silla o un tronco, y dejate caer con fuerza encima, una y otra vez, hasta que el objeto salga.", "En cuanto puedas, buscá ayuda o señal para pedir rescate."],
+    items: [],
+    cuandoConsultar: "Si lográs sacar el objeto pero te queda dolor, tos o te cuesta tragar, hacelo revisar. Si perdés el conocimiento, otra persona debe empezar RCP." },
+  { id: "mordedura-serpiente", titulo: "Mordedura de serpiente / víbora", sintomas: ["me mordio una serpiente", "me pico una vibora", "mordedura de serpiente", "me mordio una culebra", "me mordio una serpiente en la pierna", "me pico una serpiente", "vibora me mordio", "me mordio una vibora en el pie"],
+    mensaje: "⚠️ Mordedura de serpiente: mantené la CALMA y movete lo menos posible (el movimiento reparte el veneno). Sacá anillos, reloj y ropa apretada de esa zona antes de que hinche. Mantené la parte mordida QUIETA, a la altura del corazón o un poco más abajo. Lavá suave con agua. Marcá con lapicera el borde de la hinchazón y anotá la hora. Salí hacia ayuda caminando lento o que te lleven. NO hagas torniquete, NO cortes la herida, NO chupes el veneno, NO pongas hielo: todo eso empeora el daño.",
+    items: [],
+    cuandoConsultar: "Siempre urgente: necesitás un hospital con antiveneno. Apurá la evacuación, sobre todo si la hinchazón sube rápido, hay dificultad para respirar, mareo, visión borrosa o sangrado." },
+  { id: "picadura-alacran", titulo: "Picadura de alacrán / araña", sintomas: ["me pico un alacran", "me pico un escorpion", "me mordio una araña", "me pico una araña", "araña del rincon", "viuda negra", "me pico un bicho y me duele mucho", "me mordio una araña en la mano", "picadura de alacran"],
+    mensaje: "Picadura de alacrán o araña: lavá con agua y jabón, poné frío (paño con hielo, no directo sobre la piel) y mantené la zona quieta y en alto. Tomá un analgésico para el dolor. Si podés y sin arriesgarte, sacale una foto al bicho para identificarlo. Vigilá de cerca cómo evoluciona.",
+    items: ["ibuprofeno", "paracetamol"],
+    cuandoConsultar: "URGENTE si hay dolor que se extiende, calambres, sudor abundante, babeo, vómitos, dificultad para respirar, visión borrosa, o si es un niño, una persona mayor, o fue araña del rincón o viuda negra: pedí rescate." },
+  { id: "golpe-calor", titulo: "Golpe de calor (emergencia)", sintomas: ["golpe de calor grave", "esta muy caliente y confundido", "no suda y esta rojo y confundido", "se desmayo por el calor", "esta delirando por el calor", "piel caliente y seca y confundido por el calor", "golpe de calor con desmayo", "esta rojo caliente y delira"],
+    mensaje: "⚠️ El golpe de calor es una EMERGENCIA: piel muy caliente, persona confundida, agresiva, que delira o se desmaya, a veces SIN sudar. Hay que enfriarla YA: llevala a la sombra, sacale ropa, mojala con agua y abanicala, y poné paños fríos o nieve (envuelta en tela) en cuello, axilas e ingles. Si está consciente y traga bien, dale agua fresca de a sorbos. Pedí rescate URGENTE.",
+    items: [],
+    cuandoConsultar: "Siempre urgente. Confusión o desmayo con piel muy caliente = golpe de calor: enfriá agresivamente mientras llega el rescate. No es lo mismo que la insolación leve (esa mejora con sombra, agua y descanso)." },
+  { id: "anafilaxia-sin-adrenalina", titulo: "Alergia grave sin adrenalina", sintomas: ["alergia grave y no tengo adrenalina", "se hincha y no tengo epipen", "anafilaxia sin adrenalina", "reaccion alergica grave y no tengo el autoinyector", "no tengo adrenalina y se ahoga", "se le cierra la garganta y no tengo adrenalina"],
+    mensaje: "⚠️ Reacción alérgica grave SIN adrenalina a mano: igual pedí rescate URGENTE de inmediato. Recostá a la persona con las piernas en alto (semisentada si le cuesta respirar) y NO la pongas de pie ni la sientes de golpe. Si tiene antihistamínico, dáselo (ayuda pero NO reemplaza la adrenalina). Preguntá si alguien cerca tiene un autoinyector de adrenalina y usalo. Si deja de respirar, empezá RCP.",
+    items: ["antihistaminico"],
+    cuandoConsultar: "Siempre es emergencia máxima. Sin adrenalina, lo único que salva es la evacuación urgente: apurala todo lo posible." },
+  { id: "hemorragia-interna", titulo: "Posible sangrado interno", sintomas: ["creo que tengo hemorragia interna", "me golpee fuerte y estoy palido y mareado", "sangrado interno", "golpe fuerte y la panza dura e hinchada", "me cai fuerte y estoy cada vez peor", "me pegaron fuerte y estoy palido y con sudor frio", "tengo la panza dura despues de un golpe"],
+    mensaje: "⚠️ Después de un golpe fuerte (caída, choque) puede haber sangrado por DENTRO aunque no veas sangre. Señales: palidez, sudor frío, pulso rápido y débil, mareo, mucha sed, panza dura/hinchada o que duele cada vez más, moretones grandes. Recostá a la persona, abrigala, NO le des de comer ni beber y pedí rescate URGENTE. Tratala como shock: si no hay golpe de cabeza/columna ni fractura de pierna, elevá las piernas.",
+    items: [],
+    cuandoConsultar: "Siempre urgente. El sangrado interno no se frena desde afuera: necesita hospital rápido. Apurá la evacuación." },
+  { id: "aplastamiento", titulo: "Aplastamiento / atrapado bajo un peso", sintomas: ["me quedo atrapada la pierna bajo una roca", "tengo un brazo aplastado", "me aplasto una roca", "quede atrapado bajo algo pesado", "me cayo una roca encima y no puedo salir", "aplastamiento", "tengo la pierna atrapada bajo una piedra"],
+    mensaje: "⚠️ Si una parte del cuerpo quedó aplastada bajo algo pesado: pedí rescate URGENTE primero. Si lleva poco tiempo (pocos minutos) y podés liberarla con seguridad, hacelo y tratá heridas y sangrado. Si lleva MUCHO tiempo atrapada (más de 15 min) o no estás seguro, es más seguro NO liberarla sin ayuda médica: al soltar de golpe pueden liberarse toxinas peligrosas hacia el cuerpo. Mantené a la persona abrigada, hidratada si está consciente, y controlá cualquier sangrado.",
+    items: [],
+    cuandoConsultar: "Siempre urgente. Avisá a los rescatistas cuánto tiempo estuvo aplastada la zona: es un dato clave." },
+  { id: "espina-garganta", titulo: "Espina / algo clavado en la garganta (respira)", sintomas: ["se me clavo una espina en la garganta", "tengo algo clavado en la garganta", "se me atoro una espina de pescado", "siento algo clavado en la garganta", "trague una espina", "tengo una espina en la garganta"],
+    mensaje: "Si tenés algo clavado o la sensación de algo en la garganta pero PODÉS respirar, hablar y tragar, no es un atragantamiento de emergencia. Probá tragar algo blando (un bocado de pan o banana), tomá agua de a sorbos y tosé. NO metas los dedos a buscarlo. A veces queda la molestia un rato aunque la espina ya no esté.",
+    items: [],
+    cuandoConsultar: "Si te cuesta respirar o tragar saliva, babeás, hay sangre, o la molestia sigue varias horas o días: consultá, puede haber un resto clavado. Si NO podés respirar, es atragantamiento: Heimlich." },
+  { id: "convulsion-febril", titulo: "Convulsión por fiebre (niño)", sintomas: ["mi hijo convulsiona por fiebre", "un niño con fiebre convulsiono", "convulsion febril", "el niño tiene fiebre y le dio un ataque", "mi hijo tiene fiebre y convulsiona", "mi guagua convulsiona por fiebre"],
+    mensaje: "Una convulsión por fiebre alta en un niño asusta mucho pero suele durar poco y pasar sola. Ponelo de costado en un lugar seguro, NO le metas nada en la boca ni lo sujetes, sacale ropa de más y tomá el tiempo que dura. Cuando pase, bajá la fiebre (paño tibio, antitérmico cuando pueda tragar bien) y quedate con él.",
+    items: ["paracetamol", "ibuprofeno"],
+    cuandoConsultar: "URGENTE si dura más de 5 minutos, se repite, le cuesta respirar o queda muy decaído, es la primera vez, o es un bebé menor de 6 meses." },
+  { id: "edema-altura", titulo: "Edema de altura (HAPE / HACE) — formas graves", sintomas: ["edema pulmonar de altura", "hape", "edema cerebral de altura", "tos con espuma en la altura", "camina como borracho en la altura", "como se que es edema de altura", "que es el edema de altura", "edema de altura"],
+    mensaje: "⚠️ Son las formas GRAVES del mal de altura, y matan si no se baja:\n• Edema PULMONAR (HAPE): mucha falta de aire incluso en reposo, tos (a veces con espuma rosada), labios/uñas azulados, pecho que silba, agotamiento extremo.\n• Edema CEREBRAL (HACE): camina como borracho (no puede caminar derecho), muy confundido, dolor de cabeza que no cede, vómitos, mucho sueño.\nEn ambos, DESCENDER YA es lo que salva (aunque sea de noche), oxígeno si hay, y pedir rescate. No esperes a 'ver si mejora'.",
+    items: [],
+    cuandoConsultar: "Cualquiera de estas señales = emergencia: bajar de inmediato y pedir rescate. Nunca volver a subir con síntomas." },
   { id: "ayuda-general", sintomas: ["no se que tengo", "no se que me pasa", "que hago", "que hago ahora", "ayuda que hago", "es una emergencia", "necesito ayuda urgente", "auxilio que hago", "no se que hacer", "que hago doctor", "estoy en problemas"],
     mensaje: "Tranquilo/a, estoy con vos. Para ayudarte mejor, decime en pocas palabras qué pasa 👇\n• ¿Hay sangre, un golpe o un hueso raro?\n• ¿Cuesta respirar o alguien no responde? (eso es URGENTE)\n• ¿Dolor, fiebre, náuseas, frío?\nEscribilo simple o tocá una opción.",
     items: [],
@@ -1040,19 +1091,43 @@ const REGLAS = [
   { re: /como (hago|hacer|se hace|dar|doy) (el |la )?(rcp|reanimacion|masaje cardiaco|compresiones|reanimacion cardiopulmonar)|rcp paso a paso|como reanim|como revivir a alguien|como hago las compresiones/, tipo: "consejo", id: "rcp" },
   { re: /(como|respiracion) (doy|dar|hacer|se hace|le doy)? ?(respiracion )?(boca a boca|de rescate|artificial)|como le soplo aire|como darle aire/, tipo: "consejo", id: "boca-a-boca" },
   { re: /posicion (de recuperacion|lateral)|como (pongo|acuesto|coloco|lo pongo) a? ?alguien? (de costado|de lado|inconsciente)|esta (inconsciente|desmayad).{0,16}(pero )?respira|como lo pongo de (costado|lado)|respira pero (esta inconsciente|no responde)/, tipo: "consejo", id: "posicion-recuperacion" },
-  { re: /maniobra de heimlich|como (hago|hacer) (la )?heimlich|como (desatoro|saco (la comida|algo) (atorad|de la garganta))|como ayudo a alguien que se (ahoga|atraganta)|como saco la comida atorada/, tipo: "consejo", id: "heimlich" },
+  { re: /^(?!.*\b(bebe|guagua|lactante)\b)(?:maniobra de heimlich|como (hago|hacer) (la )?heimlich|como (desatoro|saco (la comida|algo) (atorad|de la garganta))|como ayudo a alguien que se (ahoga|atraganta)|como saco la comida atorada)/, tipo: "consejo", id: "heimlich" },
   // como detener una hemorragia
   { re: /como (paro|detengo|freno|corto) (el |la |una )?(sangrado|hemorragia|sangre)/, tipo: "sit", id: "sangrado" },
+  // ====================================================================
+  // === LOTE v2.8: rescates específicos (van ANTES que los genéricos) ===
+  // ====================================================================
+  // bebé/niño chico atragantado -> NO Heimlich (golpes espalda + pecho con 2 dedos)
+  { re: /(bebe|guagua|lactante|nino chico|criatura|mi hijo chico).{0,30}(se atragant|se atoro|se ahoga|atragantad|no puede respirar|se esta ahogando)|(atragant|desator|se ahoga|se atoro|se esta ahogando).{0,24}(bebe|guagua|lactante|nino chico)/, tipo: "consejo", id: "atragantamiento-bebe" },
+  // me atraganté yo mismo y estoy SOLO -> auto-Heimlich
+  { re: /(me atragant|me atore|me estoy atragantando|me ahogo con (comida|algo)).{0,30}(solo|sola|y no hay nadie|nadie cerca)|estoy solo y me (atragant|atore)|como me desatoro solo|me atore solo/, tipo: "consejo", id: "me-atore-solo" },
+  // espina / algo clavado en la garganta pero SÍ respira -> no es atragantamiento total
+  { re: /espina (de pescado|en la garganta)|trague (una |la )?espina|se me (clavo|atoro) (una |la )?espina (en la garganta|de pescado)|se me clavo una espina en la garganta|(algo|una espina) clavad. en la garganta|tengo algo (clavado|atorado) en la garganta(?!.*no puedo respirar)/, tipo: "consejo", id: "espina-garganta" },
+  // lesión de columna / cuello / espalda tras golpe o caída -> NO mover
+  { re: /lesion de columna|me (lastime|golpee|fracture|quebre|fisure) la columna|me (lastime|golpee|fisure|jodi) la espalda (en|tras|por|de|con|cuando|al) .{0,12}(caida|caer|cai|golpe|accidente|cayendo)|me duele (el cuello|la espalda|la columna) (despues de|tras|por) (un |el |la )?(golpe|caida|caer|accidente|costalazo|porrazo)|(me cai|se cayo|cai|caida|me caigo|golpe|accidente).{0,36}no (siento|puede mover|puedo mover|muevo|mueve) (las piernas|los brazos|el cuerpo|las manos|los pies|el cuello)|no (siento|puede mover|puedo mover|muevo|mueve) (las piernas|los brazos|el cuerpo|las manos|los pies).{0,30}(cai|caida|golpe|caer|cayo|accidente)|no me muevo despues de (la caida|caer|el golpe)|me duele la espalda y no siento las piernas/, tipo: "consejo", id: "lesion-columna" },
+  // convulsión por fiebre en niño/bebé (antes que la convulsión genérica)
+  { re: /convulsion febril|(nino|bebe|guagua|mi hijo|el nino).{0,24}fiebre.{0,24}(convuls|le dio un ataque|temblando)|fiebre.{0,18}(convuls|le dio un ataque).{0,18}(nino|bebe|hijo|guagua)/, tipo: "consejo", id: "convulsion-febril" },
+  // alergia grave SIN adrenalina disponible
+  { re: /(alergia grave|anafilaxia|se (le )?hincha|reaccion alergica grave|se le cierra la garganta).{0,30}(no tengo|sin) (la )?(adrenalina|epipen|autoinyector)|no tengo (la )?(adrenalina|epipen|autoinyector)/, tipo: "consejo", id: "anafilaxia-sin-adrenalina" },
+  // golpe de calor GRAVE (confusión, no suda, delira, se desmaya) -> emergencia
+  { re: /golpe de calor (grave|fuerte|con desmayo)|(confundido|confusion|delira|delirando|no suda|piel (caliente y seca|seca y caliente|roja y caliente)).{0,30}(calor|insolad|del sol|al sol|tanto sol|mucho sol)|(calor|al sol|del sol|tanto sol|mucho sol).{0,30}(confundido|confusion|delira|delirando|no suda|rojo y caliente)/, tipo: "consejo", id: "golpe-calor" },
+  // hemorragia interna tras golpe fuerte (palidez, sudor frío, panza dura)
+  { re: /hemorragia interna|sangrado interno|(golpe fuerte|me golpee fuerte|me cai fuerte|me pegaron fuerte|me golpearon fuerte).{0,34}(palid|sudor frio|maread|cada vez peor|me siento peor)|(panza|barriga|abdomen|guata) (dura|hinchada|rigida).{0,24}(golpe|cai|despues)|(golpe|cai|porrazo).{0,30}(panza|barriga|abdomen|guata).{0,8}(dura|rigida|hinchada e|e hinchada)|(palid|sudor frio|maread).{0,22}despues de (un|el) golpe/, tipo: "consejo", id: "hemorragia-interna" },
+  // aplastamiento / atrapado bajo algo pesado
+  { re: /me aplasto (una |la )?(roca|piedra|tronco|maquina|algo)|aplastamiento|quede (atrapad|aplastad).{0,8}(bajo|debajo)|me cayo (una |la )?(roca|piedra|tronco|algo pesado) encima|tengo (la|el|una) (pierna|brazo|mano) aplastad|(atrapad|quedo atrapad).{0,8}(la|el|una) (pierna|brazo|mano).{0,8}(bajo|debajo)/, tipo: "consejo", id: "aplastamiento" },
+  // edema de altura (HAPE / HACE) — reconocimiento de las formas graves
+  { re: /\bhape\b|edema (pulmonar|cerebral)( de altura)?|edema de altura|tos con espuma|que es el edema de altura|como se que es edema/, tipo: "consejo", id: "edema-altura" },
   // ========================================================================
   // SEÑALES DE PELIGRO — máxima prioridad. Si alguien describe algo que pone
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
   // raro. (La nariz que sangra se evalúa más abajo y no entra acá.)
   // ========================================================================
 { re: /\bno (respira|esta respirando|puede respirar)|dejo de respirar|no le sale aire|se (puso|esta poniendo|pone) (morad|azul)|esta (morad|azul)|labios azules|no reacciona|no responde|no despierta|esta inconsciente|perdio el conocimiento|sin pulso|no tiene pulso|no se despierta|se desmayo|se desvanecio|se desplomo|esta desmayad|esta tirad.{0,18}no (se mueve|responde|reacciona)|esta tirado (en el suelo|inconsciente)|no reacciona ni se mueve/, tipo: "sit", id: "inconsciente" },
-{ re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada/, tipo: "sit", id: "atragantamiento" },
+{ re: /se (esta )?ahog(a|ando) con (comida|algo)|se atragant|se atoro con|atragantad|tiene algo atorado|comida atorada|\bme atore\b|\bme atragante\b|me estoy atragantando/, tipo: "sit", id: "atragantamiento" },
 { re: /convulsion|convulsiona|le dio un ataque|esta temblando todo el cuerpo|epilep|ataque epilep/, tipo: "sit", id: "convulsion" },
 { re: /mucha sangre|sangre por todos lados|chorro de sangre|brota sangre|sangra a chorro|perdiendo mucha sangre|no puedo parar la sangre|no para la hemorragia/, tipo: "sit", id: "sangrado" },
-{ re: /me mordio (una |la )?(vibora|serpiente|culebra)|mordedura de (vibora|serpiente)|me pico (un |una )?(alacran|escorpion)/, tipo: "sit", id: "mordedura" },
+{ re: /me mordio (una |la )?(vibora|serpiente|culebra)|mordedura de (vibora|serpiente|culebra)|me pico (una )?(vibora|serpiente)/, tipo: "consejo", id: "mordedura-serpiente" },
+{ re: /me pico (un |una )?(alacran|escorpion|arana)|me mordio (una )?arana|picadura de (alacran|escorpion|arana)|arana del rincon|viuda negra/, tipo: "consejo", id: "picadura-alacran" },
   // dolor de pecho que se irradia al brazo (posible infarto) -> máxima prioridad
   { re: /me duele el pecho|dolor (de|en el) pecho|opresion en el pecho|me aprieta el pecho|se me aprieta el pecho|dolor de pecho.{0,45}brazo|pecho.{0,30}brazo izquierdo|parece un infarto|creo que es un infarto/, tipo: "sit", id: "pecho" },
   // garganta/cara/lengua que se hincha (anafilaxia) -> alergia grave

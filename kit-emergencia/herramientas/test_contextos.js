@@ -83,8 +83,9 @@ const SINTOMAS = [
   { dest: "inconsciente", frases: ["se desmayo","no respira","no responde","esta inconsciente","no despierta","perdio el conocimiento","se desplomo","no reacciona"] },
   { dest: "pecho", frases: ["me duele el pecho","tengo una opresion en el pecho","siento que me da un infarto","me aprieta el pecho","tengo un dolor fuerte en el pecho"] },
   { dest: "atragantamiento", frases: ["me atragante","se esta ahogando con comida","se atoro con la comida","me atore","se ahoga con comida"] },
-  { dest: "mordedura", frases: ["me mordio una vibora","me mordio un perro","me mordio una serpiente","me mordio un animal"] },
-  { dest: "mordedura|picadura", frases: ["me pico una araña","me pico un alacran"] },
+  { dest: "mordedura-serpiente", frases: ["me mordio una vibora","me mordio una serpiente"] },
+  { dest: "mordedura", frases: ["me mordio un perro","me mordio un animal"] },
+  { dest: "picadura-alacran", frases: ["me pico una araña","me pico un alacran"] },
   { dest: "convulsion", frases: ["esta convulsionando","le dio un ataque","esta temblando todo","le agarro una convulsion"] },
   { dest: "panico", frases: ["tengo un ataque de panico","no puedo respirar de los nervios","tengo mucha angustia","me esta dando una crisis de nervios"] },
   { dest: "alergia", frases: ["tengo una reaccion alergica","me hinche entero","me llene de ronchas","me pico una abeja y me hinche","creo que es alergia"] },
@@ -96,7 +97,8 @@ const SINTOMAS = [
   { dest: "atragantamiento", frases: ["se esta ahogando con comida","se atoro con un pedazo","tiene algo atorado en la garganta","se atraganto comiendo"] },
   { dest: "convulsion", frases: ["le dio un ataque","esta temblando todo el cuerpo","le agarro una convulsion","esta convulsionando en el piso"] },
   { dest: "sangrado", frases: ["sale mucha sangre","hay sangre por todos lados","brota sangre de la herida","no puedo parar la sangre","sangra a chorro"] },
-  { dest: "mordedura", frases: ["me mordio una vibora","me mordio una serpiente","me pico un alacran","me pico un escorpion"] },
+  { dest: "mordedura-serpiente", frases: ["me mordio una vibora","me mordio una serpiente"] },
+  { dest: "picadura-alacran", frases: ["me pico un alacran","me pico un escorpion"] },
   // --- altura / nieve (clave en montaña) ---
   { dest: "altura", frases: ["tengo soroche","me agarro el mal de altura","estoy apunado","me duele la cabeza por la altura","tengo nauseas en la altura","me falta el aire subiendo el cerro","mareo por la altura","no puedo dormir en la altura","la altura me tiene con dolor de cabeza"] },
   // --- ceguera de nieve ---
@@ -257,6 +259,19 @@ const SINTOMAS = [
   // --- lote v2.6: escenarios nuevos ---
   { dest: "presion-alta", frases: ["me subio la presion","tengo la presion alta","se me subio la presion","ando con la presion alta"] },
   { dest: "boca-herida", frases: ["me mordi la lengua y sangra","me parti el labio de un golpe","me reventaron el labio","me mordi el cachete"] },
+  // --- lote v2.8: rescates que salvan la vida ---
+  { dest: "lesion-columna", frases: ["me lastime la espalda en una caida","no siento las piernas despues de caer","no puedo mover las piernas despues de la caida","me cai de altura y no siento el cuerpo","me fracture la columna"] },
+  { dest: "atragantamiento-bebe", frases: ["mi bebe se atraganto con comida","un bebe se esta ahogando","el bebe se atoro","como desatoro a un bebe","mi guagua se atraganto"] },
+  { dest: "me-atore-solo", frases: ["me atragante y estoy solo","me ahogo con comida y estoy solo","como me desatoro solo","estoy solo y me atragante"] },
+  { dest: "mordedura-serpiente", frases: ["me mordio una serpiente","me pico una vibora","me mordio una culebra","vibora me mordio"] },
+  { dest: "picadura-alacran", frases: ["me pico un alacran","me pico un escorpion","me mordio una araña","araña del rincon","viuda negra"] },
+  { dest: "golpe-calor", frases: ["se desmayo por el calor y delira","golpe de calor grave","esta rojo caliente y delira","no suda y esta confundido por el calor"] },
+  { dest: "anafilaxia-sin-adrenalina", frases: ["alergia grave y no tengo adrenalina","se le cierra la garganta y no tengo epipen","no tengo adrenalina y se ahoga"] },
+  { dest: "hemorragia-interna", frases: ["creo que tengo hemorragia interna","me golpee fuerte y estoy palido y mareado","golpe fuerte y la panza dura e hinchada"] },
+  { dest: "aplastamiento", frases: ["me cayo una roca encima y no puedo salir","tengo la pierna atrapada bajo una piedra","me aplasto una roca","quede atrapado bajo algo pesado"] },
+  { dest: "espina-garganta", frases: ["se me clavo una espina en la garganta","trague una espina de pescado","tengo algo clavado en la garganta"] },
+  { dest: "convulsion-febril", frases: ["mi hijo tiene fiebre y convulsiona","convulsion febril","el niño tiene fiebre y le dio un ataque"] },
+  { dest: "edema-altura", frases: ["edema pulmonar de altura","tengo hape","edema cerebral de altura","tos con espuma en la altura"] },
 ];
 
 // ---------------- construir casos ----------------
