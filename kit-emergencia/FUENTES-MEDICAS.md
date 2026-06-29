@@ -104,6 +104,54 @@ en 5–10 min**. (A)
 
 ---
 
+## 9. Mordeduras y picaduras en Chile  → escenarios `mordedura-serpiente`, `arana-rincon`, `arana-trigo`, `picadura-alacran`
+
+### Culebras chilenas (mordedura-serpiente)
+- Chile **NO tiene víboras**. Las culebras nativas (*Philodryas chamissonis* / cola
+  larga y *Tachymenis chilensis* / cola corta) son de colmillo trasero, poco
+  venenosas. **No hay muertes humanas documentadas.** Dan dolor e hinchazón
+  local que cede en pocos días; tratamiento sintomático, sin antiveneno. (G, H)
+- Primeros auxilios universales: calma, inmovilizar con tablilla (sin compresión),
+  miembro a la altura del corazón, sacar anillos, lavar, marcar hinchazón + hora,
+  ir a control. **NO** torniquete, **NO** cortar, **NO** succionar, **NO** hielo,
+  **NO** alcohol/AINEs, **NO** perseguir la culebra. (WHO, WMS)
+- Fuera de Chile hay víboras peligrosas (*Bothrops*) → emergencia, antiveneno.
+
+### Araña de rincón — *Loxosceles laeta* (arana-rincon)  ⭐ guía MINSAL 2016
+- Dos formas: **cutánea** (75–84%, lesión necrótica local) y **cutáneo-visceral /
+  sistémica** (forma letal: hemólisis → hemoglobinuria, falla renal). *L. laeta*
+  en Chile tiene tasa sistémica desproporcionadamente alta. (I, J)
+- Primeros auxilios (MINSAL): inmovilizar, lavar con agua + jabón, **FRÍO nunca
+  calor** (el veneno —esfingomielinasa D— es más activo con calor; frío indirecto,
+  ≤15 min/hora), elevar, ir a urgencia / 131 aunque parezca leve, capturar/
+  fotografiar la araña, vigilar 24–48 h. (I)
+- **NO** cortar/succionar/torniquete/cáusticos/remedios caseros/automedicarse;
+  **no** manipular la lesión necrótica.
+- **Corrección clave:** el **suero anti-loxosceles ya NO se recomienda en Chile
+  desde 2016** (sin beneficio probado, alto riesgo de reacciones). Lo que vale es
+  la evaluación médica. (I — flag para desmentir el consejo viejo del "suero en 6 h")
+- **Señal de alarma #1:** orina oscura/rojiza/color té (hemoglobinuria) →
+  loxoscelismo visceral → hospital urgente. También fiebre, ictericia, palidez,
+  oliguria, en las primeras 6–24 h.
+
+### Viuda negra / araña del trigo — *Latrodectus mactans* (arana-trigo)
+- Latrodectismo: neurotoxina (α-latrotoxina). Pasa al aire libre, de día, en el
+  campo. Lesión local mínima pero **síntomas sistémicos**: dolor y calambres en
+  todo el cuerpo, rigidez, dolor abdominal (simula abdomen agudo), sudoración,
+  hipertensión, taquicardia. Letalidad baja, pronóstico bueno con tratamiento. (G, K)
+- Primeros auxilios: calma, reposo, lavar, frío local, ir a urgencia / 131
+  (tratamiento = analgesia/relajantes, hospitalario). Cuidado especial en
+  embarazadas (simula preeclampsia), niños y adultos mayores.
+
+> **Números de emergencia Chile:** SAMU **131**; toxicología **CITUC +56 2 2635 3800**.
+> ⚠️ Verificar el número de CITUC antes de confiar en él (puede cambiar).
+>
+> Fuentes nuevas: (G) Rev Méd Chile 2003 *latrodectismo y loxoscelismo*; (H) Mella
+> et al. *Toxins* 2019 *Philodryas envenomation in Chile*; (I) **MINSAL/DIPRECE 2016
+> Guía Loxosceles laeta**; (J) Rev Chil Infectol 2015/2018 *loxoscelismo cutáneo-
+> visceral*; (K) Rev Méd Chile 2003 / ARSMEDICA latrodectismo. Toda la copia
+> sensible debe ser confirmada por el médico contra el PDF original de MINSAL.
+
 ## Mitos peligrosos que el kit desmiente explícitamente
 
 | Mito | Realidad (fuente) |
@@ -115,3 +163,6 @@ en 5–10 min**. (A)
 | Hacer **caminar** a un hipotérmico para que entre en calor | Riesgo de *afterdrop* y paro; mantener horizontal y quieto (E) |
 | Aflojar el **torniquete** cada tanto | No aflojar; anotar la hora (A) |
 | Sentar/parar de golpe a alguien con **anafilaxia** | El cambio brusco a vertical puede causar paro (A) |
+| Poner **calor** en una mordedura de araña de rincón | El veneno es más activo con calor; va FRÍO, nunca calor (I) |
+| Buscar **suero anti-loxosceles** dentro de 6 h | Ya no se recomienda en Chile desde 2016; lo que vale es el control médico (I) |
+| Hacer **torniquete/cortar/chupar** una mordedura de culebra | Empeora el daño; las culebras chilenas además no son letales (G, WHO) |

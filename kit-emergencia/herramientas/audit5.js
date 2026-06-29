@@ -27,9 +27,13 @@ const C = [
   ["me mordio una serpiente en la pierna", "mordedura-serpiente"],
   ["me pico una vibora", "mordedura-serpiente"],
   ["una culebra me mordio", "mordedura-serpiente"],
-  // --- picadura de alacrán / araña ---
+  // --- araña de rincón (loxoscelismo) / viuda negra / alacrán ---
+  ["me mordio una araña del rincon", "arana-rincon"],
+  ["creo que me pico una araña de rincon en la pieza", "arana-rincon"],
+  ["me pico una araña y no se cual", "arana-rincon"],
+  ["me mordio una viuda negra", "arana-trigo"],
+  ["me pico la araña del trigo en el campo", "arana-trigo"],
   ["me pico un alacran y me duele mucho", "picadura-alacran"],
-  ["me mordio una araña del rincon", "picadura-alacran"],
   ["me pico un escorpion", "picadura-alacran"],
   // --- golpe de calor (emergencia) ---
   ["esta delirando por el calor y no suda", "golpe-calor"],
