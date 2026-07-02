@@ -275,6 +275,13 @@ const SINTOMAS = [
   { dest: "espina-garganta", frases: ["se me clavo una espina en la garganta","trague una espina de pescado","tengo algo clavado en la garganta"] },
   { dest: "convulsion-febril", frases: ["mi hijo tiene fiebre y convulsiona","convulsion febril","el niño tiene fiebre y le dio un ataque"] },
   { dest: "edema-altura", frases: ["edema pulmonar de altura","tengo hape","edema cerebral de altura","tos con espuma en la altura"] },
+  // --- lote v3.1: más casos de montaña ---
+  { dest: "hiponatremia", frases: ["tome mucha agua y me siento mal","tome demasiada agua","me hinche de tomar agua","intoxicacion por agua"] },
+  { dest: "picadura-boca", frases: ["me pico una abeja en la boca","me pico una avispa en la lengua","me pico un bicho en la garganta"] },
+  { dest: "sobredosis-medicamento", frases: ["tome de mas una pastilla","me pase con las pastillas","mezcle pastillas","tome muchas pastillas juntas"] },
+  { dest: "agua-segura", frases: ["puedo tomar agua del rio","como purifico el agua","puedo tomar nieve derretida","el agua del rio es segura"] },
+  { dest: "prevencion-altura", frases: ["como prevengo el soroche","como me aclimato","tips para la altura","como subir sin enfermarme de altura"] },
+  { dest: "ropa-fuego", frases: ["se me prendio la ropa","me prendi fuego","se me incendio la ropa","me agarro fuego la ropa"] },
 ];
 
 // ---------------- construir casos ----------------

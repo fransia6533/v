@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "3.0 (borrador)",
+  version: "3.1 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -1092,6 +1092,33 @@ const CONSEJOS = [
     mensaje: "⚠️ Son las formas GRAVES del mal de altura, y matan si no se baja:\n• Edema PULMONAR (HAPE): mucha falta de aire incluso en reposo, tos (a veces con espuma rosada), labios/uñas azulados, pecho que silba, agotamiento extremo.\n• Edema CEREBRAL (HACE): camina como borracho (no puede caminar derecho), muy confundido, dolor de cabeza que no cede, vómitos, mucho sueño.\nEn ambos, DESCENDER YA es lo que salva (aunque sea de noche), oxígeno si hay, y pedir rescate. No esperes a 'ver si mejora'.",
     items: [],
     cuandoConsultar: "Cualquiera de estas señales = emergencia: bajar de inmediato y pedir rescate. Nunca volver a subir con síntomas." },
+  // ===================== LOTE v3.1: más casos de montaña =====================
+  { id: "hiponatremia", titulo: "Tomé demasiada agua (hiponatremia)", sintomas: ["tome mucha agua y me siento mal", "hiponatremia", "tome demasiada agua", "tome litros de agua y estoy hinchado", "tome mucha agua y estoy confundido", "intoxicacion por agua", "tome mucho liquido y me siento mal", "me hinche de tomar agua"],
+    puedeSer: "Si tomaste MUCHÍSIMA agua sola (sin comer ni reponer sales) en un día de esfuerzo, el sodio de la sangre baja demasiado. Da dolor de cabeza, náuseas, hinchazón, confusión y calambres — se parece a la deshidratación pero es lo contrario.",
+    mensaje: "⚠️ Si creés que tomaste demasiada agua sola: DEJÁ de tomar más líquido por un rato. Comé algo salado (frutos secos, galletas saladas, un caldo) para reponer sodio. Descansá. NO tomes más agua pensando que vas a mejorar: la empeora.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Confusión, vómitos, mucha somnolencia, convulsiones o que cuesta despertarlo: es grave (el cerebro se hincha), pedí rescate URGENTE." },
+  { id: "picadura-boca", titulo: "Picadura de abeja/avispa en la boca o garganta", sintomas: ["me pico una abeja en la boca", "me pico una avispa en la lengua", "me pico un bicho en la garganta", "trague una abeja y me pico", "picadura en la boca", "me pico en la lengua", "me pico una abeja en la garganta"],
+    mensaje: "⚠️ Una picadura DENTRO de la boca o la garganta es peligrosa: la hinchazón puede tapar la respiración. Chupá hielo o tomá agua bien fría de a sorbos para frenar la hinchazón, quedate sentado y tranquilo, y vigilá la respiración de cerca. Si tenés antihistamínico, tomalo.",
+    items: ["antihistaminico"],
+    cuandoConsultar: "URGENTE (131) si se hincha la lengua/garganta, cambia la voz, cuesta respirar o tragar, o hace ruido al respirar: tratalo como alergia grave (adrenalina si tenés) y pedí rescate." },
+  { id: "sobredosis-medicamento", titulo: "Tomé de más un remedio / mezclé pastillas", sintomas: ["tome de mas una pastilla", "me pase con las pastillas", "tome muchos remedios", "sobredosis", "me tome de mas el remedio", "mezcle pastillas", "tome dos veces la pastilla", "me equivoque y tome mucho remedio", "tome muchas pastillas juntas"],
+    mensaje: "Si tomaste de más un remedio o mezclaste varios: NO te provoques el vómito (puede ser peor). Fijate QUÉ tomaste, CUÁNTO y a qué HORA, guardá la caja, y llamá a un centro de toxicología (en Chile, CITUC +56 2 2635 3800) o al 131 para que te digan qué hacer según el remedio.",
+    items: [],
+    cuandoConsultar: "URGENTE (131) si hay mucho sueño, confusión, vómitos, dificultad para respirar, latidos raros o se desmaya. Si deja de responder: posición de recuperación y RCP si no respira." },
+  { id: "agua-segura", titulo: "¿Puedo tomar esta agua? (agua segura)", sintomas: ["puedo tomar agua del rio", "el agua del rio es segura", "como purifico el agua", "puedo tomar agua de la vertiente", "el agua de deshielo se puede tomar", "como hago el agua segura", "es seguro tomar del estero", "puedo tomar nieve derretida", "puedo tomar agua de la montaña"],
+    puedeSer: "El agua de ríos, esteros y deshielo puede tener microbios (giardia, bacterias) que dan diarrea, aunque se vea cristalina.",
+    mensaje: "Para tomar agua segura en la montaña, lo más confiable es HERVIRLA (1 minuto de hervor; en mucha altura, 3 min). Si no podés, usá pastillas potabilizadoras o un filtro de montaña. Elegí agua que corra, lejos de animales o campamentos. La nieve hay que derretirla y también tratarla. Ojo: el agua sola no repone sales, sumá algo de comer.",
+    items: ["sales de rehidratacion"],
+    cuandoConsultar: "Si ya tomaste agua dudosa y tenés diarrea con sangre, fiebre alta o mucha deshidratación: consultá." },
+  { id: "prevencion-altura", titulo: "Cómo prevenir el mal de altura (aclimatación)", sintomas: ["como prevengo el soroche", "como evito el mal de altura", "como me aclimato", "cada cuanto debo subir", "tips para la altura", "como subir sin enfermarme de altura", "consejos para la altura", "prevenir mal de montaña"],
+    mensaje: "Para prevenir el mal de altura: subí DESPACIO para que el cuerpo se acostumbre. Pasados los ~3000 m, no subas más de ~500 m por día para dormir, y 'subí alto, dormí bajo'. Tomá bastante agua, comé liviano con hidratos, y evitá el alcohol y los esfuerzos fuertes los primeros días. Si tenés medicación preventiva indicada por tu médico, seguila. Si aparecen síntomas, NO sigas subiendo.",
+    items: [],
+    cuandoConsultar: "Si ya tenés dolor de cabeza + náuseas/mareo que no mejora, o falta de aire en reposo, tos o caminás como borracho: es mal de altura, mirá ese caso y descendé." },
+  { id: "ropa-fuego", titulo: "Se me prendió fuego la ropa", sintomas: ["se me prendio la ropa", "me prendi fuego", "se me incendio la ropa", "tengo la ropa en llamas", "se prendio fuego mi ropa", "me agarro fuego la ropa"],
+    mensaje: "⚠️ Si se te prende fuego la ropa: NO corras (el viento aviva el fuego). DETENETE, TIRATE al suelo y RODÁ una y otra vez para apagar las llamas, o tapate con una manta/abrigo. Una vez apagado, enfriá la quemadura con agua fresca corriente 10-20 min y tratala como quemadura.",
+    items: [],
+    cuandoConsultar: "Quemaduras grandes, en cara/manos/genitales, o si respiró humo/fuego (tos, hollín, voz ronca): emergencia, pedí rescate." },
   { id: "ayuda-general", sintomas: ["no se que tengo", "no se que me pasa", "que hago", "que hago ahora", "ayuda que hago", "es una emergencia", "necesito ayuda urgente", "auxilio que hago", "no se que hacer", "que hago doctor", "estoy en problemas"],
     mensaje: "Tranquilo/a, estoy con vos. Para ayudarte mejor, decime en pocas palabras qué pasa 👇\n• ¿Hay sangre, un golpe o un hueso raro?\n• ¿Cuesta respirar o alguien no responde? (eso es URGENTE)\n• ¿Dolor, fiebre, náuseas, frío?\nEscribilo simple o tocá una opción.",
     items: [],
@@ -1134,9 +1161,22 @@ const REGLAS = [
   // hemorragia interna tras golpe fuerte (palidez, sudor frío, panza dura)
   { re: /hemorragia interna|sangrado interno|(golpe fuerte|me golpee fuerte|me cai fuerte|me pegaron fuerte|me golpearon fuerte).{0,34}(palid|sudor frio|maread|cada vez peor|me siento peor)|(panza|barriga|abdomen|guata) (dura|hinchada|rigida).{0,24}(golpe|cai|despues)|(golpe|cai|porrazo).{0,30}(panza|barriga|abdomen|guata).{0,8}(dura|rigida|hinchada e|e hinchada)|(palid|sudor frio|maread).{0,22}despues de (un|el) golpe/, tipo: "consejo", id: "hemorragia-interna" },
   // aplastamiento / atrapado bajo algo pesado
-  { re: /me aplasto (una |la )?(roca|piedra|tronco|maquina|algo)|aplastamiento|quede (atrapad|aplastad).{0,8}(bajo|debajo)|me cayo (una |la )?(roca|piedra|tronco|algo pesado) encima|tengo (la|el|una) (pierna|brazo|mano) aplastad|(atrapad|quedo atrapad).{0,8}(la|el|una) (pierna|brazo|mano).{0,8}(bajo|debajo)/, tipo: "consejo", id: "aplastamiento" },
+  { re: /me aplasto (una |la )?(roca|piedra|tronco|maquina|algo)|aplastamiento|quede (atrapad|aplastad).{0,8}(bajo|debajo) (de )?(una |un |el |la )?(roca|piedra|tronco|arbol|auto|maquina|peso|algo pesado)|me cayo (una |la )?(roca|piedra|tronco|algo pesado) encima|tengo (la|el|una) (pierna|brazo|mano) aplastad|(atrapad|quedo atrapad).{0,8}(la|el|una) (pierna|brazo|mano).{0,10}(bajo|debajo) (de )?(una |un |el |la )?(roca|piedra|tronco|peso)/, tipo: "consejo", id: "aplastamiento" },
   // edema de altura (HAPE / HACE) — reconocimiento de las formas graves
   { re: /\bhape\b|edema (pulmonar|cerebral)( de altura)?|edema de altura|tos con espuma|que es el edema de altura|como se que es edema/, tipo: "consejo", id: "edema-altura" },
+  // ---- LOTE v3.1: más casos de montaña ----
+  // ropa en llamas -> detente/tírate/rueda (antes que quemadura genérica)
+  { re: /se me (prendio|incendio) (fuego )?la ropa|me prendi fuego|tengo la ropa (en llamas|prendida|con fuego)|se prendio fuego mi ropa|me agarro fuego la ropa|estoy en llamas/, tipo: "consejo", id: "ropa-fuego" },
+  // picadura de abeja/avispa DENTRO de la boca o garganta -> riesgo de vía aérea
+  { re: /me pico (una |un )?(abeja|avispa|bicho|insecto).{0,14}(en la boca|en la lengua|en la garganta|adentro de la boca)|(pico|picadura) (en la|dentro de la) (boca|lengua|garganta)|me pico (en la|la) (lengua|boca|garganta)|trague (una |un )?(abeja|avispa) y me pico/, tipo: "consejo", id: "picadura-boca" },
+  // sobredosis / mezcla de medicamentos
+  { re: /sobredosis|tome de mas (la |el |un |una )?(pastillas?|remedios?|medicament|ibuprofeno|paracetamol)|me pase con (las |los )?(pastillas?|remedios?|medicament)|tome (muchas|demasiadas|dos veces|de mas) (pastillas?|remedios?)|mezcle (pastillas?|remedios?|medicament)|me tome de mas el remedio|tome muchos remedios|me equivoque y tome (mucho|de mas)/, tipo: "consejo", id: "sobredosis-medicamento" },
+  // tomé demasiada agua -> hiponatremia
+  { re: /hiponatremia|intoxicacion por agua|tome (muchisima|demasiada|litros de) (agua|liquido)|tome (mucha|tanta|mucho) (agua|liquido).{0,22}(mal|hinchad|confundid|nausea|no orino)|me hinche de (tomar|tanta) agua/, tipo: "consejo", id: "hiponatremia" },
+  // ¿puedo tomar esta agua? -> agua segura
+  { re: /(puedo|se puede|es seguro) (tomar|beber) (agua del|del rio|de la vertiente|del estero|agua de|nieve)|agua (del rio|de la vertiente|del estero|de deshielo|de la montana) (es segura|se puede tomar|potable|esta buena)|como (purifico|potabilizo|hago segura|hiervo|filtro) (el )?agua|puedo tomar (nieve derretida|del rio|de la vertiente|de deshielo)|el agua .{0,14}(es segura|potable|se puede tomar)/, tipo: "consejo", id: "agua-segura" },
+  // cómo prevenir el soroche / aclimatación (antes que las reglas de mal de altura)
+  { re: /como (prevengo|evito|no me da|puedo evitar) (el |la )?(soroche|mal de altura|mal de montana|puna|apunamiento)|como me aclimato|aclimatacion|como (subir|ascender) sin (enfermarme|soroche|que me de la altura)|(tips|consejos|recomendaciones) para (la altura|el soroche|subir)|prevenir (el )?(soroche|mal de altura|mal de montana)|cada cuanto (debo )?subir/, tipo: "consejo", id: "prevencion-altura" },
   // ========================================================================
   // SEÑALES DE PELIGRO — máxima prioridad. Si alguien describe algo que pone
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
