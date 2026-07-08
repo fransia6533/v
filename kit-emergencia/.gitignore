@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.xlsx
+# salidas de tests / scratch (no versionar)
+*.txt
