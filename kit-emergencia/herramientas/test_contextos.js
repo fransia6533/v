@@ -282,6 +282,14 @@ const SINTOMAS = [
   { dest: "agua-segura", frases: ["puedo tomar agua del rio","como purifico el agua","puedo tomar nieve derretida","el agua del rio es segura"] },
   { dest: "prevencion-altura", frases: ["como prevengo el soroche","como me aclimato","tips para la altura","como subir sin enfermarme de altura"] },
   { dest: "ropa-fuego", frases: ["se me prendio la ropa","me prendi fuego","se me incendio la ropa","me agarro fuego la ropa"] },
+  // --- lote v3.2: más casos de montaña ---
+  { dest: "asma-sin-inhalador", frases: ["me falta el aire y no tengo inhalador","ataque de asma sin inhalador","asma y perdi el inhalador"] },
+  { dest: "anzuelo", frases: ["se me clavo un anzuelo","tengo un anzuelo clavado","me clave el anzuelo en el dedo"] },
+  { dest: "sangrado-anticoagulantes", frases: ["tomo anticoagulantes y me corte","estoy con sintrom y sangro","tomo warfarina y no para el sangrado"] },
+  { dest: "quemadura-combustible", frases: ["me queme con el hornillo","se prendio fuego la bencina","me queme con la bencina blanca"] },
+  { dest: "ojo-objeto", frases: ["se me metio algo en el ojo","me entro una rama en el ojo","tengo algo clavado en el ojo"] },
+  { dest: "torsion-testicular", frases: ["me duele mucho un testiculo de repente","dolor testicular repentino","me duele un huevo de golpe y fuerte"] },
+  { dest: "parto-emergencia", frases: ["se adelanto el parto","el bebe ya viene y no llegamos","se le rompio la bolsa y viene el bebe"] },
 ];
 
 // ---------------- construir casos ----------------

@@ -39,7 +39,7 @@ const C = [
   ["estoy todo congestionado", "resfrio"],
   ["tengo los ojos rojos", "ojo"],
   ["me lloran los ojos", "ojo|ceguera-nieve"],
-  ["me entro una basurita al ojo", "ojo"],
+  ["me entro una basurita al ojo", "ojo-objeto|ojo"],
   ["me duele la cabeza hace dos dias", "dolor-cabeza"],
   ["tengo una jaqueca terrible", "dolor-cabeza"],
   ["me siento muy debil y con sudor frio", "hipoglucemia|shock|malestar"],

@@ -24,7 +24,7 @@
    ========================================================================== */
 
 const META = {
-  version: "3.1 (borrador)",
+  version: "3.2 (borrador)",
   revisadoPor: "____ (nombre del médico)",   // ⚠️ VALIDAR
   fechaRevision: "____",                      // ⚠️ VALIDAR
   paciente: "Frank",
@@ -1119,6 +1119,35 @@ const CONSEJOS = [
     mensaje: "⚠️ Si se te prende fuego la ropa: NO corras (el viento aviva el fuego). DETENETE, TIRATE al suelo y RODÁ una y otra vez para apagar las llamas, o tapate con una manta/abrigo. Una vez apagado, enfriá la quemadura con agua fresca corriente 10-20 min y tratala como quemadura.",
     items: [],
     cuandoConsultar: "Quemaduras grandes, en cara/manos/genitales, o si respiró humo/fuego (tos, hollín, voz ronca): emergencia, pedí rescate." },
+  // ===================== LOTE v3.2: más casos de montaña =====================
+  { id: "asma-sin-inhalador", titulo: "Crisis de asma sin inhalador", sintomas: ["me falta el aire y no tengo inhalador", "ataque de asma sin inhalador", "asma y perdi el inhalador", "crisis de asma y no tengo inhalador", "silbo al respirar y no tengo inhalador", "se me acabo el inhalador y me ahogo"],
+    mensaje: "⚠️ Crisis de asma sin inhalador a mano: sentate derecho (NO te acuestes), aflojá la ropa del cuello y del pecho, y respirá lento y profundo tratando de mantener la calma (los nervios empeoran el ahogo). Buscá aire fresco, lejos de humo, frío seco o de lo que lo gatilló. Un café o té cargado (cafeína) puede ayudar un poco. Si aparece un inhalador (tuyo o de otra persona), usalo. Pedí ayuda.",
+    items: [],
+    cuandoConsultar: "URGENTE (131) si los labios o uñas se ponen azules, no puede hablar de corrido, se agota, se confunde, o el silbido desaparece porque casi no entra aire: es grave, rescate ya." },
+  { id: "anzuelo", titulo: "Anzuelo clavado", sintomas: ["se me clavo un anzuelo", "tengo un anzuelo clavado", "me clave el anzuelo en el dedo", "anzuelo clavado", "se me enterro un anzuelo"],
+    mensaje: "Anzuelo clavado: NO lo saques tirando hacia atrás si ya pasó la púa (el arpón desgarra al salir). Si es superficial y la púa no entró del todo, podés retirarlo con cuidado por donde entró. Si la púa quedó adentro, mejor dejalo puesto, cortá el sedal, cubrí la zona y andá a que te lo saquen bien. Lavá, desinfectá y vigilá infección.",
+    items: ["antiseptico", "gasas"],
+    cuandoConsultar: "Anzuelo en la cara, el ojo, cerca de una articulación o de un vaso grande, o si se infecta: no lo toques, consultá. Revisá que tengas la antitetánica al día." },
+  { id: "sangrado-anticoagulantes", titulo: "Sangrado tomando anticoagulantes", sintomas: ["tomo anticoagulantes y me corte", "estoy con sintrom y sangro", "tomo warfarina y no para el sangrado", "sangro mucho y tomo anticoagulantes", "me corte y tomo diluyentes de sangre", "tomo anticoagulantes y me golpee"],
+    mensaje: "⚠️ Si tomás anticoagulantes (warfarina/Sintrom o los nuevos) y te cortaste o golpeaste: el sangrado cuesta más de frenar y un golpe puede sangrar por dentro. Hacé PRESIÓN directa firme y sostenida bastante MÁS tiempo que lo normal (15-20 min sin espiar). Si fue un golpe en la cabeza o la panza, aunque no sangre por fuera, tomalo en serio.",
+    items: ["gasas", "vendas"],
+    cuandoConsultar: "URGENTE si el sangrado no para con presión, fue un golpe en la cabeza (aunque estés bien ahora), o aparece dolor de cabeza, vómitos, moretones grandes, sangre en la orina o la caca, o mucha debilidad: rescate." },
+  { id: "quemadura-combustible", titulo: "Quemadura con combustible / hornillo", sintomas: ["me queme con el calentador", "se prendio fuego la bencina", "me queme con la bencina blanca", "quemadura con el gas del calentador", "se me derramo el combustible y se prendio", "me queme con el hornillo"],
+    mensaje: "Quemadura con combustible/hornillo: si hay ropa con combustible encendido, apagá las llamas (tirate y rodá o tapá con una manta) y sacá la ropa que NO esté pegada a la piel. Enfriá la quemadura con agua fresca corriente 10-20 min (no hielo). No revientes ampollas, cubrí con gasa limpia. Ventilá bien si hubo humo o gas.",
+    items: ["gasas"],
+    cuandoConsultar: "Quemadura grande, profunda, en cara/manos/genitales, o si respiró humo/gas (tos, hollín, voz ronca, cuesta respirar): emergencia, pedí rescate." },
+  { id: "ojo-objeto", titulo: "Algo metido o clavado en el ojo", sintomas: ["se me metio algo en el ojo", "tengo algo clavado en el ojo", "me entro una rama en el ojo", "me salto algo al ojo", "tengo una basurita en el ojo", "me clave algo en el ojo", "algo en el ojo que no sale"],
+    mensaje: "Si te entró una basurita/tierra al ojo: NO te lo refriegues. Parpadeá seguido y lavá con agua limpia o suero, desde el lado de la nariz hacia afuera. Si algo quedó CLAVADO en el ojo, NO lo saques ni aprietes: cubrí los DOS ojos flojito (para que el ojo lastimado no se mueva) y andá a que te lo saquen. (El reflejo del sol en la nieve también quema los ojos: mirá 'ceguera de nieve'.)",
+    items: ["suero fisiologico", "gasas"],
+    cuandoConsultar: "Objeto clavado, dolor fuerte, ves borroso, no podés abrir el ojo, o hubo un golpe con sangre dentro del ojo: urgente, no te toques el ojo y consultá." },
+  { id: "torsion-testicular", titulo: "Dolor testicular repentino y fuerte", sintomas: ["me duele mucho un testiculo de repente", "dolor fuerte en un testiculo", "se me hincho y duele un testiculo", "dolor testicular repentino", "me duele un huevo de golpe y fuerte", "me agarro un dolor fuerte en un testiculo"],
+    mensaje: "⚠️ Dolor MUY fuerte y REPENTINO en un testículo (sin que haya un golpe, a veces con náuseas y el testículo más alto o hinchado) puede ser una TORSIÓN: el cordón se retuerce y corta la sangre al testículo. Es una emergencia con el reloj en contra (se salva mucho mejor en las primeras horas). No esperes a ver si pasa solo.",
+    items: [],
+    cuandoConsultar: "Andá a urgencia YA (131). Si fue por un golpe, mirá también 'golpe en los genitales'; pero un dolor intenso y repentino SIN golpe hay que tratarlo como torsión hasta que un médico diga lo contrario." },
+  { id: "parto-emergencia", titulo: "Parto de emergencia", sintomas: ["se adelanto el parto", "va a tener el bebe aca", "esta por dar a luz", "parto de emergencia", "esta pariendo", "el bebe ya viene y no llegamos", "se le rompio la bolsa y viene el bebe"],
+    mensaje: "Parto de emergencia (si ya no hay tiempo de llegar): pedí rescate y mantené la calma. Lavate las manos y poné mantas/ropa limpia debajo. Dejá que el bebé salga solo, sostenelo (NO tires ni apures). Cuando salga, ponelo sobre el pecho de la mamá piel con piel, secalo y abrigalo (cabeza incluida) y limpiale suave la boca y la nariz. NO cortes el cordón: dejalo y envolvé a los dos juntos. La placenta sale sola después; guardala. Mantené a ambos bien abrigados.",
+    items: ["manta termica", "gasas"],
+    cuandoConsultar: "Siempre pedí rescate. URGENTE si sale primero un pie, una mano o el cordón (no la cabeza), si la mamá sangra mucho, o si el bebé no respira ni llora (secalo y estimulá su espalda; si no respira, RCP de bebé)." },
   { id: "ayuda-general", sintomas: ["no se que tengo", "no se que me pasa", "que hago", "que hago ahora", "ayuda que hago", "es una emergencia", "necesito ayuda urgente", "auxilio que hago", "no se que hacer", "que hago doctor", "estoy en problemas"],
     mensaje: "Tranquilo/a, estoy con vos. Para ayudarte mejor, decime en pocas palabras qué pasa 👇\n• ¿Hay sangre, un golpe o un hueso raro?\n• ¿Cuesta respirar o alguien no responde? (eso es URGENTE)\n• ¿Dolor, fiebre, náuseas, frío?\nEscribilo simple o tocá una opción.",
     items: [],
@@ -1177,6 +1206,21 @@ const REGLAS = [
   { re: /(puedo|se puede|es seguro) (tomar|beber) (agua del|del rio|de la vertiente|del estero|agua de|nieve)|agua (del rio|de la vertiente|del estero|de deshielo|de la montana) (es segura|se puede tomar|potable|esta buena)|como (purifico|potabilizo|hago segura|hiervo|filtro) (el )?agua|puedo tomar (nieve derretida|del rio|de la vertiente|de deshielo)|el agua .{0,14}(es segura|potable|se puede tomar)/, tipo: "consejo", id: "agua-segura" },
   // cómo prevenir el soroche / aclimatación (antes que las reglas de mal de altura)
   { re: /como (prevengo|evito|no me da|puedo evitar) (el |la )?(soroche|mal de altura|mal de montana|puna|apunamiento)|como me aclimato|aclimatacion|como (subir|ascender) sin (enfermarme|soroche|que me de la altura)|(tips|consejos|recomendaciones) para (la altura|el soroche|subir)|prevenir (el )?(soroche|mal de altura|mal de montana)|cada cuanto (debo )?subir/, tipo: "consejo", id: "prevencion-altura" },
+  // ---- LOTE v3.2: más casos de montaña ----
+  // parto de emergencia
+  { re: /parto (de emergencia|adelantado)|se adelanto el parto|va a (tener|nacer) el bebe|esta (por )?(dar a luz|pariendo)|el bebe (ya )?viene|se le rompio la bolsa|esta de parto|voy a tener el bebe (aca|ahora|ya)/, tipo: "consejo", id: "parto-emergencia" },
+  // torsión testicular -> dolor testicular repentino/fuerte SIN golpe (emergencia)
+  { re: /torsion testicular|dolor testicular (repentino|fuerte|intenso)|(me duele|dolor|duele).{0,16}(un |el )?(testiculo|huevo|teste).{0,18}(de repente|de golpe|repentin|muy fuerte|fuerte)|(de repente|repentin).{0,14}(dolor|duele).{0,14}(testiculo|huevo)|se me (hincho|subio).{0,10}(un |el )?testiculo/, tipo: "consejo", id: "torsion-testicular" },
+  // algo en el ojo (basurita / clavado) -> antes que objeto-clavado y ceguera-nieve
+  { re: /(se me metio|me entro|me salto|me clave|tengo) (algo|una rama|una basurita|tierra|una astilla|un palo|una pestana|arena) (en el|al) ojo|algo (clavado|metido) en el ojo|algo en el ojo que no (sale|puedo sacar)|se me metio algo en el ojo|tengo algo en el ojo/, tipo: "consejo", id: "ojo-objeto" },
+  // sangrado en persona con anticoagulantes
+  { re: /(anticoagulant|sintrom|warfarina|acenocumarol|diluyente. de sangre|adelgazante. de sangre).{0,30}(corte|sangr|golpe|no para)|(corte|sangr|golpe|no para|me golpee|me corte).{0,30}(anticoagulant|sintrom|warfarina|diluyente. de sangre)|tomo anticoagulantes/, tipo: "consejo", id: "sangrado-anticoagulantes" },
+  // anzuelo clavado -> antes que objeto-clavado
+  { re: /anzuelo|me clave (el |un )?anzuelo|se me (clavo|enterro) (el |un )?anzuelo/, tipo: "consejo", id: "anzuelo" },
+  // crisis de asma SIN inhalador -> antes que asma
+  { re: /(asma|me falta el aire|silbo|crisis de asma|ataque de asma).{0,28}(sin inhalador|no tengo (el )?inhalador|perdi (el )?inhalador|se me acabo el inhalador)|(sin inhalador|no tengo inhalador|perdi el inhalador|se me acabo el inhalador).{0,28}(asma|aire|silb|ahog)/, tipo: "consejo", id: "asma-sin-inhalador" },
+  // quemadura con combustible / hornillo -> antes que quemadura genérica
+  { re: /me queme (con (el |la )?)?(bencina|combustible|hornillo|calentador|parafina|gas blanco|bencina blanca|gas del (calentador|hornillo))|se (prendio|derramo) (fuego )?(la |el )?(bencina|combustible|parafina)|quemadura con (el )?(combustible|hornillo|calentador|bencina)/, tipo: "consejo", id: "quemadura-combustible" },
   // ========================================================================
   // SEÑALES DE PELIGRO — máxima prioridad. Si alguien describe algo que pone
   // en riesgo la vida, va directo a la emergencia correcta aunque lo escriba
