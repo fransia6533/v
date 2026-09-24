@@ -9,9 +9,11 @@ REM Para DETENER la demo: cierra esta ventana negra o presiona Ctrl + C.
 REM ============================================================
 cd /d "%~dp0"
 
-REM 1) Comprobar que Python esta instalado ("py" es el lanzador de Python en Windows).
-where py >nul 2>nul
-if errorlevel 1 (
+REM 1) Buscar Python: primero "py" (lanzador de python.org), si no, "python".
+set PYTHON=
+where py >nul 2>nul && set PYTHON=py
+if not defined PYTHON (where python >nul 2>nul && set PYTHON=python)
+if not defined PYTHON (
   echo [ERROR] No se encontro Python. Instalalo desde https://www.python.org/downloads/
   echo         y marca la casilla "Add python.exe to PATH" durante la instalacion.
   pause
@@ -21,7 +23,7 @@ if errorlevel 1 (
 REM 2) Crear el entorno virtual solo si no existe.
 if not exist ".venv\Scripts\python.exe" (
   echo Creando entorno virtual por primera vez...
-  py -m venv .venv
+  %PYTHON% -m venv .venv
 )
 
 REM 3) Instalar Flask (si ya esta instalado, no hace nada).

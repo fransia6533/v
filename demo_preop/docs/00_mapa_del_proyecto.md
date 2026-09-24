@@ -88,7 +88,7 @@ El sistema **no diagnostica, no calcula riesgos y no decide** si alguien puede o
 | D. Primera versión | App completa conectada | La respuesta sigue tras cerrar y abrir | ✅ Prueba automática 02 |
 | E. Panel | Panel + filtros + CSV + diccionario (`05`) | Identificar rápido qué requiere seguimiento | ✅ Prueba automática 08 |
 | F. Recordatorios y casos | Simulación configurable (`06`) | Demostrar los 8 casos especiales | ✅ Pruebas 06, 07, 10, 11 |
-| G. Pruebas y presentación | Tabla de pruebas (`07`) + guion (`08`) | Todas pasan en TU computador | ⏳ Falta que lo ejecutes tú |
+| G. Pruebas y presentación | Tabla de pruebas (`07`) + informe de navegador + guion (`08`) | 13/13 internas y 28/28 en navegador | ✅ Probado por Claude (falta Windows) |
 
 Detalle completo: [02_plan_por_etapas.md](02_plan_por_etapas.md).
 

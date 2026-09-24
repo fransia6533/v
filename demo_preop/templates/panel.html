@@ -59,7 +59,7 @@
       <td><span class="etq inv-{{ r.estado_invitacion }}">{{ E.invitacion[r.estado_invitacion] }}</span></td>
       <td><span class="etq resp-{{ r.estado_respuesta }}">{{ E.respuesta[r.estado_respuesta] }}</span></td>
       <td>{{ r.n_realizados_declarados }} de {{ r.n_examenes }}
-          {% if r.n_pendientes_o_sin_resp %}<br><small>{{ r.n_pendientes_o_sin_resp }} pendiente(s) o sin respuesta</small>{% endif %}</td>
+          {% if r.n_pendientes_o_sin_resp %}<br><small>{{ r.n_pendientes_o_sin_resp }} sin realizar, en duda o sin respuesta</small>{% endif %}</td>
       <td>{{ r.n_resultados_declarados }} de {{ r.n_examenes }}</td>
       <td>{% if r.requiere_contacto %}<b>Sí</b><ul class="motivos">{% for m in r.motivos_contacto %}<li>{{ m }}</li>{% endfor %}</ul>{% else %}No{% endif %}</td>
       <td><span class="etq rev-{{ r.estado_revision }}">{{ E.revision[r.estado_revision] }}</span>

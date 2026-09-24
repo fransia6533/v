@@ -118,6 +118,13 @@ Con la aplicación detenida, en la terminal dentro de `demo_preop`:
 
 Debe terminar con **`OK`** (13 pruebas). Si aparece `FAILED`, copia el mensaje y me lo envías.
 
+**Prueba en navegador (opcional, más completa):** recorre 28 casos haciendo clic como una persona y genera `docs/informe_pruebas_navegador.md` con capturas en `docs/capturas/`. Necesita instalar Playwright una vez:
+
+- Windows: `.venv\Scripts\python -m pip install playwright` y luego `.venv\Scripts\python -m playwright install chromium`, después `.venv\Scripts\python tests\prueba_navegador.py`
+- Mac: `.venv/bin/python -m pip install playwright` y luego `.venv/bin/python -m playwright install chromium`, después `.venv/bin/python tests/prueba_navegador.py`
+
+Resultado de Claude al entregar: **13/13 pruebas internas OK y 28/28 pruebas de navegador pasaron.**
+
 ---
 
 ## 7. Proteger el panel con contraseña (opcional)

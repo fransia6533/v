@@ -4,6 +4,14 @@
 
 Fechas: los pacientes ficticios se crean relativos a "hoy" (ej. PAC-003 = hoy + 5 días).
 
+## Resumen
+| Tipo de prueba | Cómo se ejecuta | Resultado observado por Claude |
+|---|---|---|
+| 13 pruebas internas (reglas y base de datos) | `python -m unittest discover -s tests -v` | **13 de 13 OK** |
+| 28 pruebas en navegador real (clics, formularios, chat, descarga CSV, reinicio de la app) | `python tests/prueba_navegador.py` | **28 de 28 pasaron**, 0 errores de JavaScript — ver [informe_pruebas_navegador.md](informe_pruebas_navegador.md) y [capturas/](capturas/) |
+| Inicio desde cero con `iniciar_mac_linux.sh` | Copia limpia del zip | Crea entorno, instala Flask y abre el panel (código 200) |
+| Inicio con `iniciar_windows.bat` | — | **No probado**: este entorno no tiene Windows. Revisado a mano (formato de líneas Windows, busca `py` y luego `python`) |
+
 ## A. Pruebas automáticas (13)
 Ejecución: `python -m unittest discover -s tests -v` → **Ran 13 tests … OK** (observado por Claude).
 
