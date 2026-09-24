@@ -1,0 +1,3 @@
+# Lista de "librerías" (piezas de código hechas por otros) que necesita la demo.
+# Solo usamos una: Flask, que convierte nuestro programa Python en una página web local.
+Flask>=3.0,<4.0

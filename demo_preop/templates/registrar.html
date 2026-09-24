@@ -1,0 +1,38 @@
+{# registrar.html: formulario para que el equipo registre un paciente FICTICIO y su control. #}
+{% extends "base.html" %}
+{% block titulo %}Registrar control{% endblock %}
+{% block contenido %}
+<h1>Registrar paciente ficticio y control</h1>
+<div class="aviso aviso-error">No escribas nombres, teléfonos ni datos reales. Esta demo solo acepta teléfonos que empiecen con {{ cfg.prefijo_telefono_ficticio }}.</div>
+
+<form method="post" class="formulario">
+  <fieldset>
+    <legend>1. Paciente</legend>
+    <label>Paciente ya registrado (opcional)
+      <select name="paciente_existente">
+        <option value="">— Nuevo paciente —</option>
+        {% for p in pacientes %}<option value="{{ p.id }}">{{ p.codigo }} · {{ p.nombre_ficticio }}</option>{% endfor %}
+      </select>
+    </label>
+    <p class="nota">Si eliges uno existente, se ignoran los dos campos siguientes. El nuevo control tendrá sus propias respuestas.</p>
+    <label>Nombre ficticio <input name="nombre_ficticio" placeholder="Ej: Paciente Prueba"></label>
+    <label>Teléfono ficticio <input name="telefono_ficticio" placeholder="Ej: 0001234 (vacío = la invitación fallará)"></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. Control</legend>
+    <label>Fecha del control <input type="date" name="fecha_control" value="{{ hoy }}" required></label>
+    <label>Motivo <input name="motivo" value="Control de rodilla (ficticio)"></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>3. Exámenes solicitados (ejemplos)</legend>
+    {% for e in cfg.catalogo_examenes %}
+      <label class="check"><input type="checkbox" name="examenes" value="{{ e.nombre }}"> {{ e.nombre }} <small>({{ e.tipo }})</small></label>
+    {% endfor %}
+  </fieldset>
+
+  <label class="check"><input type="checkbox" name="confirmo_ficticio" value="si" required> Confirmo que todos los datos son ficticios.</label>
+  <button>Guardar</button>
+</form>
+{% endblock %}

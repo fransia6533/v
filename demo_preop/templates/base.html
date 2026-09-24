@@ -1,0 +1,34 @@
+{# base.html: "molde" común de todas las páginas del EQUIPO (encabezado, menú y avisos).
+   Las demás páginas lo "extienden" y solo rellenan el bloque "contenido". #}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Panel{% endblock %} · Demo seguimiento pre-control</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+  {# Franja siempre visible: nadie debe confundir la demo con un sistema real. #}
+  <div class="franja-demo">DEMOSTRACIÓN · Datos 100% ficticios · Ningún mensaje se envía realmente</div>
+  <header class="encabezado">
+    <strong>{{ cfg.unidad }}</strong>
+    <nav>
+      <a href="{{ url_for('panel') }}">Panel</a>
+      <a href="{{ url_for('registrar') }}">Registrar control</a>
+      <a href="{{ url_for('diccionario') }}">Diccionario CSV</a>
+    </nav>
+  </header>
+  {% if not panel_protegido %}
+    <div class="aviso aviso-gris">Panel sin contraseña: úsalo solo en tu computador (dirección 127.0.0.1). Ver README para activar la contraseña.</div>
+  {% endif %}
+  <main>
+    {# Mensajes temporales ("flash") que dejan las acciones: éxito o error. #}
+    {% for tipo, texto in get_flashed_messages(with_categories=true) %}
+      <div class="aviso {{ 'aviso-ok' if tipo == 'ok' else 'aviso-error' }}">{{ texto }}</div>
+    {% endfor %}
+    {% block contenido %}{% endblock %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{# panel.html: tabla con el estado de cada control, filtros, métricas y acciones de simulación. #}
+{% extends "base.html" %}
+{% block titulo %}Panel{% endblock %}
+{% block contenido %}
+<h1>Panel de seguimiento</h1>
+<p class="nota">Hoy: {{ hoy }}. "Completa" solo significa que el paciente respondió todo; <strong>no</strong> significa que esté clínicamente preparado.</p>
+
+{# Métricas administrativas: se calculan con los datos ficticios actuales. #}
+<section class="metricas">
+  <div><b>{{ metricas.total }}</b><span>controles</span></div>
+  <div><b>{{ metricas.invitados }}</b><span>invitados (simulado)</span></div>
+  <div><b>{{ metricas.completas }}</b><span>completas</span></div>
+  <div><b>{{ metricas.parciales }}</b><span>parciales</span></div>
+  <div><b>{{ metricas.sin_responder }}</b><span>sin responder</span></div>
+  <div><b>{{ metricas.fallidas }}</b><span>invitaciones fallidas</span></div>
+  <div class="destacada"><b>{{ metricas.contacto_pendiente }}</b><span>requieren contacto y no están revisados</span></div>
+</section>
+
+{# Filtros: al apretar "Filtrar" la dirección cambia (?respuesta=parcial...) y la tabla se recalcula. #}
+<form class="filtros" method="get">
+  <label>Invitación
+    <select name="invitacion"><option value="">Todas</option>
+      {% for v, t in E.invitacion.items() %}<option value="{{ v }}" {{ 'selected' if filtros.invitacion == v }}>{{ t }}</option>{% endfor %}
+    </select></label>
+  <label>Respuesta
+    <select name="respuesta"><option value="">Todas</option>
+      {% for v, t in E.respuesta.items() %}<option value="{{ v }}" {{ 'selected' if filtros.respuesta == v }}>{{ t }}</option>{% endfor %}
+    </select></label>
+  <label>Revisión
+    <select name="revision"><option value="">Todas</option>
+      {% for v, t in E.revision.items() %}<option value="{{ v }}" {{ 'selected' if filtros.revision == v }}>{{ t }}</option>{% endfor %}
+    </select></label>
+  <label>Requiere contacto
+    <select name="contacto"><option value="">Todos</option>
+      <option value="si" {{ 'selected' if filtros.contacto == 'si' }}>Sí</option>
+      <option value="no" {{ 'selected' if filtros.contacto == 'no' }}>No</option>
+    </select></label>
+  <label>Buscar <input name="buscar" value="{{ filtros.buscar }}" placeholder="PAC-001 o nombre"></label>
+  <button>Filtrar</button> <a href="{{ url_for('panel') }}">Limpiar</a>
+</form>
+
+<p>Mostrando {{ filas|length }} control(es).
+  <a class="boton-sec" href="{{ url_for('exportar_controles') }}?{{ query }}">Exportar esta tabla (CSV)</a>
+  <a class="boton-sec" href="{{ url_for('exportar_examenes') }}">Exportar exámenes (CSV)</a>
+</p>
+
+<div class="tabla-scroll">
+<table>
+  <thead><tr>
+    <th>Paciente</th><th>Fecha control</th><th>Invitación</th><th>Respuesta</th>
+    <th>Exámenes realizados (declarado)</th><th>Resultados disponibles (declarado)</th>
+    <th>Requiere contacto</th><th>Revisión</th><th>Última actualización</th><th></th>
+  </tr></thead>
+  <tbody>
+  {% for r in filas %}
+    <tr class="{{ 'fila-alerta' if r.requiere_contacto and r.estado_revision == 'pendiente' }}">
+      <td><b>{{ r.codigo }}</b><br><small>{{ r.nombre_ficticio }}</small></td>
+      <td class="sin-corte">{{ r.fecha_control }}</td>
+      <td><span class="etq inv-{{ r.estado_invitacion }}">{{ E.invitacion[r.estado_invitacion] }}</span></td>
+      <td><span class="etq resp-{{ r.estado_respuesta }}">{{ E.respuesta[r.estado_respuesta] }}</span></td>
+      <td>{{ r.n_realizados_declarados }} de {{ r.n_examenes }}
+          {% if r.n_pendientes_o_sin_resp %}<br><small>{{ r.n_pendientes_o_sin_resp }} pendiente(s) o sin respuesta</small>{% endif %}</td>
+      <td>{{ r.n_resultados_declarados }} de {{ r.n_examenes }}</td>
+      <td>{% if r.requiere_contacto %}<b>Sí</b><ul class="motivos">{% for m in r.motivos_contacto %}<li>{{ m }}</li>{% endfor %}</ul>{% else %}No{% endif %}</td>
+      <td><span class="etq rev-{{ r.estado_revision }}">{{ E.revision[r.estado_revision] }}</span>
+          {% if r.revisado_por %}<br><small>{{ r.revisado_por }}</small>{% endif %}</td>
+      <td><small>{{ r.actualizado_en.replace('T', ' ') }}</small></td>
+      <td><a href="{{ url_for('detalle', control_id=r.control_id) }}">Abrir</a></td>
+    </tr>
+  {% else %}
+    <tr><td colspan="10">No hay controles con esos filtros.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<section class="acciones">
+  <h2>Simulaciones</h2>
+  <form method="post" action="{{ url_for('invitar_pendientes') }}">
+    <button>Simular invitación a todos los pendientes</button>
+  </form>
+  <form method="post" action="{{ url_for('recordatorios') }}">
+    <label>Fecha simulada <input type="date" name="fecha_simulada" value="{{ hoy }}"></label>
+    <button>Ejecutar recordatorios (simulados)</button>
+    <small>Configurado en config.json: {{ cfg.recordatorios.dias_antes_del_control }} días antes del control (decisión operativa de la demo).</small>
+  </form>
+  <form method="post" action="{{ url_for('reiniciar') }}" onsubmit="return confirm('¿Borrar todo y volver a cargar los 10 casos ficticios?');">
+    <button class="peligro">Reiniciar demo</button>
+  </form>
+</section>
+{% endblock %}

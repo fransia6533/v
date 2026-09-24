@@ -1,0 +1,66 @@
+{
+  "_comentario": "Cuestionario de DEMOSTRACIÓN. Las preguntas son FICTICIAS o de relleno. El contenido clínico real debe ser definido y aprobado por el equipo médico. Si cambias las preguntas, cambia también la 'version' (por ejemplo demo-1.1) para saber con qué versión respondió cada paciente.",
+
+  "version": "demo-1.0",
+  "titulo": "Cuestionario de demostración",
+  "aviso": "Las siguientes preguntas son EJEMPLOS para mostrar cómo funcionaría el sistema. No son un cuestionario clínico validado.",
+
+  "_comentario_campos": "id: nombre interno único (sin espacios). tipo: 'opciones' (botones) o 'texto' (escritura libre). obligatoria: si cuenta para que la respuesta quede 'completa'. marca_contacto: respuestas que hacen aparecer el caso como 'requiere contacto humano' en el panel.",
+  "preguntas": [
+    {
+      "id": "medio_contacto",
+      "texto": "(Ejemplo) Si el equipo necesita hablar contigo, ¿cómo prefieres que te contacten?",
+      "tipo": "opciones",
+      "obligatoria": true,
+      "opciones": [
+        {"valor": "llamada", "texto": "Llamada"},
+        {"valor": "mensaje", "texto": "Mensaje"},
+        {"valor": "indiferente", "texto": "Me da lo mismo"}
+      ],
+      "marca_contacto": []
+    },
+    {
+      "id": "ayuda_traslado",
+      "texto": "(Ejemplo) ¿Necesitas ayuda para organizar tu llegada al control (por ejemplo, un acompañante)?",
+      "tipo": "opciones",
+      "obligatoria": true,
+      "opciones": [
+        {"valor": "si", "texto": "Sí"},
+        {"valor": "no", "texto": "No"},
+        {"valor": "no_sabe", "texto": "No estoy seguro"}
+      ],
+      "marca_contacto": ["si"]
+    },
+    {
+      "id": "reservada_1",
+      "texto": "[ESPACIO RESERVADO] Aquí irá una pregunta que defina y apruebe el equipo médico. Para la demo, elige cualquier opción.",
+      "tipo": "opciones",
+      "obligatoria": true,
+      "opciones": [
+        {"valor": "a", "texto": "Opción A"},
+        {"valor": "b", "texto": "Opción B"},
+        {"valor": "no_sabe", "texto": "No sé"}
+      ],
+      "marca_contacto": []
+    },
+    {
+      "id": "quiere_contacto",
+      "texto": "¿Quieres que alguien del equipo te contacte antes de tu control?",
+      "tipo": "opciones",
+      "obligatoria": true,
+      "opciones": [
+        {"valor": "si", "texto": "Sí, por favor"},
+        {"valor": "no", "texto": "No es necesario"}
+      ],
+      "marca_contacto": ["si"]
+    },
+    {
+      "id": "comentario",
+      "texto": "¿Hay algo más que quieras contarle al equipo? (opcional, máximo 300 letras). Por favor no escribas urgencias aquí.",
+      "tipo": "texto",
+      "obligatoria": false,
+      "max": 300,
+      "marca_contacto": []
+    }
+  ]
+}

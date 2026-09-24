@@ -1,0 +1,41 @@
+{# diccionario.html: explica qué significa cada columna de los archivos CSV exportados. #}
+{% extends "base.html" %}
+{% block titulo %}Diccionario CSV{% endblock %}
+{% block contenido %}
+<h1>Diccionario de columnas</h1>
+<p class="nota">Los archivos no incluyen nombre ni teléfono, pero <b>no son anónimos</b>: el código de paciente permite volver a identificarlo dentro del sistema (son datos seudonimizados).</p>
+
+<h2>controles_demo.csv (una fila por control; misma información y filtros que el panel)</h2>
+<table>
+  <thead><tr><th>Columna</th><th>Significado</th><th>Valores posibles</th></tr></thead>
+  <tbody>
+    <tr><td>codigo_paciente</td><td>Código ficticio del paciente</td><td>PAC-001…</td></tr>
+    <tr><td>id_control</td><td>Número interno del control (un paciente puede tener varios)</td><td>1, 2, 3…</td></tr>
+    <tr><td>fecha_control</td><td>Fecha actual del control</td><td>AAAA-MM-DD</td></tr>
+    <tr><td>estado_invitacion</td><td>Situación de la invitación</td><td>pendiente, simulada (demo, no enviada), enviada (solo canal real), fallida</td></tr>
+    <tr><td>estado_respuesta</td><td>Cuánto respondió el paciente</td><td>sin_responder, parcial, completa (completa ≠ clínicamente preparado)</td></tr>
+    <tr><td>n_examenes</td><td>Exámenes solicitados para ese control</td><td>número</td></tr>
+    <tr><td>n_realizados_declarados</td><td>Exámenes que el PACIENTE dice haberse hecho</td><td>número</td></tr>
+    <tr><td>n_pendientes_o_sin_respuesta</td><td>Exámenes con respuesta distinta de "sí" o sin respuesta</td><td>número</td></tr>
+    <tr><td>n_resultados_disponibles_declarados</td><td>Exámenes cuyo resultado el PACIENTE dice tener</td><td>número</td></tr>
+    <tr><td>n_verificados_equipo</td><td>Exámenes que el EQUIPO ya verificó (coincida o no)</td><td>número</td></tr>
+    <tr><td>requiere_contacto</td><td>Si hay algún motivo administrativo para contactar</td><td>si, no</td></tr>
+    <tr><td>motivos_contacto</td><td>Lista de motivos separados por " | "</td><td>texto</td></tr>
+    <tr><td>estado_revision</td><td>Si una persona del equipo ya lo revisó</td><td>pendiente, revisada</td></tr>
+    <tr><td>revisado_por</td><td>Quién lo revisó (ficticio)</td><td>texto o vacío</td></tr>
+    <tr><td>ultima_actualizacion</td><td>Último cambio de cualquier tipo</td><td>AAAA-MM-DDTHH:MM:SS</td></tr>
+    <tr><td>version_cuestionario</td><td>Versión de las preguntas usada</td><td>demo-1.0</td></tr>
+    <tr><td>acepta_mensajes</td><td>Si el paciente acepta recibir mensajes</td><td>si, no</td></tr>
+  </tbody>
+</table>
+
+<h2>examenes_demo.csv (una fila por examen de cada control)</h2>
+<table>
+  <thead><tr><th>Columna</th><th>Significado</th><th>Valores posibles</th></tr></thead>
+  <tbody>
+    <tr><td>paciente_declara_realizado</td><td>Lo que DICE el paciente</td><td>si, todavia_no, no_sabe, aclarar, sin_respuesta</td></tr>
+    <tr><td>paciente_declara_resultado</td><td>Lo que DICE el paciente sobre el resultado</td><td>si, no, no_sabe, no_corresponde (no declaró el examen como realizado), sin_respuesta</td></tr>
+    <tr><td>verificacion_equipo</td><td>Lo que VERIFICÓ el equipo (independiente de lo anterior)</td><td>sin_verificar, coincide, no_coincide</td></tr>
+  </tbody>
+</table>
+{% endblock %}

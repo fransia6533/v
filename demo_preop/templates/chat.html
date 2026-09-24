@@ -1,0 +1,28 @@
+{# chat.html: vista del PACIENTE. Simula un chatbot con botones (sin inteligencia artificial).
+   Toda la lógica de la conversación está en static/chat.js.
+   El token (clave del enlace) se pasa al JavaScript con data-token. #}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preguntas antes de tu control · DEMO</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body class="cuerpo-chat" data-token="{{ token }}">
+  <div class="franja-demo">DEMOSTRACIÓN · Paciente y datos ficticios</div>
+  <div class="chat">
+    <header class="chat-encabezado">
+      <b>Asistente de preparación de controles</b>
+      <small>Conversación guiada · no es una persona · no atiende urgencias</small>
+    </header>
+    <div id="mensajes" class="chat-mensajes" aria-live="polite"></div>
+    <div id="opciones" class="chat-opciones"></div>
+    <footer class="chat-pie">
+      <button id="baja" class="enlace">No quiero recibir más mensajes</button>
+    </footer>
+  </div>
+  <script src="{{ url_for('static', filename='chat.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+{# detalle.html: todo lo de UN control. Separa claramente lo que DICE el paciente de lo que VERIFICA el equipo. #}
+{% extends "base.html" %}
+{% block titulo %}{{ c.codigo }}{% endblock %}
+{% block contenido %}
+<p><a href="{{ url_for('panel') }}">← Volver al panel</a></p>
+<h1>{{ c.codigo }} · {{ c.nombre_ficticio }} <small>(control #{{ c.id }})</small></h1>
+
+<div class="grilla">
+  <section class="tarjeta">
+    <h2>Control</h2>
+    <p><b>Fecha:</b> {{ c.fecha_control }}<br>
+       <b>Motivo:</b> {{ c.motivo }}<br>
+       <b>Fecha que confirmó el paciente:</b> {{ c.fecha_confirmada or 'no ha confirmado' }}<br>
+       <b>Teléfono ficticio:</b> {{ c.telefono_ficticio or '(sin teléfono)' }}<br>
+       <b>Acepta mensajes:</b> {{ 'Sí' if c.acepta_mensajes else 'NO (pidió no recibir más)' }}<br>
+       <b>Versión cuestionario:</b> {{ c.version_cuestionario }}</p>
+    <form method="post" action="{{ url_for('cambiar_fecha', control_id=c.id) }}" class="en-linea">
+      <input type="date" name="nueva_fecha" value="{{ c.fecha_control }}" required>
+      <input name="quien" placeholder="Quién cambia (ficticio)">
+      <button>Cambiar fecha</button>
+    </form>
+    {% if otros %}
+      <p><b>Otros controles de este paciente</b> (sus respuestas están separadas):</p>
+      <ul>{% for o in otros %}<li><a href="{{ url_for('detalle', control_id=o.id) }}">#{{ o.id }} · {{ o.fecha_control }} · {{ o.motivo }}</a></li>{% endfor %}</ul>
+    {% endif %}
+  </section>
+
+  <section class="tarjeta">
+    <h2>Estados (separados)</h2>
+    <p><b>Invitación:</b> <span class="etq inv-{{ c.estado_invitacion }}">{{ E.invitacion[c.estado_invitacion] }}</span><br>
+       <b>Respuesta:</b> <span class="etq resp-{{ r.estado_respuesta }}">{{ E.respuesta[r.estado_respuesta] }}</span><br>
+       <b>Revisión humana:</b> <span class="etq rev-{{ c.estado_revision }}">{{ E.revision[c.estado_revision] }}</span>
+       {% if c.revisado_por %} por {{ c.revisado_por }} ({{ c.revisado_en }}){% endif %}</p>
+    {% if r.motivos_contacto %}
+      <p><b>Requiere contacto humano por:</b></p>
+      <ul class="motivos">{% for m in r.motivos_contacto %}<li>{{ m }}</li>{% endfor %}</ul>
+    {% else %}<p>Sin motivos de contacto por ahora.</p>{% endif %}
+  </section>
+</div>
+
+<section class="tarjeta">
+  <h2>Invitación</h2>
+  <p><b>Mensaje preparado</b> (en la demo NO se envía; solo se muestra):</p>
+  <blockquote>{{ mensaje }}</blockquote>
+  {% if c.estado_invitacion in ('pendiente', 'fallida') %}
+    <form method="post" action="{{ url_for('invitar', control_id=c.id) }}"><button>Simular envío de invitación</button></form>
+  {% endif %}
+  <p><a class="boton-sec" href="{{ enlace }}" target="_blank">Abrir la vista del paciente (chat) en otra pestaña</a></p>
+</section>
+
+<section class="tarjeta">
+  <h2>Exámenes solicitados</h2>
+  <div class="tabla-scroll">
+  <table>
+    <thead><tr><th>Examen</th><th>Paciente dice: ¿realizado?</th><th>Paciente dice: ¿resultado disponible?</th><th>Verificación del equipo</th></tr></thead>
+    <tbody>
+    {% for e in examenes %}
+      <tr>
+        <td>{{ e.nombre }}<br><small>{{ e.tipo }}</small></td>
+        <td>{{ E.realizado[e.declara_realizado] }}</td>
+        <td>{{ E.resultado[e.declara_resultado] }}</td>
+        <td>
+          <form method="post" action="{{ url_for('verificar', control_id=c.id, examen_id=e.id) }}" class="en-linea">
+            <select name="verificacion">
+              {% for v, t in E.verificacion.items() %}<option value="{{ v }}" {{ 'selected' if e.verificacion_equipo == v }}>{{ t }}</option>{% endfor %}
+            </select>
+            <input name="quien" placeholder="Quién (ficticio)" value="{{ e.verificado_por or '' }}">
+            <button>Guardar</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="tarjeta">
+  <h2>Respuestas del paciente</h2>
+  <p><b>¿Datos del control correctos?</b> {{ E.confirma_control[respuestas.get('confirma_control')] }}</p>
+  <p class="nota">Cuestionario de DEMOSTRACIÓN (preguntas ficticias):</p>
+  <ul>
+  {% for p in preguntas %}
+    {% set v = respuestas.get(p.id) %}
+    <li><b>{{ p.texto }}</b><br>
+      {% if v is none %}<i>Sin respuesta</i>
+      {% elif p.tipo == 'opciones' %}{% for o in p.opciones if o.valor == v %}{{ o.texto }}{% endfor %}
+      {% else %}{{ v }}{% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+  <p><b>Enviado por el paciente:</b> {{ c.enviado_por_paciente_en or 'todavía no' }}</p>
+</section>
+
+<section class="tarjeta">
+  <h2>Revisión humana</h2>
+  <form method="post" action="{{ url_for('revision', control_id=c.id) }}" class="formulario">
+    <label>Quién revisa (ficticio) <input name="quien" value="{{ c.revisado_por or '' }}"></label>
+    <label>Nota interna <textarea name="nota" rows="2">{{ c.nota_equipo or '' }}</textarea></label>
+    <button name="estado" value="revisada">Marcar como revisada</button>
+    <button name="estado" value="pendiente" class="boton-sec">Volver a pendiente</button>
+  </form>
+</section>
+
+<section class="tarjeta">
+  <h2>Historial (registro de eventos)</h2>
+  <table>
+    <thead><tr><th>Fecha y hora</th><th>Quién</th><th>Evento</th><th>Detalle</th></tr></thead>
+    <tbody>
+    {% for ev in eventos %}
+      <tr><td><small>{{ ev.creado_en.replace('T', ' ') }}</small></td><td>{{ ev.actor }}</td><td>{{ ev.tipo }}</td><td>{{ ev.detalle }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

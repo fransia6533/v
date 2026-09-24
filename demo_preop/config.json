@@ -1,0 +1,24 @@
+{
+  "_comentario": "Configuración de la DEMO. Puedes editar este archivo con el Bloc de notas. Después de guardarlo, detén y vuelve a iniciar la aplicación. Todo es FICTICIO.",
+
+  "unidad": "Unidad de Rodilla (demostración ficticia)",
+  "nombre_equipo": "Equipo de Rodilla",
+
+  "_comentario_catalogo": "Lista de exámenes e imágenes que el equipo puede marcar al registrar un control. 'tipo' puede ser 'laboratorio' o 'imagen'. Son solo ejemplos para la demo.",
+  "catalogo_examenes": [
+    {"nombre": "Hemograma (ejemplo)", "tipo": "laboratorio"},
+    {"nombre": "Perfil bioquímico (ejemplo)", "tipo": "laboratorio"},
+    {"nombre": "Pruebas de coagulación (ejemplo)", "tipo": "laboratorio"},
+    {"nombre": "Electrocardiograma (ejemplo)", "tipo": "laboratorio"},
+    {"nombre": "Radiografía de rodilla (ejemplo)", "tipo": "imagen"},
+    {"nombre": "Resonancia magnética de rodilla (ejemplo)", "tipo": "imagen"}
+  ],
+
+  "_comentario_recordatorios": "Días ANTES del control en que se simula un recordatorio si el paciente no ha completado sus respuestas. Es una decisión operativa de la demo, NO una recomendación clínica. Ejemplo: [7, 2] = un recordatorio 7 días antes y otro 2 días antes.",
+  "recordatorios": {
+    "dias_antes_del_control": [7, 2]
+  },
+
+  "_comentario_telefono": "Para evitar que alguien escriba un teléfono real por error, la demo solo acepta teléfonos que empiecen con este prefijo ficticio.",
+  "prefijo_telefono_ficticio": "000"
+}

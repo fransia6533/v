@@ -1,0 +1,105 @@
+/*
+ * estilos.css
+ * Apariencia visual de la demo (colores, tamaños, espacios).
+ * No afecta el funcionamiento: si lo borras, todo sigue andando, pero se ve feo.
+ */
+
+/* Colores reutilizables ("variables") */
+:root {
+  --azul: #1f5f8b;
+  --azul-claro: #e8f1f8;
+  --verde: #2e7d32;
+  --verde-claro: #e6f4e7;
+  --amarillo: #f9a825;
+  --amarillo-claro: #fff8e1;
+  --rojo: #c62828;
+  --rojo-claro: #fdecea;
+  --gris: #666;
+  --gris-claro: #f3f4f6;
+  --borde: #d9dde3;
+  --texto: #1d1f23;
+  --fondo: #ffffff;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: var(--texto); background: var(--fondo); font-size: 15px; }
+main { padding: 16px; max-width: 1300px; margin: 0 auto; }
+h1 { font-size: 1.5rem; margin: 8px 0 12px; }
+h2 { font-size: 1.15rem; margin: 0 0 8px; }
+a { color: var(--azul); }
+small, .nota { color: var(--gris); }
+
+/* Franja amarilla de "DEMO" siempre visible */
+.franja-demo { background: var(--amarillo); color: #000; text-align: center; font-weight: 700; padding: 6px; font-size: .85rem; }
+
+/* Encabezado y menú */
+.encabezado { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; padding: 10px 16px; background: var(--azul); color: #fff; }
+.encabezado nav a { color: #fff; margin-left: 14px; text-decoration: none; font-weight: 600; }
+
+/* Avisos */
+.aviso { padding: 10px 12px; border-radius: 6px; margin: 8px 0; }
+.aviso-ok { background: var(--verde-claro); border: 1px solid var(--verde); }
+.aviso-error { background: var(--rojo-claro); border: 1px solid var(--rojo); }
+.aviso-gris { background: var(--gris-claro); margin: 0; border-radius: 0; font-size: .85rem; text-align: center; }
+
+/* Tarjetas de métricas */
+.metricas { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin: 12px 0; }
+.metricas div { background: var(--azul-claro); border-radius: 8px; padding: 10px; }
+.metricas b { display: block; font-size: 1.6rem; }
+.metricas span { font-size: .8rem; color: var(--gris); }
+.metricas .destacada { background: var(--rojo-claro); }
+
+/* Filtros y formularios */
+.filtros { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; background: var(--gris-claro); padding: 10px; border-radius: 8px; }
+.filtros label { display: flex; flex-direction: column; font-size: .8rem; }
+.formulario { display: flex; flex-direction: column; gap: 10px; max-width: 640px; }
+.formulario label { display: flex; flex-direction: column; gap: 4px; }
+.formulario label.check, label.check { flex-direction: row; align-items: center; gap: 6px; display: flex; }
+fieldset { border: 1px solid var(--borde); border-radius: 8px; display: flex; flex-direction: column; gap: 8px; }
+input, select, textarea, button { font: inherit; padding: 6px 8px; border: 1px solid var(--borde); border-radius: 6px; max-width: 100%; }
+button { background: var(--azul); color: #fff; border: 0; cursor: pointer; font-weight: 600; }
+button:hover { filter: brightness(1.1); }
+button.peligro { background: var(--rojo); }
+.boton-sec, button.boton-sec { display: inline-block; background: var(--gris-claro); color: var(--texto); border: 1px solid var(--borde); padding: 5px 10px; border-radius: 6px; text-decoration: none; }
+.en-linea { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+/* Tablas */
+.tabla-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+th, td { border-bottom: 1px solid var(--borde); padding: 6px 8px; text-align: left; vertical-align: top; }
+th { background: var(--gris-claro); font-size: .8rem; }
+.fila-alerta { background: var(--rojo-claro); }
+.motivos { margin: 4px 0 0; padding-left: 16px; font-size: .8rem; }
+
+/* Etiquetas de estado (colores) */
+.etq { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: .8rem; background: var(--gris-claro); white-space: nowrap; }
+.inv-simulada, .inv-enviada, .resp-completa, .rev-revisada { background: var(--verde-claro); color: var(--verde); }
+.resp-parcial, .inv-pendiente, .rev-pendiente { background: var(--amarillo-claro); color: #8a5a00; }
+.inv-fallida, .resp-sin_responder { background: var(--rojo-claro); color: var(--rojo); }
+
+/* Detalle */
+.grilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+.tarjeta { border: 1px solid var(--borde); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+blockquote { background: var(--gris-claro); margin: 8px 0; padding: 10px; border-left: 4px solid var(--azul); }
+.acciones { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--borde); padding-top: 12px; }
+.acciones form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* ---------- Chat del paciente ---------- */
+.cuerpo-chat { background: #e5ddd5; min-height: 100vh; }
+.chat { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; height: calc(100vh - 30px); background: #efeae2; }
+.chat-encabezado { background: #075e54; color: #fff; padding: 10px 14px; display: flex; flex-direction: column; }
+.chat-encabezado small { color: #d0e8e4; }
+.chat-mensajes { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.burbuja { max-width: 85%; padding: 8px 12px; border-radius: 10px; line-height: 1.35; white-space: pre-wrap; box-shadow: 0 1px 1px rgba(0,0,0,.1); }
+.burbuja.bot { background: #fff; align-self: flex-start; }
+.burbuja.yo { background: #d9fdd3; align-self: flex-end; }
+.resumen { max-width: 100%; width: 100%; }
+.fila-resumen { display: flex; justify-content: space-between; gap: 8px; align-items: center; border-bottom: 1px solid var(--borde); padding: 6px 0; }
+.chat-opciones { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #f7f7f7; border-top: 1px solid var(--borde); }
+.chat-opciones button { background: #fff; color: #075e54; border: 1px solid #075e54; border-radius: 18px; }
+.chat-opciones button.principal { background: #075e54; color: #fff; }
+.chat-opciones textarea { width: 100%; }
+button.chico { padding: 3px 8px; font-size: .8rem; }
+.chat-pie { padding: 6px 10px; text-align: center; background: #f7f7f7; }
+button.enlace { background: none; color: var(--gris); text-decoration: underline; font-weight: normal; font-size: .8rem; }
+.sin-corte { white-space: nowrap; }

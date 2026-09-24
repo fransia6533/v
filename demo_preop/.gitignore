@@ -1,0 +1,7 @@
+# Archivos que NO se deben subir a GitHub ni compartir:
+# la base de datos local (aunque sea ficticia) y archivos temporales de Python.
+datos/*.sqlite3
+__pycache__/
+*.pyc
+.venv/
+venv/
