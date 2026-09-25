@@ -36,7 +36,7 @@ Equipo registra paciente y control → marca exámenes → prepara invitación (
 - Conexión a internet **solo la primera vez** (para descargar Flask, la única librería que usamos).
 - No necesitas cuentas, tarjetas de crédito ni servicios pagados.
 
-> ⚠️ Aún no sé qué sistema operativo usas. Abajo hay instrucciones para Windows y para Mac. Dime cuál tienes y te guío con más detalle si algo no sale.
+> 👉 **Usas Windows:** sigue la guía detallada **[docs/12_guia_windows.md](docs/12_guia_windows.md)** (paso a paso, con qué deberías ver y cómo resolver errores).
 
 ---
 
@@ -176,3 +176,6 @@ demo_preop/
 | [docs/08_presentacion.md](docs/08_presentacion.md) | Guion de 5 minutos y diapositivas |
 | [docs/09_seguridad_y_piloto.md](docs/09_seguridad_y_piloto.md) | Condiciones antes de usar pacientes reales |
 | [docs/10_costos_y_continuidad.md](docs/10_costos_y_continuidad.md) | Costos, supuestos y preguntas para el hospital |
+| [docs/11_normativa_chile.md](docs/11_normativa_chile.md) | Normativa chilena y preguntas para el área jurídica y ética |
+| [docs/12_guia_windows.md](docs/12_guia_windows.md) | Guía paso a paso para Windows |
+| [docs/informe_pruebas_navegador.md](docs/informe_pruebas_navegador.md) | Resultado de las 28 pruebas en navegador |

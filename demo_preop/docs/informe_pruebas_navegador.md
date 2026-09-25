@@ -1,6 +1,6 @@
 # Informe de pruebas en navegador (generado automáticamente)
 
-Fecha de ejecución: 2026-09-24 · Navegador: Chromium (Playwright) · Resultado: **28 de 28 pasaron**
+Fecha de ejecución: 2026-09-25 · Navegador: Chromium (Playwright) · Resultado: **28 de 28 pasaron**
 
 Generado por `tests/prueba_navegador.py`. Capturas en `docs/capturas/`.
 
@@ -14,13 +14,13 @@ Generado por `tests/prueba_navegador.py`. Capturas en `docs/capturas/`.
 | M6 Invitación simulada | Botón 'Simular envío de invitación' | Estado 'Simulada (no enviada realmente)' + evento | 'Simulada (no enviada realmente)'; en historial: True | ✅ Pasó |
 | M9 Chat completo | Responder todo, dejar 1 examen en 'Lo respondo después' | Resumen con 1 pendiente | Resumen mostrado; 1 pendiente | ✅ Pasó |
 | M10 Corrección antes de enviar | En el resumen: 'Cambiar' el examen pendiente | Vuelve al resumen con el nuevo valor | Nuevo valor en resumen: True | ✅ Pasó |
-| M11 Envío | 'Enviar respuestas' | Confirmación y fecha de envío guardada | Mensaje de confirmación: True; enviado_en=2026-09-24T22:26:13 | ✅ Pasó |
+| M11 Envío | 'Enviar respuestas' | Confirmación y fecha de envío guardada | Mensaje de confirmación: True; enviado_en=2026-09-25T03:45:44 | ✅ Pasó |
 | M12 Volver a abrir enlace | Recargar el chat | 'Ya enviaste tus respuestas' + resumen | Aparece 'Ya enviaste': True | ✅ Pasó |
-| M11b Panel refleja respuesta | Buscar 'Paciente Prueba' en el panel | Completa, 1 de 2 realizados, requiere contacto (quiere aclarar) | PAC-011 Paciente Prueba	2026-10-03	Simulada (no enviada realmente)	Completa	1 de 2 1 sin realizar, en duda o sin respuesta	1 de 2	Sí Quiere aclarar con el equip | ✅ Pasó |
+| M11b Panel refleja respuesta | Buscar 'Paciente Prueba' en el panel | Completa, 1 de 2 realizados, requiere contacto (quiere aclarar) | PAC-011 Paciente Prueba	2026-10-04	Simulada (no enviada realmente)	Completa	1 de 2 1 sin realizar, en duda o sin respuesta	1 de 2	Sí Quiere aclarar con el equip | ✅ Pasó |
 | M13 Persistencia | Detener la aplicación y volver a iniciarla | Respuestas siguen guardadas | App detenida: True; tras reiniciar sigue 'Completa' y comentario: True | ✅ Pasó |
-| M14 Recordatorios hoy | Ejecutar recordatorios con fecha de hoy | PAC-003 recordatorio N°1; PAC-007 bloqueado | Recordatorios para la fecha simulada 2026-09-24: PAC-003 (2026-09-29): recordatorio N°1 simulado / PAC-007: bloqueado (pidió no recibir mensajes) | ✅ Pasó |
-| M15 Sin duplicar | Repetir M14 | Ningún recordatorio nuevo | Fecha simulada 2026-09-24: no correspondía ningún recordatorio nuevo (no se duplican). | ✅ Pasó |
-| M16 Fecha simulada +4 | Recordatorios con hoy+4 | PAC-003 N°2, PAC-004 N°1, PAC-007 bloqueado | Recordatorios para la fecha simulada 2026-09-28: PAC-003 (2026-09-29): recordatorio N°2 simulado / PAC-004 (2026-10-02): recordatorio N°1 simulado / PAC-007: bloqueado (pidió no recibir mensajes) | ✅ Pasó |
+| M14 Recordatorios hoy | Ejecutar recordatorios con fecha de hoy | PAC-003 recordatorio N°1; PAC-007 bloqueado | Recordatorios para la fecha simulada 2026-09-25: PAC-003 (2026-09-30): recordatorio N°1 simulado / PAC-007: bloqueado (pidió no recibir mensajes) | ✅ Pasó |
+| M15 Sin duplicar | Repetir M14 | Ningún recordatorio nuevo | Fecha simulada 2026-09-25: no correspondía ningún recordatorio nuevo (no se duplican). | ✅ Pasó |
+| M16 Fecha simulada +4 | Recordatorios con hoy+4 | PAC-003 N°2, PAC-004 N°1, PAC-007 bloqueado | Recordatorios para la fecha simulada 2026-09-29: PAC-003 (2026-09-30): recordatorio N°2 simulado / PAC-004 (2026-10-03): recordatorio N°1 simulado / PAC-007: bloqueado (pidió no recibir mensajes) | ✅ Pasó |
 | M7 Invitación masiva | Botón masivo dos veces | 1ª: 1 simulada (PAC-002). 2ª: 0 | 1ª: 'Invitaciones simuladas: 1. Fallidas o bloqueadas: 0. (Ningún mensaje real salió.)' / 2ª: 'Invitaciones simuladas: 0. Fallidas o bloqueadas: 0. (Ningún mensaje real salió.)' | ✅ Pasó |
 | M8 Invitación fallida | PAC-006 → Simular envío | 'Sin teléfono registrado', sigue Fallida | Sin teléfono registrado. | ✅ Pasó |
 | M17 Baja de mensajes | Chat de PAC-004 → 'No quiero recibir más mensajes' | Confirmación y motivo en el panel | Chat retomó donde quedó: True; motivo en panel: True | ✅ Pasó |

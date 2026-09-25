@@ -32,7 +32,8 @@ class PruebasDemo(unittest.TestCase):
 
     def setUp(self):
         """Antes de cada prueba: base de datos nueva con los 10 casos ficticios."""
-        self.carpeta = tempfile.TemporaryDirectory()
+        # ignore_cleanup_errors: en Windows un archivo abierto no se puede borrar; no debe hacer fallar la prueba.
+        self.carpeta = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
         self.ruta_db = os.path.join(self.carpeta.name, "prueba.sqlite3")
         self.app = crear_app(self.ruta_db)
         self.cliente = self.app.test_client()

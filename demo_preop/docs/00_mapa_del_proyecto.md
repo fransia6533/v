@@ -107,4 +107,6 @@ Detalle completo: [02_plan_por_etapas.md](02_plan_por_etapas.md).
 
 **Así comprobamos que funcionó:** cierra la ventana de la demo, vuelve a iniciarla y confirma que tu paciente y sus respuestas siguen ahí.
 
-**Envíame:** (a) tu sistema operativo, (b) una captura del panel o el mensaje de error exacto, (c) el país del hospital (para la parte normativa).
+Para Windows sigue **[12_guia_windows.md](12_guia_windows.md)**.
+
+**Envíame:** una foto del panel después de reiniciar la demo, o el mensaje de error exacto y en qué paso ocurrió.

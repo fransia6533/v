@@ -55,7 +55,7 @@
 ### 5. Qué necesitamos del hospital para avanzar
 1. Un **responsable** institucional del proyecto y una persona del equipo que revise respuestas.
 2. **Definición y aprobación** de las preguntas por el equipo médico.
-3. Orientación sobre **autorización institucional**, protección de datos y, si corresponde, comité de ética.
+3. Orientación sobre **autorización institucional**, protección de datos (Ley 19.628 / Ley 21.719, vigente desde el 01-12-2026), ficha clínica (Ley 20.584) y, si hubiera investigación, **Comité Ético Científico** (Ley 20.120). Ver `11_normativa_chile.md`.
 4. Datos operativos para dimensionar: controles por semana, cómo se contacta hoy a los pacientes.
 5. Decisión sobre el **canal** (WhatsApp, SMS, otro) y proveedores autorizados.
 6. Saber **quién aprobaría y quién podría financiar** un piloto.

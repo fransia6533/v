@@ -37,7 +37,7 @@ Validar con los responsables del hospital:
 14. **Texto de urgencias** revisado por el hospital (qué hacer si el paciente escribe algo urgente en el comentario, que nadie lee en tiempo real).
 
 ## Normativa
-**Aún no sé en qué país está el hospital.** Cuando me lo confirmes, revisaré fuentes oficiales vigentes (ley de protección de datos personales, normas sobre datos de salud y ficha clínica, derechos del paciente e investigación en seres humanos) y te entregaré una lista de temas para validar con el área legal del hospital. **No reemplaza una asesoría legal.**
+El hospital está en **Chile**. Las normas aplicables y las preguntas para el área jurídica están en **[11_normativa_chile.md](11_normativa_chile.md)**: Ley 19.628 y su reforma por la Ley 21.719 (vigente desde el 01-12-2026), Ley 20.584 de derechos del paciente y ficha clínica, Ley 20.120 de investigación en seres humanos y Ley 21.663 de ciberseguridad. **No reemplaza una asesoría legal.**
 
 ## Investigación (etapa posterior)
 | Tipo de dato | Qué es | Ejemplo en este proyecto |
